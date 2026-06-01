@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrap">
+        <header>
+          <div class="brand">
+            <div class="logo">A→Z</div>
+            <div>
+              <h1>A→Zerty Store.lite</h1>
+              <p class="lead">Lo bueno es saber esperar</p>
+            </div>
+          </div>
+          <div style="text-align:right;color:var(--muted)">
+          </div>
+        </header>
+    
+        <div class="controls">
+          <input id="search" class="stretch" type="text" placeholder="Rechercher par nom..." autocomplete="off">
+          <select id="category">
+            <option value="all">Todas las categorías</option>
+            <option value="electronics">Electronics</option>
+            <option value="jewelery">Jewelery</option>
+            <option value="men's clothing">Men's Clothing</option>
+            <option value="women's clothing">Women's Clothing</option>
+        </select>
+
+          <select id="sort">
+            <option value="default">Orden: Predeterminado</option>
+            <option value="price-asc">Precio ↑</option>
+            <option value="price-desc">Precio ↓</option>
+            <option value="title-asc">Nombre A→Z</option>
+          </select>
+
+        </div>
+    
+        <div class="stats"><span id="count">20</span> productos</div>
+    
+        <main>
+          <div id="grid" class="grid"></div>
+          <div id="empty" class="empty" style="display:none">No se encontraron productos.</div>
+        </main>
+    
+      </div>
+    
+<script src="script.js"></script>
+</body>
+</html>

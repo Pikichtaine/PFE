@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoPost — Encuentra tu próximo coche</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+ 
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:          #070708;
+      --s1:          #0D0D0F;
+      --s2:          #141416;
+      --s3:          #1C1C20;
+      --border:      #222226;
+      --border-hi:   #333338;
+ 
+      --accent:      #FF4500;
+      --accent-dim:  rgba(255,69,0,.12);
+      --accent-glow: rgba(255,69,0,.35);
+      --amber:       #FFB800;
+ 
+      --txt:         #F0EBE3;
+      --txt2:        #9896A0;
+      --txt3:        #5A5860;
+      --mono:        #5E9BFF;
+ 
+      --f-display: 'Bebas Neue', sans-serif;
+      --f-body:    'Syne', sans-serif;
+      --f-mono:    'DM Mono', monospace;
+ 
+      --r:   10px;
+      --r-lg: 16px;
+      --r-xl: 22px;
+    }
+ 
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: var(--f-body);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; font-family: var(--f-body); }
+    img { display: block; }
+ 
+    /* ─── NAV ────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      background: rgba(7,7,8,.88);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      gap: 20px;
+    }
+ 
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900;
+    }
+    .nav-logo-text {
+      font-family: var(--f-display);
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: var(--txt);
+    }
+    .nav-logo-text span { color: var(--accent); }
+ 
+    .nav-search {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+    .nav-search input {
+      width: 100%;
+      height: 38px;
+      background: var(--s3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 14px 0 38px;
+      font-family: var(--f-body);
+      font-size: 13px;
+      color: var(--txt);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .nav-search input::placeholder { color: var(--txt3); }
+    .nav-search input:focus { border-color: var(--border-hi); }
+    .nav-search-icon {
+      position: absolute;
+      left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--txt3);
+      font-size: 14px;
+      pointer-events: none;
+    }
+ 
+    .nav-spacer { flex: 1; }
+ 
+    .nav-location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--txt2);
+      background: none;
+      padding: 6px 10px;
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      transition: border-color .2s, color .2s;
+    }
+    .nav-location:hover { color: var(--txt); border-color: var(--border-hi); }
+    .nav-location-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+ 
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--txt2);
+      padding: 7px 16px;
+      border-radius: var(--r);
+      font-size: 13px;
+      font-weight: 600;
+      transition: color .2s, border-color .2s;
+    }
+    .btn-ghost:hover { color: var(--txt); border-color: var(--border-hi); }
+ 
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 7px 18px;
+      border-radius: var(--r);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+ 
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      margin-top: 60px;
+      position: relative;
+      height: 540px;
+      overflow: hidden;
+    }
+ 
+    /* Animated bg gradient */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 80% at 78% 50%, rgba(255,69,0,.28) 0%, transparent 70%),
+        radial-gradient(ellipse 30% 50% at 90% 80%, rgba(255,184,0,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 100% at 60% 0%,  rgba(20,10,30,.6) 0%, transparent 50%),
+        linear-gradient(125deg, #0A0A0C 0%, #100808 55%, #1A0700 100%);
+      animation: heroBreath 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroBreath {
+      from { opacity: 1; }
+      to   { opacity: .88; }
+    }
+ 
+    /* Fake car silhouette using CSS shapes */
+    .hero-car-shape {
+      position: absolute;
+      right: -30px; bottom: 60px;
+      width: 680px; height: 300px;
+      opacity: .07;
+      background: var(--txt);
+      clip-path: polygon(
+        5% 80%, 12% 55%, 22% 35%, 35% 20%, 52% 15%,
+        66% 14%, 78% 20%, 85% 35%, 95% 50%, 100% 60%,
+        100% 80%, 92% 82%, 88% 100%, 75% 100%, 70% 82%,
+        30% 82%, 25% 100%, 12% 100%, 8% 82%
+      );
+      filter: blur(2px);
+    }
+ 
+    /* Grid overlay */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,69,0,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,69,0,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 70% 100% at 70% 50%, black 0%, transparent 70%);
+    }
+ 
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 48px;
+      max-width: 560px;
+    }
+ 
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero-badge::before {
+      content: '';
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--accent);
+    }
+ 
+    .hero-title {
+      font-family: var(--f-display);
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: .92;
+      letter-spacing: 1px;
+      color: var(--txt);
+      text-shadow: 0 0 80px rgba(255,69,0,.25);
+      margin-bottom: 16px;
+    }
+    .hero-title span { color: var(--accent); }
+ 
+    .hero-desc {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--txt2);
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+ 
+    .hero-meta {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .hero-meta-label {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: var(--txt3);
+      text-transform: uppercase;
+    }
+    .hero-meta-value {
+      font-family: var(--f-mono);
+      font-size: 14px;
+      color: var(--mono);
+      font-weight: 500;
+    }
+ 
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-hero-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 11px 26px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      transition: box-shadow .2s, transform .15s;
+    }
+    .btn-hero-primary:hover {
+      box-shadow: 0 6px 28px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+    .btn-hero-ghost {
+      background: rgba(255,255,255,.06);
+      color: var(--txt);
+      padding: 11px 22px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(8px);
+      transition: background .2s, transform .15s;
+    }
+    .btn-hero-ghost:hover {
+      background: rgba(255,255,255,.1);
+      transform: translateY(-2px);
+    }
+ 
+    /* Price badge floating */
+    .hero-price-badge {
+      position: absolute;
+      top: 38px; right: 48px;
+      background: rgba(7,7,8,.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-price-badge .pbl { font-family: var(--f-mono); font-size: 10px; color: var(--txt3); letter-spacing: 1.5px; text-transform: uppercase; }
+    .hero-price-badge .pbv { font-family: var(--f-display); font-size: 30px; color: var(--txt); letter-spacing: 1px; }
+    .hero-price-badge .pbs { font-family: var(--f-mono); font-size: 11px; color: var(--amber); }
+ 
+    /* ─── HERO THUMBNAILS (PS Store style) ───────────────── */
+    .hero-thumbs {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 3;
+      background: linear-gradient(to top, rgba(7,7,8,.95) 0%, transparent 100%);
+      padding: 30px 48px 18px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+ 
+    .hero-thumb {
+      flex-shrink: 0;
+      width: 140px;
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
+      position: relative;
+    }
+    .hero-thumb:hover { transform: translateY(-4px); border-color: var(--border-hi); }
+    .hero-thumb.active { border-color: var(--accent); }
+    .hero-thumb.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 50%; transform: translateX(-50%);
+      width: 18px; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+ 
+    .hero-thumb-img {
+      height: 80px;
+      width: 100%;
+    }
+    .hero-thumb-label {
+      background: var(--s2);
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--txt2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .hero-thumb.active .hero-thumb-label { color: var(--txt); }
+ 
+    /* Thumb gradient palettes */
+    .tg1 { background: linear-gradient(135deg, #0A0A1A 0%, #1a1060 40%, #3a2090 100%); }
+    .tg2 { background: linear-gradient(135deg, #0A150A 0%, #0d3b0d 50%, #1a5c1a 100%); }
+    .tg3 { background: linear-gradient(135deg, #1A0000 0%, #5c0a00 50%, #b01000 100%); }
+    .tg4 { background: linear-gradient(135deg, #0A0A08 0%, #2a2508 50%, #5c4e0a 100%); }
+    .tg5 { background: linear-gradient(135deg, #0A0814 0%, #1a0a3c 50%, #3a1070 100%); }
+ 
+    /* Car silhouette SVG-like shapes */
+    .thumb-car {
+      position: absolute;
+      bottom: 26px; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 36px;
+      opacity: .45;
+    }
+ 
+    /* ─── CATEGORIES ─────────────────────────────────────── */
+    .categories-wrap {
+      border-bottom: 1px solid var(--border);
+      background: var(--s1);
+    }
+    .categories-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-top: 16px;
+      padding-bottom: 16px;
+      align-items: center;
+    }
+    .categories-inner::-webkit-scrollbar { display: none; }
+ 
+    .cat-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--txt3);
+      text-transform: uppercase;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+ 
+    .cat-pill {
+      flex-shrink: 0;
+      padding: 7px 18px;
+      border-radius: 40px;
+      background: var(--s3);
+      border: 1px solid var(--border);
+      color: var(--txt2);
+      font-size: 13px;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .cat-pill:hover { color: var(--txt); border-color: var(--border-hi); background: var(--s2); }
+    .cat-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+ 
+    /* ─── CONTAINER & SECTIONS ───────────────────────────── */
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+ 
+    .section {
+      padding: 48px 0 0;
+    }
+ 
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .section-title {
+      font-family: var(--f-display);
+      font-size: 28px;
+      letter-spacing: .5px;
+      color: var(--txt);
+    }
+    .section-count {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      color: var(--txt3);
+      letter-spacing: 1px;
+    }
+    .section-link {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap .2s;
+    }
+    .section-link:hover { gap: 7px; }
+ 
+    /* ─── CAR CARD ───────────────────────────────────────── */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+ 
+    .car-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform .22s cubic-bezier(.2,.8,.3,1), border-color .2s, box-shadow .22s;
+    }
+    .car-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hi);
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    }
+ 
+    .car-card-img {
+      width: 100%;
+      height: 150px;
+      position: relative;
+      overflow: hidden;
+    }
+ 
+    /* Card gradient palettes */
+    .cg1  { background: linear-gradient(145deg, #060614 0%, #0e1540 50%, #1a237e 100%); }
+    .cg2  { background: linear-gradient(145deg, #0f0605 0%, #3b1000 55%, #6d1d00 100%); }
+    .cg3  { background: linear-gradient(145deg, #060a08 0%, #0a2e1c 55%, #0d4020 100%); }
+    .cg4  { background: linear-gradient(145deg, #0d0a00 0%, #3d2c00 55%, #6b4a00 100%); }
+    .cg5  { background: linear-gradient(145deg, #0c0612 0%, #2d0a4e 55%, #4a0e80 100%); }
+    .cg6  { background: linear-gradient(145deg, #0a0a0a 0%, #1c1c1c 55%, #2e2e2e 100%); }
+    .cg7  { background: linear-gradient(145deg, #00080f 0%, #002540 55%, #003d66 100%); }
+    .cg8  { background: linear-gradient(145deg, #0f0008 0%, #3c0020 55%, #680030 100%); }
+ 
+    /* Light streak overlay */
+    .car-card-img::after {
+      content: '';
+      position: absolute;
+      top: -30%; left: -20%;
+      width: 60%; height: 160%;
+      background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,.04) 50%, transparent 100%);
+      transform: skewX(-10deg);
+      pointer-events: none;
+    }
+ 
+    /* Inline SVG car silhouette */
+    .car-silhouette {
+      position: absolute;
+      bottom: 8px; left: 50%; transform: translateX(-50%);
+      width: 80%; height: 65%;
+      opacity: .22;
+    }
+ 
+    .car-badge-tag {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: rgba(7,7,8,.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-family: var(--f-mono);
+      font-size: 9.5px;
+      letter-spacing: .5px;
+      color: var(--txt2);
+    }
+    .car-badge-tag.new { color: #4ade80; border-color: rgba(74,222,128,.3); }
+    .car-badge-tag.hot { color: var(--accent); border-color: var(--accent-dim); }
+    .car-badge-tag.sale { color: var(--amber); border-color: rgba(255,184,0,.3); }
+ 
+    .car-fav {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 28px; height: 28px;
+      background: rgba(7,7,8,.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      color: var(--txt3);
+      transition: color .2s, background .2s;
+    }
+    .car-fav:hover { color: var(--accent); background: var(--accent-dim); }
+ 
+    .car-card-body {
+      padding: 14px 14px 14px;
+    }
+ 
+    .car-brand {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--txt3);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+ 
+    .car-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+ 
+    .car-specs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .car-spec {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      color: var(--txt3);
+      background: var(--s3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+ 
+    .car-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+ 
+    .car-price {
+      font-family: var(--f-display);
+      font-size: 22px;
+      letter-spacing: .5px;
+      color: var(--txt);
+    }
+    .car-price-sub {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      color: var(--txt3);
+      margin-top: -2px;
+    }
+ 
+    .car-location {
+      font-size: 11px;
+      color: var(--txt3);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+ 
+    /* ─── DEALER CARDS (Popular car houses) ──────────────── */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+ 
+    .dealer-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .22s cubic-bezier(.2,.8,.3,1), border-color .2s, box-shadow .22s;
+    }
+    .dealer-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hi);
+      box-shadow: 0 14px 44px rgba(0,0,0,.55);
+    }
+ 
+    .dealer-hero-img {
+      height: 170px;
+      position: relative;
+      overflow: hidden;
+    }
+    .dealer-hero-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, var(--s1) 0%, transparent 60%);
+    }
+ 
+    .dg1 { background: linear-gradient(145deg, #060a14 0%, #0a1e40 40%, #0d2e60 70%, #0e3d80 100%); }
+    .dg2 { background: linear-gradient(145deg, #080810 0%, #120a24 40%, #1e0a40 70%, #2c0060 100%); }
+    .dg3 { background: linear-gradient(145deg, #080400 0%, #201000 40%, #3c1e00 70%, #5a2c00 100%); }
+ 
+    .dealer-logo-badge {
+      position: absolute;
+      bottom: -1px; left: 20px;
+      z-index: 2;
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: var(--s2);
+      border: 2px solid var(--s3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-display);
+      font-size: 18px;
+      color: var(--accent);
+    }
+ 
+    .dealer-body {
+      padding: 18px 18px 18px;
+    }
+ 
+    .dealer-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--txt);
+      margin-bottom: 5px;
+    }
+ 
+    .dealer-meta {
+      font-size: 12px;
+      color: var(--txt3);
+      margin-bottom: 14px;
+      display: flex;
+      gap: 12px;
+    }
+ 
+    .dealer-stats {
+      display: flex;
+      gap: 10px;
+    }
+    .dealer-stat {
+      flex: 1;
+      background: var(--s3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 10px 12px;
+    }
+    .dealer-stat-val {
+      font-family: var(--f-display);
+      font-size: 22px;
+      color: var(--txt);
+    }
+    .dealer-stat-label {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      color: var(--txt3);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+ 
+    .dealer-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(255,69,0,.2);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 5px;
+      margin-top: 12px;
+    }
+ 
+    /* ─── SALES SECTION ──────────────────────────────────── */
+    .sale-card {
+      position: relative;
+    }
+    .sale-ribbon {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: var(--amber);
+      color: #000;
+      font-family: var(--f-mono);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      z-index: 2;
+    }
+    .sale-old-price {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      color: var(--txt3);
+      text-decoration: line-through;
+      margin-bottom: 1px;
+    }
+ 
+    /* ─── SECTION DIVIDER ────────────────────────────────── */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 48px 0 0;
+    }
+ 
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      margin-top: 64px;
+      border-top: 1px solid var(--border);
+      background: var(--s1);
+      padding: 40px 0 28px;
+    }
+    .footer-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand .nav-logo { margin-bottom: 14px; }
+    .footer-brand p { font-size: 13px; color: var(--txt3); line-height: 1.65; }
+ 
+    .footer-col h4 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--txt2);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: 13px; color: var(--txt3); transition: color .2s; }
+    .footer-col ul li a:hover { color: var(--txt); }
+ 
+    .footer-bottom {
+      max-width: 1260px;
+      margin: 28px auto 0;
+      padding: 20px 32px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p { font-family: var(--f-mono); font-size: 11px; color: var(--txt3); }
+    .footer-bottom-links { display: flex; gap: 18px; }
+    .footer-bottom-links a { font-family: var(--f-mono); font-size: 11px; color: var(--txt3); transition: color .2s; }
+    .footer-bottom-links a:hover { color: var(--txt2); }
+ 
+    /* ─── SCROLL ANIMATION ───────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .car-card { animation: fadeUp .4s ease both; }
+    .car-card:nth-child(1) { animation-delay: .05s; }
+    .car-card:nth-child(2) { animation-delay: .10s; }
+    .car-card:nth-child(3) { animation-delay: .15s; }
+    .car-card:nth-child(4) { animation-delay: .20s; }
+    .car-card:nth-child(5) { animation-delay: .25s; }
+    .car-card:nth-child(6) { animation-delay: .30s; }
+    .car-card:nth-child(7) { animation-delay: .35s; }
+    .car-card:nth-child(8) { animation-delay: .40s; }
+ 
+    /* ─── SCROLLBAR ──────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-hi); }
+  </style>
+</head>
+<body>
+ 
+  <!-- ═══════════════════ NAV ════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">▲</div>
+      <div class="nav-logo-text">Auto<span>Post</span></div>
+    </div>
+ 
+    <div class="nav-search">
+      <span class="nav-search-icon">⌕</span>
+      <input type="text" placeholder="Buscar marca, modelo, ciudad…" />
+    </div>
+ 
+    <div class="nav-spacer"></div>
+ 
+    <button class="nav-location">
+      <span class="nav-location-dot"></span>
+      Tánger, MA
+    </button>
+    <button class="btn-ghost">Entrar</button>
+    <button class="btn-primary">+ Publicar</button>
+  </nav>
+ 
+  <!-- ═══════════════════ HERO ═══════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-car-shape"></div>
+ 
+    <!-- Floating price badge -->
+    <div class="hero-price-badge">
+      <span class="pbl">Precio desde</span>
+      <span class="pbv">89.500 €</span>
+      <span class="pbs">↓ -8% vs mes anterior</span>
+    </div>
+ 
+    <div class="hero-inner">
+      <div class="hero-badge">Destacado de la semana</div>
+      <h1 class="hero-title">BMW<br><span>Serie 8</span><br>M Sport</h1>
+      <p class="hero-desc">Motor V8 biturbo · 530 CV · 0–100 en 3.7s<br>Disponible en AutoHaus Tánger</p>
+ 
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Año</span>
+          <span class="hero-meta-value">2024</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Kilómetros</span>
+          <span class="hero-meta-value">12.400 km</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Combustible</span>
+          <span class="hero-meta-value">Gasolina</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Transmisión</span>
+          <span class="hero-meta-value">Automático</span>
+        </div>
+      </div>
+ 
+      <div class="hero-ctas">
+        <button class="btn-hero-primary">Ver anuncio</button>
+        <button class="btn-hero-ghost">Contactar concesionario</button>
+      </div>
+    </div>
+ 
+    <!-- Thumbnail strip -->
+    <div class="hero-thumbs">
+      <div class="hero-thumb">
+        <div class="hero-thumb-img tg1"></div>
+        <div class="hero-thumb-label">Mercedes EQS</div>
+      </div>
+      <div class="hero-thumb">
+        <div class="hero-thumb-img tg2"></div>
+        <div class="hero-thumb-label">Porsche Taycan</div>
+      </div>
+      <div class="hero-thumb">
+        <div class="hero-thumb-img tg3"></div>
+        <div class="hero-thumb-label">Audi RS e-tron</div>
+      </div>
+      <div class="hero-thumb">
+        <div class="hero-thumb-img tg4"></div>
+        <div class="hero-thumb-label">Ferrari Roma</div>
+      </div>
+      <div class="hero-thumb active">
+        <div class="hero-thumb-img tg5"></div>
+        <div class="hero-thumb-label">BMW M8 Sport</div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ═══════════════════ CATEGORIES ════════════════════ -->
+  <div class="categories-wrap">
+    <div class="categories-inner">
+      <span class="cat-label">Categoría</span>
+      <button class="cat-pill active">Todos</button>
+      <button class="cat-pill">Sedán</button>
+      <button class="cat-pill">SUV / 4x4</button>
+      <button class="cat-pill">Deportivo</button>
+      <button class="cat-pill">Eléctrico</button>
+      <button class="cat-pill">Coupé</button>
+      <button class="cat-pill">Familiar</button>
+      <button class="cat-pill">Pickup</button>
+      <button class="cat-pill">Clásico</button>
+    </div>
+  </div>
+ 
+  <!-- ═══════════════════ BEST OF THIS WEEK ════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Lo mejor de esta semana</h2>
+        <span class="section-count">128 anuncios</span>
+        <a href="#" class="section-link">Ver todos →</a>
+      </div>
+ 
+      <div class="grid-4">
+ 
+        <!-- Card 1 -->
+        <div class="car-card">
+          <div class="car-card-img cg1">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 55 C10 55 30 30 60 22 C80 17 120 17 140 22 C160 27 180 45 185 55 L190 60 L10 60 Z"/>
+              <ellipse cx="45" cy="62" rx="14" ry="14"/>
+              <ellipse cx="155" cy="62" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag new">Nuevo</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Mercedes-Benz</div>
+            <div class="car-name">Clase C 220d AMG Line</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">0 km</span>
+              <span class="car-spec">Diésel</span>
+              <span class="car-spec">Auto</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">48.900 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 2 -->
+        <div class="car-card">
+          <div class="car-card-img cg2">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 55 C8 55 20 25 55 18 C75 13 125 13 145 18 C170 25 188 50 192 55 L195 62 L5 62 Z"/>
+              <ellipse cx="42" cy="64" rx="15" ry="15"/>
+              <ellipse cx="158" cy="64" rx="15" ry="15"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag hot">Popular</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Audi</div>
+            <div class="car-name">A4 45 TFSI quattro S line</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">18.200 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">44.500 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Rabat</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 3 -->
+        <div class="car-card">
+          <div class="car-card-img cg3">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 58 C5 58 25 28 58 20 C78 15 122 15 142 20 C165 28 185 50 192 58 L195 64 L5 64 Z"/>
+              <ellipse cx="44" cy="66" rx="14" ry="14"/>
+              <ellipse cx="156" cy="66" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag new">Nuevo</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Tesla</div>
+            <div class="car-name">Model 3 Long Range AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">3.500 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">52.990 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Casablanca</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 4 -->
+        <div class="car-card">
+          <div class="car-card-img cg4">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 56 C12 56 28 26 62 19 C82 14 118 14 138 19 C162 26 180 48 187 56 L190 62 L10 62 Z"/>
+              <ellipse cx="46" cy="64" rx="14" ry="14"/>
+              <ellipse cx="154" cy="64" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Volkswagen</div>
+            <div class="car-name">Golf GTI Clubsport</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">8.900 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">36.800 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Fez</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 5 -->
+        <div class="car-card">
+          <div class="car-card-img cg5">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 56 C6 56 22 24 60 17 C80 12 120 12 140 17 C168 24 186 50 193 56 L196 63 L4 63 Z"/>
+              <ellipse cx="43" cy="65" rx="14" ry="14"/>
+              <ellipse cx="157" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag hot">Top</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Porsche</div>
+            <div class="car-name">Panamera 4 E-Hybrid</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">5.100 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">98.400 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 6 -->
+        <div class="car-card">
+          <div class="car-card-img cg6">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 55 C10 55 30 28 65 20 C85 15 115 15 135 20 C160 28 180 48 188 55 L192 62 L8 62 Z"/>
+              <ellipse cx="45" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Toyota</div>
+            <div class="car-name">Land Cruiser 300 GR Sport</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">22.600 km</span>
+              <span class="car-spec">Diésel</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">74.200 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Marrakech</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 7 -->
+        <div class="car-card">
+          <div class="car-card-img cg7">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
+              <ellipse cx="44" cy="65" rx="14" ry="14"/>
+              <ellipse cx="156" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag new">Nuevo</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Hyundai</div>
+            <div class="car-name">IONIQ 6 77.4 kWh AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">0 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">46.100 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Agadir</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 8 -->
+        <div class="car-card">
+          <div class="car-card-img cg8">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 56 C9 56 26 27 60 19 C80 14 120 14 140 19 C163 27 182 49 188 56 L191 62 L9 62 Z"/>
+              <ellipse cx="44" cy="64" rx="14" ry="14"/>
+              <ellipse cx="154" cy="64" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Alfa Romeo</div>
+            <div class="car-name">Giulia Quadrifoglio</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">31.800 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">58.300 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+  </section>
+ 
+  <div class="section-divider"></div>
+ 
+  <!-- ═══════════════════ RECENT POSTS ══════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Publicaciones recientes</h2>
+        <span class="section-count">352 anuncios</span>
+        <a href="#" class="section-link">Ver todos →</a>
+      </div>
+ 
+      <div class="grid-4">
+        <div class="car-card">
+          <div class="car-card-img cg3">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 55 C10 55 30 28 65 20 C85 15 115 15 135 20 C160 28 180 48 188 55 L192 62 L8 62 Z"/>
+              <ellipse cx="45" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Renault</div>
+            <div class="car-name">Mégane E-Tech 220 CV</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">4.200 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">38.200 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card">
+          <div class="car-card-img cg4">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 56 C6 56 22 26 58 18 C78 13 122 13 142 18 C166 26 184 50 191 56 L194 63 L6 63 Z"/>
+              <ellipse cx="43" cy="65" rx="14" ry="14"/>
+              <ellipse cx="157" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag new">Hoy</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Kia</div>
+            <div class="car-name">EV9 GT-Line AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">1.100 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">71.500 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Salé</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card">
+          <div class="car-card-img cg1">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 56 C10 56 30 28 62 20 C82 15 118 15 138 20 C162 28 182 50 188 56 L192 62 L8 62 Z"/>
+              <ellipse cx="44" cy="64" rx="13" ry="13"/>
+              <ellipse cx="156" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag new">Hoy</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Jaguar</div>
+            <div class="car-name">F-Pace SVR P550 AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">14.000 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">86.700 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Casablanca</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card">
+          <div class="car-card-img cg2">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
+              <ellipse cx="44" cy="65" rx="14" ry="14"/>
+              <ellipse cx="156" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Volvo</div>
+            <div class="car-name">XC90 Recharge T8 AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">6.200 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">79.300 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card">
+          <div class="car-card-img cg6">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 55 C9 55 25 26 60 18 C80 13 120 13 140 18 C164 26 183 49 189 55 L192 62 L8 62 Z"/>
+              <ellipse cx="44" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Lexus</div>
+            <div class="car-name">RX 500h F Sport AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">19.400 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">67.500 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Agadir</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card">
+          <div class="car-card-img cg5">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 56 C10 56 28 27 62 19 C82 14 118 14 138 19 C162 27 181 50 187 56 L191 62 L9 62 Z"/>
+              <ellipse cx="45" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag new">Hoy</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">BMW</div>
+            <div class="car-name">iX xDrive50 Sport</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">2.800 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">103.900 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card">
+          <div class="car-card-img cg7">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 57 C8 57 25 27 60 19 C80 14 120 14 140 19 C164 27 182 50 189 57 L192 63 L8 63 Z"/>
+              <ellipse cx="44" cy="65" rx="14" ry="14"/>
+              <ellipse cx="156" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Peugeot</div>
+            <div class="car-name">508 PSE Hybrid 360 CV</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">28.500 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">42.100 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Fez</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card">
+          <div class="car-card-img cg8">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 56 C9 56 26 27 60 19 C80 14 120 14 140 19 C163 27 182 49 188 56 L191 62 L9 62 Z"/>
+              <ellipse cx="44" cy="64" rx="14" ry="14"/>
+              <ellipse cx="154" cy="64" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-badge-tag new">Hoy</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Ford</div>
+            <div class="car-name">Mustang Mach-E GT AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">11.200 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">55.800 €</div>
+                <div class="car-price-sub">IVA incluido</div>
+              </div>
+              <span class="car-location">📍 Marrakech</span>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+  </section>
+ 
+  <div class="section-divider"></div>
+ 
+  <!-- ═══════════════════ POPULAR DEALERS ══════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Concesionarios populares</h2>
+        <span class="section-count">48 casas</span>
+        <a href="#" class="section-link">Ver todos →</a>
+      </div>
+ 
+      <div class="grid-3">
+ 
+        <div class="dealer-card">
+          <div class="dealer-hero-img dg1">
+            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 58 C5 58 25 28 60 20 C80 15 120 15 140 20 C165 28 185 50 192 58 L195 64 L5 64 Z"/>
+              <ellipse cx="44" cy="66" rx="14" ry="14"/>
+              <ellipse cx="156" cy="66" rx="14" ry="14"/>
+            </svg>
+            <div class="dealer-logo-badge" style="position:absolute;bottom:-26px;left:20px;z-index:10;">AH</div>
+          </div>
+          <div class="dealer-body" style="padding-top:34px;">
+            <div class="dealer-name">AutoHaus Tánger</div>
+            <div class="dealer-meta">
+              <span>📍 Boulevard Mohammed VI, Tánger</span>
+            </div>
+            <div class="dealer-stats">
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">142</div>
+                <div class="dealer-stat-label">Coches</div>
+              </div>
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">4.9</div>
+                <div class="dealer-stat-label">Valoración</div>
+              </div>
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">12</div>
+                <div class="dealer-stat-label">Marcas</div>
+              </div>
+            </div>
+            <div class="dealer-tag">✦ Concesionario Verificado</div>
+          </div>
+        </div>
+ 
+        <div class="dealer-card">
+          <div class="dealer-hero-img dg2">
+            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 56 C6 56 22 26 58 18 C78 13 122 13 142 18 C166 26 184 50 191 56 L194 63 L6 63 Z"/>
+              <ellipse cx="43" cy="65" rx="14" ry="14"/>
+              <ellipse cx="157" cy="65" rx="14" ry="14"/>
+            </svg>
+            <div class="dealer-logo-badge" style="position:absolute;bottom:-26px;left:20px;z-index:10;">PM</div>
+          </div>
+          <div class="dealer-body" style="padding-top:34px;">
+            <div class="dealer-name">PremiumMotors Casablanca</div>
+            <div class="dealer-meta">
+              <span>📍 Quartier des Affaires, Casablanca</span>
+            </div>
+            <div class="dealer-stats">
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">89</div>
+                <div class="dealer-stat-label">Coches</div>
+              </div>
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">4.7</div>
+                <div class="dealer-stat-label">Valoración</div>
+              </div>
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">7</div>
+                <div class="dealer-stat-label">Marcas</div>
+              </div>
+            </div>
+            <div class="dealer-tag">✦ Concesionario Verificado</div>
+          </div>
+        </div>
+ 
+        <div class="dealer-card">
+          <div class="dealer-hero-img dg3">
+            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
+              <ellipse cx="44" cy="65" rx="14" ry="14"/>
+              <ellipse cx="156" cy="65" rx="14" ry="14"/>
+            </svg>
+            <div class="dealer-logo-badge" style="position:absolute;bottom:-26px;left:20px;z-index:10;">MR</div>
+          </div>
+          <div class="dealer-body" style="padding-top:34px;">
+            <div class="dealer-name">Marrakech Ride</div>
+            <div class="dealer-meta">
+              <span>📍 Avenue Mohammed V, Marrakech</span>
+            </div>
+            <div class="dealer-stats">
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">211</div>
+                <div class="dealer-stat-label">Coches</div>
+              </div>
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">4.8</div>
+                <div class="dealer-stat-label">Valoración</div>
+              </div>
+              <div class="dealer-stat">
+                <div class="dealer-stat-val">18</div>
+                <div class="dealer-stat-label">Marcas</div>
+              </div>
+            </div>
+            <div class="dealer-tag">✦ Concesionario Verificado</div>
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+  </section>
+ 
+  <div class="section-divider"></div>
+ 
+  <!-- ═══════════════════ SALES ═════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Ofertas y rebajas</h2>
+        <span class="section-count">74 anuncios</span>
+        <a href="#" class="section-link">Ver todos →</a>
+      </div>
+ 
+      <div class="grid-4">
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg2">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 55 C10 55 30 28 65 20 C85 15 115 15 135 20 C160 28 180 48 188 55 L192 62 L8 62 Z"/>
+              <ellipse cx="45" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−15%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Seat</div>
+            <div class="car-name">León FR 150 CV DSG</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">26.000 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">28.400 €</div>
+                <div class="car-price">24.100 €</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg5">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 56 C6 56 22 26 58 18 C78 13 122 13 142 18 C166 26 184 50 191 56 L194 63 L6 63 Z"/>
+              <ellipse cx="43" cy="65" rx="14" ry="14"/>
+              <ellipse cx="157" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−22%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Skoda</div>
+            <div class="car-name">Octavia RS iV Híbrido</div>
+            <div class="car-specs">
+              <span class="car-spec">2021</span>
+              <span class="car-spec">38.700 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">34.900 €</div>
+                <div class="car-price">27.200 €</div>
+              </div>
+              <span class="car-location">📍 Rabat</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg7">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 56 C10 56 28 27 62 19 C82 14 118 14 138 19 C162 27 181 50 187 56 L191 62 L9 62 Z"/>
+              <ellipse cx="45" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−18%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Citroën</div>
+            <div class="car-name">C5 X Plug-In Hybrid</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">21.300 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">39.800 €</div>
+                <div class="car-price">32.600 €</div>
+              </div>
+              <span class="car-location">📍 Fez</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg4">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
+              <ellipse cx="44" cy="65" rx="14" ry="14"/>
+              <ellipse cx="156" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−12%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Opel</div>
+            <div class="car-name">Mokka-e 100 kW Ultimate</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">17.900 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">33.500 €</div>
+                <div class="car-price">29.500 €</div>
+              </div>
+              <span class="car-location">📍 Casablanca</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg8">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 55 C9 55 25 26 60 18 C80 13 120 13 140 18 C164 26 183 49 189 55 L192 62 L8 62 Z"/>
+              <ellipse cx="44" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−30%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Honda</div>
+            <div class="car-name">Civic e:HEV 2.0 Sport</div>
+            <div class="car-specs">
+              <span class="car-spec">2021</span>
+              <span class="car-spec">44.200 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">26.300 €</div>
+                <div class="car-price">18.400 €</div>
+              </div>
+              <span class="car-location">📍 Agadir</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg1">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 56 C10 56 30 28 62 20 C82 15 118 15 138 20 C162 28 182 50 188 56 L192 62 L8 62 Z"/>
+              <ellipse cx="44" cy="64" rx="13" ry="13"/>
+              <ellipse cx="156" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−9%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Nissan</div>
+            <div class="car-name">Leaf 40 kWh N-Connecta</div>
+            <div class="car-specs">
+              <span class="car-spec">2021</span>
+              <span class="car-spec">33.000 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">22.800 €</div>
+                <div class="car-price">20.750 €</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg3">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 57 C8 57 25 27 60 19 C80 14 120 14 140 19 C164 27 182 50 189 57 L192 63 L8 63 Z"/>
+              <ellipse cx="44" cy="65" rx="14" ry="14"/>
+              <ellipse cx="156" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−25%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Mazda</div>
+            <div class="car-name">MX-30 e-Skyactiv R-EV</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">20.600 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">36.000 €</div>
+                <div class="car-price">27.000 €</div>
+              </div>
+              <span class="car-location">📍 Rabat</span>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="car-card sale-card">
+          <div class="car-card-img cg6">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 56 C9 56 26 27 60 19 C80 14 120 14 140 19 C163 27 182 49 188 56 L191 62 L9 62 Z"/>
+              <ellipse cx="44" cy="64" rx="14" ry="14"/>
+              <ellipse cx="154" cy="64" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="sale-ribbon">−11%</span>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Subaru</div>
+            <div class="car-name">Forester e-Boxer AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">29.100 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="sale-old-price">38.200 €</div>
+                <div class="car-price">34.000 €</div>
+              </div>
+              <span class="car-location">📍 Marrakech</span>
+            </div>
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ═══════════════════ FOOTER ════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="nav-logo-icon">▲</div>
+          <div class="nav-logo-text">Auto<span>Post</span></div>
+        </div>
+        <p>El marketplace de coches más grande de Marruecos. Conectamos compradores y concesionarios de todo el país.</p>
+      </div>
+ 
+      <div class="footer-col">
+        <h4>Explorar</h4>
+        <ul>
+          <li><a href="#">Coches nuevos</a></li>
+          <li><a href="#">Coches de ocasión</a></li>
+          <li><a href="#">Eléctricos</a></li>
+          <li><a href="#">Concesionarios</a></li>
+          <li><a href="#">Ofertas</a></li>
+        </ul>
+      </div>
+ 
+      <div class="footer-col">
+        <h4>Para concesionarios</h4>
+        <ul>
+          <li><a href="#">Publicar anuncio</a></li>
+          <li><a href="#">Editor de tienda</a></li>
+          <li><a href="#">Gestión de inventario</a></li>
+          <li><a href="#">Planes y precios</a></li>
+          <li><a href="#">Soporte</a></li>
+        </ul>
+      </div>
+ 
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Sobre nosotros</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Prensa</a></li>
+          <li><a href="#">Trabaja con nosotros</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+ 
+    <div class="footer-bottom">
+      <p>© 2026 AutoPost. Todos los derechos reservados.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </footer>
+ 
+</body>
+</html>

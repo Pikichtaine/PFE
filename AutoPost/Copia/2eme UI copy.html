@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pfister 811 — Legendary Motorsport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cr:#e02020;--cr-d:#9b0f0f;--cr-l:#ff4444;
+  --bg:#0a0a0b;--bg2:#111114;--bg3:#18181c;--bg4:#1f1f25;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --txt:#f2f2f4;--txt2:#8a8a96;--txt3:#56565e;
+  --mono:'DM Mono',monospace;
+  --green:#4ade80;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow-x:hidden;min-height:100vh}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;gap:20px;
+  padding:0 32px;height:64px;
+  background:rgba(10,10,11,.82);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:17px;
+  letter-spacing:-.3px;white-space:nowrap;color:#fff;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--cr);flex-shrink:0;
+  box-shadow:0 0 10px var(--cr);
+}
+.nav-links{display:flex;gap:2px;margin-left:16px}
+.nav-link{
+  font-size:13px;font-weight:500;color:var(--txt2);
+  padding:6px 14px;border-radius:8px;cursor:default;letter-spacing:.2px;
+}
+.nav-link.active{color:#fff;background:rgba(255,255,255,.07)}
+.nav-spacer{flex:1}
+.wallet-chip{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);
+  border-radius:10px;padding:0 14px;height:36px;
+}
+.wallet-chip .amt{
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  color:var(--green);letter-spacing:.5px;
+}
+.nav-cta{
+  background:var(--cr);color:#fff;font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:600;padding:0 18px;height:36px;
+  border:none;border-radius:10px;cursor:default;white-space:nowrap;
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{
+  padding:18px 48px 0;
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--txt3);letter-spacing:.3px;
+}
+.breadcrumb a{color:var(--txt3);text-decoration:none;cursor:default}
+.breadcrumb a:hover{color:var(--txt2)}
+.breadcrumb .sep{color:var(--txt3)}
+.breadcrumb .current{color:var(--txt2)}
+
+/* ── MAIN LAYOUT ── */
+.page{
+  max-width:1320px;margin:0 auto;
+  padding:28px 48px 80px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:start;
+}
+
+/* ── LEFT COLUMN ── */
+
+/* Header */
+.car-header{margin-bottom:28px}
+.car-brand-row{
+  display:flex;align-items:center;gap:12px;margin-bottom:10px;
+}
+.car-brand-badge{
+  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(224,32,32,.12);border:1px solid rgba(224,32,32,.25);
+  color:var(--cr-l);padding:4px 12px;border-radius:100px;
+}
+.car-collection{
+  font-size:11px;color:var(--txt3);letter-spacing:.5px;
+}
+.car-name{
+  font-family:'Syne',sans-serif;font-size:clamp(42px,5vw,68px);
+  font-weight:800;letter-spacing:-2px;line-height:.95;color:#fff;
+  margin-bottom:6px;
+}
+.car-full-name{
+  font-size:14px;color:var(--txt2);font-weight:400;letter-spacing:.3px;
+}
+
+/* Price row */
+.price-row{
+  display:flex;align-items:center;gap:16px;
+  margin:24px 0;padding:20px 24px;
+  background:var(--bg3);border:1px solid var(--border);border-radius:14px;
+}
+.price-main{
+  font-family:var(--mono);font-size:30px;font-weight:500;color:#fff;letter-spacing:.5px;
+  flex:1;
+}
+.price-tag{
+  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  color:var(--txt3);display:block;margin-bottom:2px;
+}
+.price-cta-row{display:flex;gap:10px}
+.btn-buy{
+  flex:1;background:var(--cr);color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;
+  height:48px;border:none;border-radius:12px;cursor:default;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  letter-spacing:.2px;
+}
+.btn-save{
+  width:48px;height:48px;border-radius:12px;
+  background:var(--bg4);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--txt2);font-size:18px;cursor:default;
+}
+
+/* Description */
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--txt3);margin-bottom:12px;
+}
+.car-desc{
+  font-size:14px;color:var(--txt2);line-height:1.75;font-weight:300;
+  margin-bottom:32px;
+}
+
+/* Color picker */
+.color-section{margin-bottom:32px}
+.color-grid{
+  display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;
+}
+.color-swatch{
+  width:38px;height:38px;border-radius:50%;cursor:default;
+  border:2px solid transparent;position:relative;
+  transition:transform .15s;
+}
+.color-swatch:hover{transform:scale(1.12)}
+.color-swatch.selected::after{
+  content:'';position:absolute;inset:-4px;
+  border-radius:50%;border:2px solid rgba(255,255,255,.5);
+}
+.color-label{
+  font-family:var(--mono);font-size:11px;color:var(--txt2);
+  margin-top:10px;letter-spacing:.5px;
+}
+
+/* Stats */
+.stat-row{
+  display:flex;align-items:center;gap:16px;
+  padding:12px 0;border-bottom:1px solid var(--border);
+}
+.stat-row:last-child{border-bottom:none}
+.stat-name{
+  font-size:13px;font-weight:500;color:var(--txt2);
+  width:120px;flex-shrink:0;
+}
+.stat-bar-wrap{flex:1;height:4px;background:var(--bg4);border-radius:100px;overflow:hidden}
+.stat-bar{height:100%;border-radius:100px;background:var(--cr);transition:width .8s ease}
+.stat-val{
+  font-family:var(--mono);font-size:12px;color:var(--txt);
+  width:36px;text-align:right;flex-shrink:0;
+}
+
+/* Spec chips */
+.specs-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin-top:28px;
+}
+.spec-chip{
+  background:var(--bg3);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px;
+}
+.spec-chip-label{font-size:11px;color:var(--txt3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.spec-chip-val{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff}
+
+/* ── RIGHT COLUMN ── */
+
+/* Gallery */
+.gallery{display:flex;flex-direction:column;gap:10px;position:sticky;top:80px}
+.gallery-main{
+  width:100%;aspect-ratio:16/10;border-radius:18px;overflow:hidden;
+  background:var(--bg3);border:1px solid var(--border);position:relative;
+}
+.gallery-main img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s ease;
+}
+.gallery-main:hover img{transform:scale(1.04)}
+
+/* Gallery badge overlay */
+.gallery-overlay-top{
+  position:absolute;top:14px;left:14px;right:14px;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.gallery-counter{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.7);padding:5px 12px;border-radius:100px;
+  letter-spacing:.5px;
+}
+.gallery-expand{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.6);font-size:14px;cursor:default;
+}
+
+.gallery-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery-thumb{
+  aspect-ratio:4/3;border-radius:12px;overflow:hidden;
+  background:var(--bg3);border:1px solid var(--border);
+  cursor:default;position:relative;
+}
+.gallery-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:brightness(.85) saturate(.9);
+  transition:filter .2s,transform .3s;
+}
+.gallery-thumb:hover img{filter:brightness(1) saturate(1.05);transform:scale(1.04)}
+.gallery-thumb.active{border-color:var(--cr);}
+.gallery-thumb.active img{filter:brightness(1) saturate(1.1)}
+
+/* Info cards row */
+.info-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  margin-top:20px;
+}
+.info-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.info-card-icon{font-size:18px;margin-bottom:4px}
+.info-card-label{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px}
+.info-card-val{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff}
+
+/* EV badge */
+.ev-badge{
+  margin-top:16px;
+  background:linear-gradient(135deg,rgba(74,222,128,.06),rgba(74,222,128,.02));
+  border:1px solid rgba(74,222,128,.18);border-radius:14px;
+  padding:16px 20px;
+  display:flex;align-items:center;gap:16px;
+}
+.ev-icon{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.ev-title{font-size:13px;font-weight:600;color:var(--green);margin-bottom:2px}
+.ev-desc{font-size:12px;color:var(--txt2);line-height:1.5}
+
+/* ── RELATED ── */
+.related{
+  max-width:1320px;margin:0 auto;
+  padding:0 48px 80px;
+}
+.related-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.related-title{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;
+}
+.related-title em{color:var(--txt2);font-style:normal}
+.see-all{
+  font-size:13px;color:var(--txt2);cursor:default;
+  border-bottom:1px solid var(--border2);padding-bottom:1px;
+}
+.related-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+.r-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.r-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+.r-card-img{
+  height:140px;overflow:hidden;background:var(--bg4);
+}
+.r-card-img img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.05);transition:transform .4s;
+}
+.r-card:hover .r-card-img img{transform:scale(1.06)}
+.r-card-body{padding:14px 16px}
+.r-card-name{
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  color:#fff;letter-spacing:-.2px;margin-bottom:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.r-card-cat{font-size:11px;color:var(--txt3);margin-bottom:12px}
+.r-card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:10px;border-top:1px solid var(--border);
+}
+.r-card-price{font-family:var(--mono);font-size:13px;font-weight:500;color:#fff}
+.r-card-btn{
+  width:28px;height:28px;border-radius:8px;background:var(--cr);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:13px;cursor:default;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);padding:36px 48px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.footer-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:15px;
+  letter-spacing:-.3px;display:flex;align-items:center;gap:8px;color:#fff;
+}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-link{font-size:13px;color:var(--txt3);cursor:default}
+.footer-copy{font-size:12px;color:var(--txt3)}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    Legendary Motorsport
+  </div>
+  <div class="nav-links">
+    <div class="nav-link">Showroom</div>
+    <div class="nav-link active">Inventory</div>
+    <div class="nav-link">Finance</div>
+    <div class="nav-link">About</div>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="wallet-chip">
+    <span class="amt">$12,307,127</span>
+  </div>
+  <button class="nav-cta">View All</button>
+</nav>
+
+<!-- ── BREADCRUMB ── -->
+<div class="breadcrumb">
+  <a href="#">Legendary Motorsport</a>
+  <span class="sep">/</span>
+  <a href="#">Inventory</a>
+  <span class="sep">/</span>
+  <a href="#">2-Door Sports</a>
+  <span class="sep">/</span>
+  <span class="current">Pfister 811</span>
+</div>
+
+<!-- ── MAIN PAGE ── -->
+<main class="page">
+
+  <!-- LEFT -->
+  <div class="left">
+
+    <div class="car-header">
+      <div class="car-brand-row">
+        <span class="car-brand-badge">Pfister</span>
+        <span class="car-collection">The Festive Surprise · 2-Door Supercar</span>
+      </div>
+      <h1 class="car-name">811</h1>
+      <p class="car-full-name">Pfister 811 — Electric Hybrid Supercar</p>
+    </div>
+
+    <!-- Price & CTA -->
+    <div class="price-row">
+      <div>
+        <span class="price-tag">Starting from</span>
+        <div class="price-main">$1,135,000</div>
+      </div>
+    </div>
+    <div class="price-cta-row" style="margin-bottom:32px">
+      <button class="btn-buy">Purchase Vehicle →</button>
+      <button class="btn-save">♡</button>
+    </div>
+
+    <!-- Description -->
+    <div class="section-label">About this vehicle</div>
+    <p class="car-desc">
+      Discover the future of hybrid technology. With billions invested in research to reduce carbon emissions, Pfister has perfected its electric motor to the point where it produces more power than a turbocharged engine. The assembly alone generates enough CO₂ to offset eight hundred hectares of otherwise useless rainforest. Everybody wins.
+    </p>
+
+    <!-- Color Picker -->
+    <div class="color-section">
+      <div class="section-label">Choose a colour &amp; order</div>
+      <div class="color-grid">
+        <div class="color-swatch selected" style="background:#c0392b" title="Crimson Red"></div>
+        <div class="color-swatch" style="background:#e91e9b" title="Magenta Pink"></div>
+        <div class="color-swatch" style="background:#f4d03f" title="Racing Yellow"></div>
+        <div class="color-swatch" style="background:#e67e22" title="Sunset Orange"></div>
+        <div class="color-swatch" style="background:#27ae60" title="Lime Green"></div>
+        <div class="color-swatch" style="background:#2980b9" title="Cerulean Blue"></div>
+        <div class="color-swatch" style="background:#2c2c2c;border:1px solid rgba(255,255,255,.15)" title="Matte Black"></div>
+        <div class="color-swatch" style="background:#ececec;border:1px solid rgba(255,255,255,.1)" title="Pearl White"></div>
+        <div class="color-swatch" style="background:#5d6d7e" title="Gun Metal"></div>
+        <div class="color-swatch" style="background:#922b21" title="Deep Maroon"></div>
+      </div>
+      <div class="color-label">Selected: Crimson Red</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-section">
+      <div class="section-label">Vehicle performance</div>
+      <div class="stat-row">
+        <span class="stat-name">Top Speed</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" style="width:86%"></div></div>
+        <span class="stat-val">86</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Acceleration</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" style="width:80%"></div></div>
+        <span class="stat-val">80</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Braking</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" style="width:54%;background:#8a8a96"></div></div>
+        <span class="stat-val">54</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Handling</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" style="width:72%"></div></div>
+        <span class="stat-val">72</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Traction</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" style="width:68%;background:#8a8a96"></div></div>
+        <span class="stat-val">68</span>
+      </div>
+    </div>
+
+    <!-- Spec chips -->
+    <div class="specs-grid">
+      <div class="spec-chip">
+        <div class="spec-chip-label">Drivetrain</div>
+        <div class="spec-chip-val">AWD Hybrid</div>
+      </div>
+      <div class="spec-chip">
+        <div class="spec-chip-label">Engine</div>
+        <div class="spec-chip-val">Electric + V8</div>
+      </div>
+      <div class="spec-chip">
+        <div class="spec-chip-label">0–60 mph</div>
+        <div class="spec-chip-val">2.9 sec</div>
+      </div>
+      <div class="spec-chip">
+        <div class="spec-chip-label">Top Speed</div>
+        <div class="spec-chip-val">211 mph</div>
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="gallery">
+
+      <!-- Main image -->
+      <div class="gallery-main">
+        <img
+          src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=900&q=85"
+          alt="Pfister 811 exterior"/>
+        <div class="gallery-overlay-top">
+          <span class="gallery-counter">1 / 3</span>
+          <div class="gallery-expand">⤢</div>
+        </div>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="gallery-thumbs">
+        <div class="gallery-thumb active">
+          <img
+            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80"
+            alt="Interior dashboard"/>
+        </div>
+        <div class="gallery-thumb">
+          <img
+            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+            alt="Side profile detail"/>
+        </div>
+      </div>
+
+      <!-- Info cards -->
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-card-icon">⚡</div>
+          <div class="info-card-label">Powertrain</div>
+          <div class="info-card-val">Hybrid</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">🏎</div>
+          <div class="info-card-label">Class</div>
+          <div class="info-card-val">Super</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon">🔧</div>
+          <div class="info-card-label">Seats</div>
+          <div class="info-card-val">2</div>
+        </div>
+      </div>
+
+      <!-- EV Badge -->
+      <div class="ev-badge">
+        <div class="ev-icon">⚡</div>
+        <div>
+          <div class="ev-title">Hybrid Powertrain Technology</div>
+          <div class="ev-desc">Regenerative braking, instant torque delivery, and a combined output that rivals dedicated combustion supercars.</div>
+        </div>
+      </div>
+
+    </div><!-- /gallery sticky -->
+  </div><!-- /right -->
+
+</main>
+
+<!-- ── RELATED ── -->
+<section class="related">
+  <div class="related-header">
+    <h2 class="related-title">More <em>Supercars</em></h2>
+    <span class="see-all">View full inventory →</span>
+  </div>
+  <div class="related-grid">
+
+    <div class="r-card">
+      <div class="r-card-img">
+        <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=600&q=80" alt="Jester RR"/>
+      </div>
+      <div class="r-card-body">
+        <div class="r-card-name">Dinka Jester RR Widebody</div>
+        <div class="r-card-cat">Sports · Twin-Turbo V8</div>
+        <div class="r-card-footer">
+          <span class="r-card-price">$2,290,000</span>
+          <div class="r-card-btn">→</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="r-card">
+      <div class="r-card-img">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80" alt="Pipistrello"/>
+      </div>
+      <div class="r-card-body">
+        <div class="r-card-name">Overflod Pipistrello</div>
+        <div class="r-card-cat">Hyper · Mid-Engine V12</div>
+        <div class="r-card-footer">
+          <span class="r-card-price" style="color:var(--green)">$2,065,000</span>
+          <div class="r-card-btn">→</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="r-card">
+      <div class="r-card-img">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80" alt="Infernus"/>
+      </div>
+      <div class="r-card-body">
+        <div class="r-card-name">Pegassi Infernus Classic</div>
+        <div class="r-card-cat">Sports Classic · NA V12</div>
+        <div class="r-card-footer">
+          <span class="r-card-price">$915,000</span>
+          <div class="r-card-btn">→</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">
+    <div class="nav-logo-dot"></div>
+    Legendary Motorsport
+  </div>
+  <div class="footer-links">
+    <span class="footer-link">Inventory</span>
+    <span class="footer-link">Finance</span>
+    <span class="footer-link">Trade-In</span>
+    <span class="footer-link">Service</span>
+    <span class="footer-link">Contact</span>
+    <span class="footer-link">Privacy</span>
+  </div>
+  <div class="footer-copy">© 2026 Legendary Motorsport. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

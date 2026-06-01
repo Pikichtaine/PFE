@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pfister 811 — Legendary Motorsport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cr:#e02020;--cr-d:#9b0f0f;--cr-l:#ff4444;
+  --bg:#0a0a0b;--bg2:#111114;--bg3:#18181c;--bg4:#1f1f25;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --txt:#f2f2f4;--txt2:#8a8a96;--txt3:#56565e;
+  --mono:'DM Mono',monospace;
+  --green:#4ade80;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow-x:hidden;min-height:100vh}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;gap:20px;justify-content: space-between;
+  padding:0 32px;height:64px;
+  background:rgba(10,10,11,.82);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:17px;
+  letter-spacing:-.3px;white-space:nowrap;color:#fff;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--cr);flex-shrink:0;
+  box-shadow:0 0 10px var(--cr);
+}
+.nav-links{display:flex;gap:2px;margin-left:16px}
+.nav-link{
+  font-size:13px;font-weight:500;color:var(--txt2);
+  padding:6px 14px;border-radius:8px;cursor:default;letter-spacing:.2px;
+}
+.nav-link.active{color:#fff;background:rgba(255,255,255,.07)}
+
+.nav-search{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:10px;padding:0 14px;height:36px;width:200px;
+}
+.nav-search input{
+  background:none;border:none;outline:none;
+  color:var(--txt);font-family:'DM Sans',sans-serif;font-size:13px;width:100%;
+}
+.nav-search input::placeholder{color:var(--txt3)}
+.search-icon{color:var(--txt3);font-size:14px;flex-shrink:0}
+.nav-cta{
+  background:rgba(255,255,255,.07) ;color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  padding:0 12px;height:36px;border:none;border-radius:10px;
+  cursor:default;white-space:nowrap;letter-spacing:.2px;
+}
+
+/* ── MAIN LAYOUT ── */
+.page{
+  max-width:1320px;margin:0 auto;
+  padding:28px 48px 80px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:start;
+}
+
+/* ── LEFT COLUMN ── */
+
+/* Header */
+.car-header{margin-bottom:28px}
+.car-brand-row{
+  display:flex;align-items:center;gap:12px;flex-wrap: wrap;margin-bottom:10px;
+}
+.car-brand-badge{
+  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(224,32,32,.12);border:1px solid rgba(224,32,32,.25);
+  color:var(--cr-l);padding:4px 12px;border-radius:100px;
+}
+.car-full-name {
+  font-size: 22px;
+  color: var(--txt1);
+  font-weight: 600;
+  letter-spacing: -.3px;
+}
+
+/* Price row */
+.price-row{
+  display:flex;align-items:center;gap:16px;
+  margin:24px 0;padding:20px 24px;
+  background:var(--bg3);border:1px solid var(--border);border-radius:14px;
+}
+.price-main {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.5px;
+}
+.price-tag{
+  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  color:var(--txt3);display:block;margin-bottom:2px;
+}
+.price-cta-row{display:flex;gap:10px}
+.btn-buy {
+  flex: 1;
+  background: var(--cr);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  height: 50px;
+  border: none;
+  border-radius: 12px;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: .3px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.08) inset,
+              0 4px 16px rgba(217,32,32,.35);
+}
+.btn-save{
+  width:48px;height:48px;border-radius:12px;
+  background:var(--bg4);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--txt2);font-size:18px;cursor:default;
+}
+
+/* Description */
+.section-label{
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--txt3);margin-bottom:12px;
+}
+.car-desc{
+  font-size:14px;color:var(--txt2);line-height:1.75;font-weight:300;
+  margin-bottom:32px;
+}
+
+/* Stats */
+/* Spec chips */
+.specs-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin-top:28px;
+}
+.spec-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+.group {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.linea {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+.spec-chip-label {
+  font-size: 11px;
+  color: var(--txt3);
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.spec-chip-val {
+  font-size: 15px;
+  color: #f5f5f5;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  text-align: right;
+}
+
+/* ── RIGHT COLUMN ── */
+
+/* Gallery */
+.gallery{display:flex;flex-direction:column;gap:10px;position:sticky;top:80px}
+.gallery-main{
+  width:100%;aspect-ratio:16/10;border-radius:18px;overflow:hidden;
+  background:var(--bg3);border:1px solid var(--border);position:relative;
+}
+.gallery-main img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s ease;
+}
+.gallery-main:hover img{transform:scale(1.04)}
+
+/* Gallery badge overlay */
+
+.gallery-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery-thumb{
+  aspect-ratio:4/3;border-radius:12px;overflow:hidden;
+  background:var(--bg3);border:1px solid var(--border);
+  cursor:default;position:relative;
+}
+.gallery-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:brightness(.85) saturate(.9);
+  transition:filter .2s,transform .3s;
+}
+.gallery-thumb:hover img{filter:brightness(1) saturate(1.05);transform:scale(1.04)}
+.gallery-thumb.active{border-color:var(--cr);}
+.gallery-thumb.active img{filter:brightness(1) saturate(1.1)}
+
+.tags-group{
+  display:flex;gap:12px;flex-direction: column;
+  margin:24px 0;padding:20px 24px;
+  background:var(--bg3);border:1px solid var(--border);border-radius:14px;
+}
+.tags-collection{
+  display:flex;align-items:center;gap:12px;flex-wrap: wrap;
+}
+
+
+
+/* ── RELATED ── */
+.related{
+  max-width:1320px;margin:0 auto;
+  padding:0 48px 80px;
+}
+.related-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.related-title{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;
+}
+.related-title em{color:var(--txt2);font-style:normal}
+
+.related-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+.r-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.r-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+.r-card-img{
+  height:140px;overflow:hidden;background:var(--bg4);
+}
+.r-card-img img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.05);transition:transform .4s;
+}
+.r-card:hover .r-card-img img{transform:scale(1.06)}
+.r-card-body{padding:14px 16px}
+.r-card-name{
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;
+  color:#fff;letter-spacing:-.2px;margin-bottom:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.r-card-cat{font-size:11px;color:var(--txt3);margin-bottom:12px}
+.r-card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:10px;border-top:1px solid var(--border);
+}
+.r-card-price{font-family:var(--mono);font-size:13px;font-weight:500;color:#fff}
+.r-card-btn{
+  width:28px;height:28px;border-radius:8px;background:var(--cr);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:13px;cursor:default;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);padding:36px 48px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.footer-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:15px;
+  letter-spacing:-.3px;display:flex;align-items:center;gap:8px;color:#fff;
+}
+
+.footer-copy{font-size:12px;color:var(--txt3)}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    Legendary Motorsport
+  </div>
+  <div class="nav-links">
+    <div class="nav-link active">Inventory</div>
+    <div class="nav-link">About</div>
+  </div>
+<div style="display: flex; gap: 12px;">
+  <div class="nav-search">
+    <span class="search-icon">⌕</span>
+    <input type="text" placeholder="Search vehicles…" readonly/>
+  </div>
+  <button class="nav-cta">❤️</button>
+
+  <button class="nav-cta">🛒</button>
+  
+  <button class="nav-cta">☀️</button>
+</div>
+</nav>
+
+<!-- ── MAIN PAGE ── -->
+<main class="page">
+
+  <!-- LEFT -->
+  <div class="left">
+
+    <div class="car-header">
+      <div class="car-brand-row">
+        <span class="car-brand-badge">Mercedes-Benz</span>
+      </div>
+      <p class="car-full-name">Mercedes-Benz W124</p>
+    </div>
+
+    <!-- Price & CTA -->
+    <div class="price-row">
+      <div>
+        <span class="price-tag">Starting from</span>
+        <div class="price-main">$1,135,000</div>
+      </div>
+    </div>
+    <div class="price-cta-row" style="margin-bottom:32px">
+      <button class="btn-buy">Purchase Vehicle</button>
+      <button class="btn-save">♡</button>
+    </div>
+
+    <!-- Description -->
+    <div class="section-label">About this vehicle</div>
+    <p class="car-desc">
+      Discover the future of hybrid technology. With billions invested in research to reduce carbon emissions, Pfister has perfected its electric motor to the point where it produces more power than a turbocharged engine. The assembly alone generates enough CO₂ to offset eight hundred hectares of otherwise useless rainforest. Everybody wins.
+    </p>
+
+    <!-- Stats -->
+    <!-- Spec chips -->
+      <div class="spec-chip">
+
+      <div class="group">
+        <div class="spec-chip-label">Top Speed</div>
+        <div class="spec-chip-val">349 km/h</div>
+      </div>
+
+      <div class="group">
+        <div class="spec-chip-label">0–100 mph</div>
+        <div class="spec-chip-val">2.9s</div>
+      </div>      
+
+      <div class="group">
+        <div class="spec-chip-label">BHP</div>
+        <div class="spec-chip-val">750 at 6,000 RPM</div>
+      </div>
+
+<hr class="linea">
+      
+      <div class="group">
+        <div class="spec-chip-label">Class</div>
+        <div class="spec-chip-val">Supercar</div>
+      </div>
+
+      <div class="group">
+        <div class="spec-chip-label">Drivetrain</div>
+        <div class="spec-chip-val">AWD Hybrid</div>
+      </div>
+      
+      <div class="group">
+        <div class="spec-chip-label">Manufacture Year</div>
+        <div class="spec-chip-val">2011</div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+    
+
+
+
+  </div><!-- /left -->
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="gallery">
+
+      <!-- Main image -->
+      <div class="gallery-main">
+        <img
+          src="medias/Front.png"
+          alt="Pfister 811 exterior"/>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="gallery-thumbs">
+        <div class="gallery-thumb active">
+          <img
+            src="medias/Interior.png"
+            alt="Interior dashboard"/>
+        </div>
+        <div class="gallery-thumb">
+          <img
+            src="medias/Back.png"
+            alt="Side profile detail"/>
+        </div>
+      </div>
+    <div class="tags-group">
+        <span class="price-tag">Tags</span>
+      <div class="tags-collection">
+        <span class="car-brand-badge">Mercedes-Benz</span>
+        <span class="car-brand-badge">Mercedes-Benz</span>
+        <span class="car-brand-badge">Mercedes-Benz</span>
+        <span class="car-brand-badge">Mercedes-Benz</span>
+        <span class="car-brand-badge">Mercedes-Benz</span>
+        <span class="car-brand-badge">Mercedes-Benz</span>
+      </div>
+
+        </div>
+      </div>
+    </div>
+    </div><!-- /gallery sticky -->
+
+  </div><!-- /right -->
+
+</main>
+
+<!-- ── RELATED ── -->
+<section class="related">
+  <div class="related-header">
+    <h2 class="related-title">More <em>Supercars</em></h2>
+  </div>
+  <div class="related-grid">
+
+    <div class="r-card">
+      <div class="r-card-img">
+        <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=600&q=80" alt="Jester RR"/>
+      </div>
+      <div class="r-card-body">
+        <div class="r-card-name">Dinka Jester RR Widebody</div>
+        <div class="r-card-cat">Sports · Twin-Turbo V8</div>
+        <div class="r-card-footer">
+          <span class="r-card-price">$2,290,000</span>
+          <div class="r-card-btn">→</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="r-card">
+      <div class="r-card-img">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80" alt="Pipistrello"/>
+      </div>
+      <div class="r-card-body">
+        <div class="r-card-name">Overflod Pipistrello</div>
+        <div class="r-card-cat">Hyper · Mid-Engine V12</div>
+        <div class="r-card-footer">
+          <span class="r-card-price" style="color:var(--green)">$2,065,000</span>
+          <div class="r-card-btn">→</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="r-card">
+      <div class="r-card-img">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80" alt="Infernus"/>
+      </div>
+      <div class="r-card-body">
+        <div class="r-card-name">Pegassi Infernus Classic</div>
+        <div class="r-card-cat">Sports Classic · NA V12</div>
+        <div class="r-card-footer">
+          <span class="r-card-price">$915,000</span>
+          <div class="r-card-btn">→</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">
+    <div class="nav-logo-dot"></div>
+    Legendary Motorsport
+  </div>
+
+  <div class="footer-copy">© 2026 Legendary Motorsport. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

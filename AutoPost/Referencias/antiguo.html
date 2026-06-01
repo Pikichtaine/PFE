@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Legendary Motorsport</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    :root {
+      --red:        #c0392b;
+      --red-bright: #e74c3c;
+      --red-dark:   #7b1a10;
+      --orange:     #e67e22;
+      --bg-dark:    #1a1a1a;
+      --bg-panel:   #242424;
+      --bg-card:    #2d2d2d;
+      --text-light: #f0f0f0;
+      --text-muted: #aaaaaa;
+      --green:      #27ae60;
+      --money:      #2ecc71;
+      --border:     rgba(255,255,255,0.08);
+    }
+ 
+    body {
+      background: var(--bg-dark);
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--text-light);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+ 
+    /* ── BROWSER CHROME ─────────────────────────────── */
+    .browser-chrome {
+      background: #2b2b2b;
+      border-bottom: 2px solid #111;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.6);
+    }
+ 
+    .browser-top {
+      display: flex;
+      align-items: center;
+      padding: 6px 14px;
+      gap: 8px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+ 
+    .browser-ticker {
+      flex: 1;
+      text-align: center;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+ 
+    .browser-ticker span { color: #fff; }
+ 
+    .money-hud {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      line-height: 1.1;
+    }
+ 
+    .money-hud .wallet { font-size: 11px; color: var(--money); font-weight: 700; font-family: 'Orbitron', sans-serif; }
+    .money-hud .bank   { font-size: 15px; color: var(--money); font-weight: 900; font-family: 'Orbitron', sans-serif; }
+ 
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      padding: 6px 14px;
+      gap: 10px;
+    }
+ 
+    .nav-btns {
+      display: flex;
+      gap: 4px;
+    }
+ 
+    .nav-btn {
+      width: 26px; height: 26px;
+      border: 1px solid #444;
+      background: #3a3a3a;
+      color: #aaa;
+      font-size: 13px;
+      cursor: default;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 3px;
+    }
+ 
+    .home-btn {
+      width: 26px; height: 26px;
+      border: 1px solid #444;
+      background: #3a3a3a;
+      color: #aaa;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 3px;
+    }
+ 
+    .url-bar {
+      flex: 1;
+      background: #1e1e1e;
+      border: 1px solid #555;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      color: #ddd;
+      letter-spacing: .5px;
+    }
+ 
+    .close-btn {
+      width: 26px; height: 26px;
+      background: #555;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: default;
+    }
+ 
+    /* ── HERO ───────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 380px;
+      overflow: hidden;
+      background: #0d0d0d;
+    }
+ 
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(0,0,0,.85) 35%, rgba(0,0,0,.2) 100%),
+        url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1400&q=80');
+      background-size: cover;
+      background-position: center right;
+      filter: saturate(1.1) brightness(.9);
+    }
+ 
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 48px 60px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+    }
+ 
+    .logo-legendary {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 82px;
+      letter-spacing: 2px;
+      line-height: .9;
+      color: #fff;
+      text-shadow:
+        3px 3px 0 var(--red-dark),
+        0 0 40px rgba(200,50,30,.4);
+    }
+ 
+    .logo-motorsport {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 10px;
+      color: var(--red-bright);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+ 
+    .hero-tagline {
+      margin-top: 28px;
+    }
+ 
+    .hero-tagline .line1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--red-bright);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+ 
+    .hero-tagline .line2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: 4px;
+    }
+ 
+    /* Sort button */
+    .sort-btn {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      background: var(--red-bright);
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 12px 26px;
+      border: none;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+ 
+    .sort-btn::after {
+      content: '—';
+      font-size: 18px;
+      opacity: .7;
+    }
+ 
+    /* ── TABS ───────────────────────────────────────── */
+    .tabs-wrapper {
+      background: var(--red-dark);
+      padding: 0 16px;
+      border-bottom: 3px solid var(--red-bright);
+    }
+ 
+    .tabs {
+      display: flex;
+      gap: 2px;
+      max-width: 1200px;
+    }
+ 
+    .tab {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.7);
+      padding: 14px 36px;
+      cursor: default;
+      border-bottom: 3px solid transparent;
+      position: relative;
+      transition: color .2s;
+    }
+ 
+    .tab.active {
+      color: #fff;
+      background: var(--red-bright);
+      border-bottom: 3px solid #fff;
+    }
+ 
+    /* ── GRID ───────────────────────────────────────── */
+    .shop-body {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 29px,
+          rgba(255,255,255,.02) 30px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 29px,
+          rgba(255,255,255,.02) 30px
+        ),
+        #1e0d0a;
+      padding: 28px 24px 60px;
+      min-height: 600px;
+    }
+ 
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+ 
+    /* ── CARD ───────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,.06);
+      position: relative;
+      overflow: hidden;
+      transition: transform .18s, box-shadow .18s;
+    }
+ 
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(0,0,0,.5);
+    }
+ 
+    .card-badge {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      padding: 10px 14px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+ 
+    .card-badge .lock-icon {
+      width: 20px; height: 20px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      color: #888;
+    }
+ 
+    .card-img-wrap {
+      width: 100%;
+      height: 170px;
+      overflow: hidden;
+      background: #222;
+      position: relative;
+    }
+ 
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+ 
+    .card:hover .card-img-wrap img {
+      transform: scale(1.05);
+    }
+ 
+    /* Gradient overlay on image */
+    .card-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(20,5,3,.7) 0%, transparent 60%);
+    }
+ 
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(0,0,0,.4);
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+ 
+    .card-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 8px;
+    }
+ 
+    .card-price {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--red-bright);
+      padding: 6px 12px;
+      white-space: nowrap;
+      clip-path: polygon(6px 0, 100% 0, 100% 100%, 0 100%, 0 6px);
+    }
+ 
+    .card-price.sale {
+      background: #7b1a10;
+      position: relative;
+    }
+ 
+    .sale-label {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      text-align: center;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #ffcdd2;
+      background: var(--red-bright);
+      padding: 2px 0;
+    }
+ 
+    .card-price.sale .price-val {
+      display: block;
+      margin-top: 14px;
+      font-size: 12px;
+    }
+ 
+    .card.featured-card .card-img-wrap { height: 200px; }
+    .card.featured-card .card-badge { color: var(--orange); }
+ 
+    /* ── FOOTER ─────────────────────────────────────── */
+    .site-footer {
+      background: #0f0f0f;
+      border-top: 3px solid var(--red-dark);
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+ 
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--red-bright);
+    }
+ 
+    .footer-logo span {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: #666;
+      display: block;
+      margin-top: -4px;
+    }
+ 
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+ 
+    .footer-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #555;
+      text-decoration: none;
+    }
+ 
+    .footer-copy {
+      font-size: 11px;
+      color: #333;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+ 
+  <!-- ── BROWSER CHROME ── -->
+  <div class="browser-chrome">
+    <div class="browser-top">
+      <div class="browser-ticker">
+        --- Choose From Our Top End <span>HIGH PERFORMANCE CARS</span> At Great Prices ---
+      </div>
+      <div class="money-hud">
+        <span class="wallet">$0</span>
+        <span class="bank">$62994455</span>
+      </div>
+    </div>
+    <div class="browser-bar">
+      <div class="nav-btns">
+        <div class="nav-btn">◀</div>
+        <div class="nav-btn">▶</div>
+      </div>
+      <div class="home-btn">⌂</div>
+      <div class="home-btn" style="font-size:10px;">🕐</div>
+      <div class="url-bar">www.legendarymotorsport.net</div>
+      <div class="close-btn">✕</div>
+    </div>
+  </div>
+ 
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="logo-legendary">Legendary</div>
+      <div class="logo-motorsport">Motorsport</div>
+      <div class="hero-tagline">
+        <div class="line1">Choose from our top end</div>
+        <div class="line2">High performance cars at great prices</div>
+      </div>
+    </div>
+    <div class="sort-btn">Sort by Price</div>
+  </section>
+ 
+  <!-- ── TABS ── -->
+  <div class="tabs-wrapper">
+    <div class="tabs">
+      <div class="tab">Featured</div>
+      <div class="tab active">2 Door</div>
+      <div class="tab">4 Door</div>
+      <div class="tab">Motorcycles</div>
+      <div class="tab">Special</div>
+    </div>
+  </div>
+ 
+  <!-- ── SHOP BODY ── -->
+  <main class="shop-body">
+    <div class="cards-grid">
+ 
+      <!-- Card 1 -->
+      <div class="card">
+        <div class="card-badge">
+          Part of Agents of Sabotage
+          <div class="lock-icon">🔒</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=600&q=80" alt="Sports Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Dinka Jester RR Widebo...</div>
+          <div class="card-price">$2,290,000</div>
+        </div>
+      </div>
+ 
+      <!-- Card 2 -->
+      <div class="card">
+        <div class="card-badge">
+          Part of Agents of Sabotage
+          <div class="lock-icon">🔒</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?w=600&q=80" alt="Sports Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Bravado Banshee GTS</div>
+          <div class="card-price">$1,989,500</div>
+        </div>
+      </div>
+ 
+      <!-- Card 3 – SALE -->
+      <div class="card">
+        <div class="card-badge">
+          Part of Bottom Dollar Bounties
+          <div class="lock-icon">🔒</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80" alt="Sports Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Overflod Pipistrello</div>
+          <div class="card-price sale">
+            <span class="sale-label">SALE – $2,065,000</span>
+            <span class="price-val">$2,950,000</span>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Card 4 -->
+      <div class="card">
+        <div class="card-badge">
+          Part of Bottom Dollar Bounties
+          <div class="lock-icon">🔒</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=80" alt="Sports Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Pegassi Infernus Classic</div>
+          <div class="card-price">$915,000</div>
+        </div>
+      </div>
+ 
+      <!-- Card 5 -->
+      <div class="card">
+        <div class="card-badge">
+          Part of The Criminal Enterprises
+          <div class="lock-icon">🔒</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Sports Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Annis ZR350</div>
+          <div class="card-price">$1,615,000</div>
+        </div>
+      </div>
+ 
+      <!-- Card 6 – SALE -->
+      <div class="card">
+        <div class="card-badge">
+          Part of The Contract
+          <div class="lock-icon">🔒</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80" alt="Sports Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Vapid Dominator GTT</div>
+          <div class="card-price sale">
+            <span class="sale-label">SALE – $1,400,000</span>
+            <span class="price-val">$1,795,000</span>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Card 7 -->
+      <div class="card">
+        <div class="card-badge">
+          Classic Sports
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=600&q=80" alt="Classic Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Grotti Stinger GT</div>
+          <div class="card-price">$875,000</div>
+        </div>
+      </div>
+ 
+      <!-- Card 8 -->
+      <div class="card">
+        <div class="card-badge">
+          Part of Los Santos Tuners
+          <div class="lock-icon">🔒</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1619976215249-4e5bdb5a16b3?w=600&q=80" alt="Tuner Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Karin Calico GTF</div>
+          <div class="card-price">$1,995,000</div>
+        </div>
+      </div>
+ 
+      <!-- Card 9 – SALE -->
+      <div class="card">
+        <div class="card-badge">
+          Sports Classics
+        </div>
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80&fit=crop&crop=entropy" alt="Classic Car" />
+        </div>
+        <div class="card-footer">
+          <div class="card-name">Pegassi Monroe</div>
+          <div class="card-price sale">
+            <span class="sale-label">SALE – $430,000</span>
+            <span class="price-val">$595,000</span>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+  </main>
+ 
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-logo">
+      Legendary
+      <span>Motorsport</span>
+    </div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Trade-In</a>
+      <a href="#">Finance</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-copy">© Legendary Motorsport — All Rights Reserved</div>
+  </footer>
+ 
+</body>
+</html>
