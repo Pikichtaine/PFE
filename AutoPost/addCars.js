@@ -3,6 +3,16 @@ let suggestions = document.getElementById("brands");
 let modelos = document.getElementById("modeles");
 let input = document.getElementById("marque");
 let modelInput = document.getElementById("modele");
+
+let vitesseInput = document.getElementById("vitesse_max");
+let rpmMin = document.getElementById("rpm_min");
+let rpmMax = document.getElementById("rpm_max");
+let classe=document.getElementById("class");
+let portes=document.getElementById("portes");
+let transmission=document.getElementById("transmission");
+let carburant=document.getElementById("carburant");
+let acceleration=document.getElementById("acceleration");
+
 let selectedIndex = -1;
 let selectedModel = -1;
 
@@ -134,6 +144,7 @@ function showModels(models) {
     li.addEventListener("click", () => {
       modelInput.value = model;
       modelos.innerHTML = "";
+      Specs(model);
     });
 
     modelos.appendChild(li);
@@ -153,6 +164,7 @@ modelInput.addEventListener("input", function() {
             li.addEventListener("click", function() {
                 modelInput.value = this.textContent;
                 modelos.innerHTML = "";
+                Specs(model);
             });
             modelos.appendChild(li);
         });
@@ -224,3 +236,17 @@ modelInput.addEventListener("keydown", function(e) {
     }
 
 });
+function Specs(modelo){
+fetch(`/api/get_specs.php?modele=${modelo}`)
+  .then(res => res.json())
+  .then(data => {
+    vitesseInput.value = data["Vitesse maximale"];
+    rpmMin.value = data["RPM-min"];
+    rpmMax.value = data["RPM_max"];
+    classe.value = data["Class"];
+    portes.value = data["Portes"];
+    transmission.value = data["Transmission"];
+    carburant.value = data["Type de carburant"];
+    acceleration.value = data["Acceleration 0-100"];
+  });
+}

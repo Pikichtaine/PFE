@@ -178,6 +178,11 @@ body {
   width: 100%;
 }
 
+.field-column {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+}
 
 .field {
   position: relative;

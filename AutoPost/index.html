@@ -64,8 +64,8 @@
                 <input type="number" id="year" name="year" min="1900" max="2100" value="2012" placeholder="2024" />
               </div>
               <div class="field">
-                <label for="doors">Nombre de portes</label>
-                <select id="doors" name="doors">
+                <label for="portes">Nombre de portes</label>
+                <select id="portes" name="portes">
                   <option value="2">2 portes</option>
                   <option value="3">3 portes</option>
                   <option value="4" selected>4 portes</option>
@@ -79,27 +79,85 @@
                 <label for="class">Classe / Catégorie</label>
                 <select id="class" name="class">
                   <option value="">— Sélectionner —</option>
+                  <option value="Citadine Sport">Citadine Sport</option>
+                  <option value="Compacte Sport">Compacte Sport</option>
+                  <option value="Roadster">Roadster</option>
                   <option value="Berline">Berline</option>
+                  <option value="SUV Compact">SUV Compact</option>
                   <option value="SUV">SUV</option>
-                  <option value="Coupé">Coupé</option>
-                  <option value="Cabriolet">Cabriolet</option>
-                  <option value="Break">Break</option>
+                  <option value="Supercar">Supercar</option>
+                  <option value="Compacte">Compacte</option>
+                  <option value="SUV Electrique">SUV Electrique</option>
                   <option value="Citadine">Citadine</option>
+                  <option value="Cabriolet">Cabriolet</option>
+                  <option value="Coupe">Coupe</option>
                   <option value="Sportive">Sportive</option>
-                  <option value="Pickup">Pickup</option>
-                  <option value="Utilitaire">Utilitaire</option>
+                  <option value="Citadine Electrique">Citadine Electrique</option>
+                  <option value="Grand Tourisme">Grand Tourisme</option>
+                  <option value="Berline Sport">Berline Sport</option>
+                  <option value="Hypercar">Hypercar</option>
+                  <option value="Fastback">Fastback</option>
+                  <option value="Limousine">Limousine</option>
+                  <option value="SUV Coupe">SUV Coupe</option>
+                  <option value="Berline Electrique">Berline Electrique</option>
+                  <option value="Coupe Sport">Coupe Sport</option>
+                  <option value="Fastback Sport">Fastback Sport</option>
+                  <option value="Limousine Sport">Limousine Sport</option>
+                  <option value="Break Sport">Break Sport</option>
+                  <option value="SUV Sport">SUV Sport</option>
+                  <option value="SUV Coupe Sport">SUV Coupe Sport</option>
+                  <option value="Grand Tourisme Sport">Grand Tourisme Sport</option>
+                  <option value="Limousine Electrique">Limousine Electrique</option>
+                  <option value="SUV Compact Electrique">SUV Compact Electrique</option>
+                  <option value="SUV Hybride">SUV Hybride</option>
+                  <option value="Pick-up">Pick-up</option>
+                  <option value="Monospace">Monospace</option>
+                  <option value="Break Compact">Break Compact</option>
+                  <option value="Compacte Electrique">Compacte Electrique</option>
+                  <option value="Crossover">Crossover</option>
+                  <option value="Microcar Electrique">Microcar Electrique</option>
+                  <option value="Break">Break</option>
+                  <option value="Muscle Car">Muscle Car</option>
+                  <option value="Monospace Compact">Monospace Compact</option>
+                  <option value="Pick-up Electrique">Pick-up Electrique</option>
+                  <option value="Fourgon">Fourgon</option>
+                  <option value="SUV Hydrogene">SUV Hydrogene</option>
+                  <option value="Crossover Electrique">Crossover Electrique</option>
+                  <option value="Crossover Hybride">Crossover Hybride</option>
+                  <option value="Hypercar Electrique">Hypercar Electrique</option>
+                  <option value="SUV Coupe Electrique">SUV Coupe Electrique</option>
+                  <option value="Grand Tourisme Electrique">Grand Tourisme Electrique</option>
+                  <option value="Cabriolet Electrique">Cabriolet Electrique</option>
+                  <option value="SUV Compact Sport">SUV Compact Sport</option>
+                  <option value="Roadster Sport">Roadster Sport</option>
+                  <option value="Break Electrique">Break Electrique</option>
+                  <option value="Roadster Electrique">Roadster Electrique</option>
                 </select>
               </div>
+              <div class="field-column">
+
+                
               <div class="field">
-                <label for="drivetrain">Transmission</label>
-                <select id="drivetrain" name="drivetrain">
+                <label for="transmission">Transmission</label>
+                <select id="transmission" name="transmission">
                   <option value="">— Sélectionner —</option>
-                  <option value="FWD">FWD — Traction avant</option>
-                  <option value="RWD">RWD — Propulsion</option>
-                  <option value="AWD">AWD — 4 roues motrices</option>
-                  <option value="4WD">4WD — 4x4</option>
+                  <option value="Manuelle">Manuelle</option>
+                  <option value="Automatique">Automatique</option>
                 </select>
               </div>
+                
+              <div class="field">
+                <label for="carburant">Carburant</label>
+                <select id="carburant" name="carburant">
+                  <option value="">— Sélectionner —</option>
+                  <option value="Essence">Essence</option>
+                  <option value="Diesel">Diesel</option> 
+                  <option value="Hybride">Hybride</option>
+                  <option value="Electrique">Électrique</option>
+                </select>
+              </div>
+              
+            </div>
             </div>
 
           </div>
@@ -152,9 +210,9 @@
           <div class="fields-stack">
             <div class="field-row">
               <div class="field">
-                <label for="top_speed">Vitesse maximale</label>
+                <label for="vitesse_max">Vitesse maximale</label>
                 <div class="input-with-unit">
-                  <input type="number" id="top_speed" name="top_speed" min="0" placeholder="250" />
+                  <input type="number" id="vitesse_max" name="vitesse_max" min="0" placeholder="250" />
                   <span class="unit-badge">km/h</span>
                 </div>
               </div>
