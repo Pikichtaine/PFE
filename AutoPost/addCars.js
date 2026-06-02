@@ -12,6 +12,10 @@ let portes=document.getElementById("portes");
 let transmission=document.getElementById("transmission");
 let carburant=document.getElementById("carburant");
 let acceleration=document.getElementById("acceleration");
+let versiones = document.getElementById("versions");
+let versionInput = document.getElementById("version");
+let marca=null;
+let modelao=null;
 
 let selectedIndex = -1;
 let selectedModel = -1;
@@ -125,16 +129,25 @@ function listaSeleccionada() {
 }
 
 function fetchito(modelo){
+    let marca=modelo;
 fetch("./models.json")
 .then(reponce=>reponce.json())
 .then(data=>{
 
     console.log("Your Data is completed ", data)
     const models = data[modelo] || [];
-      showModels(models);
+
+if (Array.isArray(models)) {
+          showModels(models, modelo);
+    
+} else {
+    let modelsArray = Object.keys(models);
+    showModels(modelsArray, modelo);
+}
     });
 }
-function showModels(models) {
+
+function showModels(models, marca) {
   modelos.innerHTML = "";
 
   models.forEach(model => {
@@ -144,6 +157,7 @@ function showModels(models) {
     li.addEventListener("click", () => {
       modelInput.value = model;
       modelos.innerHTML = "";
+      otroFetch(marca, model);
       Specs(model);
     });
 
@@ -164,6 +178,7 @@ modelInput.addEventListener("input", function() {
             li.addEventListener("click", function() {
                 modelInput.value = this.textContent;
                 modelos.innerHTML = "";
+                otroFetch(marca, model);
                 Specs(model);
             });
             modelos.appendChild(li);
@@ -171,7 +186,7 @@ modelInput.addEventListener("input", function() {
         selectedModel = 0;
         modeloSeleccionado();
     }else if(value === ""){
-        showModels(models);
+        showModels(models, marca);
     }
 });
 
@@ -237,7 +252,7 @@ modelInput.addEventListener("keydown", function(e) {
 
 });
 function Specs(modelo){
-fetch(`/api/get_specs.php?modele=${modelo}`)
+fetch(`get_specs.php?modele=${encodeURIComponent(modelo)}`)
   .then(res => res.json())
   .then(data => {
     vitesseInput.value = data["Vitesse maximale"];
@@ -249,4 +264,52 @@ fetch(`/api/get_specs.php?modele=${modelo}`)
     carburant.value = data["Type de carburant"];
     acceleration.value = data["Acceleration 0-100"];
   });
+}
+
+function otroFetch(marca,version){
+fetch("./models.json")
+.then(reponce=>reponce.json())
+.then(data=>{
+
+    console.log("Your Data is completed ", data)
+    const versiones = data[marca][version] || [];
+      showVersions(versiones);
+    });
+}
+
+function showVersions(versions) {
+  versiones.innerHTML = "";
+
+  versions.forEach(version => {
+    const li = document.createElement("li");
+    li.textContent = version;
+
+    li.addEventListener("click", () => {
+      versionInput.value = version;
+      versiones.innerHTML = "";
+    });
+
+    versiones.appendChild(li);
+  });
+
+versionInput.addEventListener("input", function() {
+    let value = this.value.toLowerCase();
+    versiones.innerHTML = "";
+    if (value) {
+        let filteredVersions = versions.filter(version => version.toLowerCase().includes(value));
+        filteredVersions.forEach(version => {
+            let li = document.createElement("li");
+            li.textContent = version;
+            li.addEventListener("click", function() {
+                versionInput.value = this.textContent;
+                versiones.innerHTML = "";
+            });
+            versiones.appendChild(li);
+        });
+
+    }else if(value === ""){
+        showVersions(versions);
+    }
+});
+
 }

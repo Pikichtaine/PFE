@@ -480,16 +480,18 @@
     "XRAY",
     "Largus"
   ],
-  "Lamborghini": [
-    "Gallardo",
-    "Murcielago",
-    "Huracan",
-    "Aventador",
-    "Urus",
-    "Revuelto",
-    "Temerario",
-    "Diablo"
-  ],
+"Lamborghini": {
+    "Urus": [
+      "Base",
+      "S",
+      "Performante",
+      "SE (Hybrid)",
+      "Pearl Capsule",
+      "Graphite Capsule",
+      "Performante Essenza SCV12",
+      "SE Tettonero Capsule"
+    ]
+  },
   "Lancia": [
     "Ypsilon",
     "Delta",
@@ -611,29 +613,160 @@
     "G 63",
     "SL 63"
   ],
-  "Mercedes-Benz": [
-    "A-Class",
-    "B-Class",
-    "C-Class",
-    "E-Class",
-    "S-Class",
-    "CLA",
-    "CLS",
-    "GLA",
-    "GLB",
-    "GLC",
-    "GLE",
-    "GLS",
-    "EQA",
-    "EQB",
-    "EQC",
-    "EQE",
-    "EQS",
-    "G-Class",
-    "SL",
-    "V-Class",
-    "SLC"
-  ],
+  "Mercedes-Benz": {
+    "A-Class": [
+      "A160",
+      "A180",
+      "A200",
+      "A220",
+      "A250",
+      "A45 AMG",
+      "A35 AMG"
+    ],
+    "B-Class": [
+      "B160",
+      "B180",
+      "B200",
+      "B220",
+      "B250e"
+    ],
+    "C-Class": [
+      "C180",
+      "C200",
+      "C220d",
+      "C300",
+      "C300 4MATIC",
+      "C350e",
+      "C43 AMG",
+      "C63 AMG",
+      "C63 S AMG",
+      "C63 S E Performance"
+    ],
+    "E-Class": [
+      "E200",
+      "E220d",
+      "E300",
+      "E300 4MATIC",
+      "E350",
+      "E400",
+      "E450",
+      "E63 AMG S",
+      "E All-Terrain"
+    ],
+    "S-Class": [
+      "S450",
+      "S500",
+      "S580",
+      "S580e",
+      "S680 Maybach",
+      "S63 AMG",
+      "S63 AMG 4MATIC+"
+    ],
+    "CLA": [
+      "CLA180",
+      "CLA200",
+      "CLA220",
+      "CLA250",
+      "CLA35 AMG",
+      "CLA45 AMG",
+      "CLA45 S AMG"
+    ],
+    "CLS": [
+      "CLS220d",
+      "CLS300",
+      "CLS350",
+      "CLS450",
+      "CLS53 AMG"
+    ],
+    "GLA": [
+      "GLA200",
+      "GLA220",
+      "GLA220d",
+      "GLA250",
+      "GLA35 AMG",
+      "GLA45 AMG",
+      "GLA45 S AMG"
+    ],
+    "GLB": [
+      "GLB200",
+      "GLB220d",
+      "GLB250",
+      "GLB35 AMG"
+    ],
+    "GLC": [
+      "GLC300",
+      "GLC300 4MATIC",
+      "GLC350e",
+      "GLC43 AMG",
+      "GLC63 S AMG E Performance"
+    ],
+    "GLE": [
+      "GLE300d",
+      "GLE350",
+      "GLE350de",
+      "GLE450",
+      "GLE450e",
+      "GLE53 AMG",
+      "GLE63 S AMG"
+    ],
+    "GLS": [
+      "GLS450",
+      "GLS580",
+      "GLS600 Maybach",
+      "GLS63 AMG"
+    ],
+    "EQA": [
+      "EQA250",
+      "EQA250+",
+      "EQA300 4MATIC",
+      "EQA350 4MATIC"
+    ],
+    "EQB": [
+      "EQB250",
+      "EQB250+",
+      "EQB300 4MATIC",
+      "EQB350 4MATIC"
+    ],
+    "EQC": [
+      "EQC400 4MATIC"
+    ],
+    "EQE": [
+      "EQE300",
+      "EQE350+",
+      "EQE350 4MATIC",
+      "EQE500 4MATIC",
+      "EQE43 AMG",
+      "EQE53 AMG 4MATIC+"
+    ],
+    "EQS": [
+      "EQS450+",
+      "EQS450 4MATIC",
+      "EQS580 4MATIC",
+      "EQS53 AMG 4MATIC+"
+    ],
+    "G-Class": [
+      "G400d",
+      "G500",
+      "G580 EQ",
+      "G63 AMG"
+    ],
+    "SL": [
+      "SL43",
+      "SL55 AMG",
+      "SL63 AMG"
+    ],
+    "V-Class": [
+      "V220d",
+      "V250d",
+      "V300d"
+    ],
+    "SLC": [
+      "SLC180",
+      "SLC200",
+      "SLC300",
+      "SLC43 AMG"
+    ]
+  },
   "MG": [
     "MG3",
     "MG4",
