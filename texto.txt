@@ -1,0 +1,40 @@
+   if($_SERVER['REQUEST_METHOD'] == "POST") {
+
+    if(isset($_POST['titulo'], $_POST['mensaje'])) {
+
+        $titre = trim($_POST['titulo']);
+        $descripcion = trim($_POST['mensaje']);
+
+        if(empty($titre) || empty($descripcion)) {
+            die("Todos los campos son obligatorios");
+        }
+
+
+
+
+
+        $carpeta = "imagenes/";
+
+if(!is_dir($carpeta)) {
+    mkdir($carpeta, 0755, true);
+}
+
+// función reutilizable
+function subirFoto($file, $carpeta) {
+    if(isset($file) && $file['error'] == 0) {
+
+        $nombre = $file['name'];
+        $tmp = $file['tmp_name'];
+
+        $ruta = $carpeta . uniqid() . "_" . $nombre;
+
+        if(move_uploaded_file($tmp, $ruta)) {
+            return $ruta;
+        }
+    }
+    return null;
+}
+
+$foto1 = subirFoto($_FILES['photo_1'], $carpeta);
+$foto2 = subirFoto($_FILES['photo_2'], $carpeta);
+$foto3 = subirFoto($_FILES['photo_3'], $carpeta);

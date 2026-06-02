@@ -158,7 +158,7 @@ function showModels(models, marca) {
       modelInput.value = model;
       modelos.innerHTML = "";
       otroFetch(marca, model);
-      Specs(model);
+  
     });
 
     modelos.appendChild(li);
@@ -179,7 +179,6 @@ modelInput.addEventListener("input", function() {
                 modelInput.value = this.textContent;
                 modelos.innerHTML = "";
                 otroFetch(marca, model);
-                Specs(model);
             });
             modelos.appendChild(li);
         });
@@ -251,20 +250,7 @@ modelInput.addEventListener("keydown", function(e) {
     }
 
 });
-function Specs(modelo){
-fetch(`get_specs.php?modele=${encodeURIComponent(modelo)}`)
-  .then(res => res.json())
-  .then(data => {
-    vitesseInput.value = data["Vitesse maximale"];
-    rpmMin.value = data["RPM-min"];
-    rpmMax.value = data["RPM_max"];
-    classe.value = data["Class"];
-    portes.value = data["Portes"];
-    transmission.value = data["Transmission"];
-    carburant.value = data["Type de carburant"];
-    acceleration.value = data["Acceleration 0-100"];
-  });
-}
+
 
 function otroFetch(marca,version){
 fetch("./models.json")
