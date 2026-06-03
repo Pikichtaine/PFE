@@ -1,4 +1,8 @@
 
+<?php
+require 'Database.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,22 +79,42 @@
 
   <div class="grid">
 
-    <!-- Card 1 – wide featured -->
-    <div class="card">
+<?php
+
+
+/* =========================
+    CONSULTA SQL
+   ========================= */
+try{
+
+$sql = "SELECT *
+FROM specs";
+
+$stlt = $pdo->query($sql);
+$cards = $stlt->fetchAll(PDO::FETCH_ASSOC);
+
+}catch(PDOException $e){
+    echo "Erreur type: " . $e->getMessage();
+}
+
+foreach ($cards as $card) : ?>
+
+        <div class="card" id="<?php echo $card['id'] ?>">
       <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=900&q=80" alt="Jester RR"/>
+        <img src= "<?php echo $card['Photo1'] ?>" alt="<?php echo $card['marque'] ?>"/>
         <div class="card-img-top">
         </div>
       </div>
       <div class="card-body">
         
-          <div class="card-name">Dinka Jester RR Widebody</div>
+          <div class="card-name"><?php echo $card['marque'] . ' ' . $card['modele'] . ' ' . $card['Version'] ?></div>
           
-            <div class="card-price">$2,290,000</div>
-          
-        
+            <div class="card-price"><?php echo $card['Prix'] . "mad" ?></div>
+
       </div>
     </div>
+
+    <?php endforeach; ?>
 
 
 
@@ -118,3 +142,11 @@
 
 </body>
 </html>
+<script>
+  let cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      window.location.href = "Car.php?id=" + card.id;
+    });
+  });
+</script>

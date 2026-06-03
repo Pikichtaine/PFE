@@ -94,43 +94,44 @@ $foto3 = subirFoto($_FILES['photo_3'], $carpeta);
                 try {
 
                     $sqlFoto = "INSERT INTO specs (
-        marque, modele, Version, Kilometrage, Prix,
-        Annee, Puissance, Consommation, Boite, Description,
-        Photo1, Photo2, Photo3, Categorie, Portes,
-        Transmission, Carburant, VitesseMax, Acceleration
+        marque, modele, Version, Annee, Portes, Categorie, Transmission, Carburant, Boite, 
+        Prix, Kilometrage, 
+        VitesseMax, Acceleration, Puissance, Consommation, Description,
+        Photo1, Photo2, Photo3
     )
     VALUES (
-        :marque, :modele, :version, :kilometrage, :prix,
-        :annee, :puissance, :consommation, :boite, :description,
-        :photo1, :photo2, :photo3, :Categorie, :portes,
-        :transmission, :carburant, :vitesse_max, :acceleration
+        :marque, :modele, :Version, :Annee, :Portes, :Categorie, :Transmission, :Carburant, :Boite,
+        :Prix, :Kilometrage,
+        :VitesseMax, :Acceleration, :Puissance, :Consommation, :Description,
+        :Photo1, :Photo2, :Photo3
     )";
 
-                    $stmt = $pdo->prepare($sqlFoto);
-                    $stmt->bindParam(':marque', $marque);
-                    $stmt->bindParam(':modele', $modele);
-                    $stmt->bindParam(':version', $version);
-                    $stmt->bindParam(':kilometrage', $kilometrage);
-                    $stmt->bindParam(':prix', $prix);
-                    $stmt->bindParam(':annee', $year);
-                    $stmt->bindParam(':puissance', $puissance);
-                    $stmt->bindParam(':consommation', $consommation);
-                    $stmt->bindParam(':boite', $boite);
-                    $stmt->bindParam(':description', $descripcion);
-                    $stmt->bindParam(':photo1', $foto1);
-                    $stmt->bindParam(':photo2', $foto2);
-                    $stmt->bindParam(':photo3', $foto3);
-                    $stmt->bindParam(':Categorie', $class);
-                    $stmt->bindParam(':portes', $portes);
-                    $stmt->bindParam(':transmission', $transmission);
-                    $stmt->bindParam(':carburant', $carburant);
-                    $stmt->bindParam(':vitesse_max', $vitesse_max);
-                    $stmt->bindParam(':acceleration', $acceleration);
+$stmt = $pdo->prepare($sqlFoto);
 
-                    $stmt->execute();
+$stmt->bindParam(':marque', $marque);
+$stmt->bindParam(':modele', $modele);
+$stmt->bindParam(':Version', $version);
+$stmt->bindParam(':Annee', $year);
+$stmt->bindParam(':Portes', $portes);
+$stmt->bindParam(':Categorie', $class);
+$stmt->bindParam(':Transmission', $transmission);
+$stmt->bindParam(':Carburant', $carburant);
+$stmt->bindParam(':Boite', $boite);
+$stmt->bindParam(':Prix', $prix);
+$stmt->bindParam(':Kilometrage', $kilometrage); // <--- Faltaba este
+$stmt->bindParam(':VitesseMax', $vitesse_max);
+$stmt->bindParam(':Acceleration', $acceleration);
+$stmt->bindParam(':Puissance', $puissance);
+$stmt->bindParam(':Consommation', $consommation);
+$stmt->bindParam(':Description', $descripcion);
+$stmt->bindParam(':Photo1', $foto1);
+$stmt->bindParam(':Photo2', $foto2);
+$stmt->bindParam(':Photo3', $foto3);
+
+$stmt->execute();
 
                     echo "✅ Imagen subida correctamente";
-                header("Location: Shop.html");
+                header("Location: Shop.php");
                 exit;
                 } catch(PDOException $e) {
                     echo "Error: " . $e->getMessage();
