@@ -1,3 +1,7 @@
+<?php
+require 'Database.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -32,16 +36,27 @@
 
 
    if($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['marque'], $_POST['modele'], $_POST['version'], $_POST['year'], $_POST['portes'], $_POST['class'], $_POST['transmission'], $_POST['carburant'], $_POST['boite'], $_POST['prix'], $_POST['kilometrage'], $_POST['vitesse_max'], $_POST['acceleration'], $_POST['puissance'], $_POST['consommation'], $_POST['description'])) {
+        $marque = trim($_POST['marque']);
+        $modele = trim($_POST['modele']);
+        $version = trim($_POST['version']);
+        $year = trim($_POST['year']);
+        $portes = trim($_POST['portes']);
+        $class = trim($_POST['class']);
+        $transmission = trim($_POST['transmission']);
+        $carburant = trim($_POST['carburant']);
+        $boite = trim($_POST['boite']);
+        $prix = trim($_POST['prix']);
+        $kilometrage = trim($_POST['kilometrage']);
+        $vitesse_max = trim($_POST['vitesse_max']);
+        $acceleration = trim($_POST['acceleration']);
+        $puissance = trim($_POST['puissance']);
+        $consommation = trim($_POST['consommation']);
+        $descripcion = trim($_POST['description']);
 
-    if(isset($_POST['titulo'], $_POST['mensaje'])) {
-
-        $titre = trim($_POST['titulo']);
-        $descripcion = trim($_POST['mensaje']);
-
-        if(empty($titre) || empty($descripcion)) {
-            die("Todos los campos son obligatorios");
+        } else {
+            die("Todos los campos obligatorios deben estar completos");
         }
-
 
 
 /* =========================
@@ -52,11 +67,12 @@ $carpeta = "imagenes/";
 if(!is_dir($carpeta)) {
   mkdir($carpeta, 0755, true);
 }
+function subirFoto($file, $carpeta) {
 
-if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
+if(isset($file) && $file['error'] == 0) {
 
-            $nombre = $_FILES['foto']['name'];
-            $tmp = $_FILES['foto']['tmp_name'];
+            $nombre = $file['name'];
+            $tmp = $file['tmp_name'];
 
             
             $ruta = $carpeta . uniqid() . "_" . $nombre;
@@ -64,45 +80,74 @@ if(isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
 
         
 
-            if(move_uploaded_file($tmp, $ruta)) {
+        if(move_uploaded_file($tmp, $ruta)) {
+            return $ruta;
+        }
+    }
+    return null;
+}
+$foto1 = subirFoto($_FILES['photo_1'], $carpeta);
+$foto2 = subirFoto($_FILES['photo_2'], $carpeta);
+$foto3 = subirFoto($_FILES['photo_3'], $carpeta);
 
+            if (isset($foto1, $foto2, $foto3)) {
                 try {
 
-                    $sqlFoto = "INSERT INTO article (titre, descripcion, photo_path, id_utilisateur) 
-                                VALUES (:titre, :descripcion, :photo_path, :id_utilisateur)";
+                    $sqlFoto = "INSERT INTO specs (
+        marque, modele, Version, Kilometrage, Prix,
+        Annee, Puissance, Consommation, Boite, Description,
+        Photo1, Photo2, Photo3, Categorie, Portes,
+        Transmission, Carburant, VitesseMax, Acceleration
+    )
+    VALUES (
+        :marque, :modele, :version, :kilometrage, :prix,
+        :annee, :puissance, :consommation, :boite, :description,
+        :photo1, :photo2, :photo3, :Categorie, :portes,
+        :transmission, :carburant, :vitesse_max, :acceleration
+    )";
 
                     $stmt = $pdo->prepare($sqlFoto);
-
-                    $stmt->bindParam(':titre', $titre);
-                    $stmt->bindParam(':descripcion', $descripcion);
-                    $stmt->bindParam(':photo_path', $ruta);
-                    $stmt->bindParam(':id_utilisateur', $_SESSION['id']);
+                    $stmt->bindParam(':marque', $marque);
+                    $stmt->bindParam(':modele', $modele);
+                    $stmt->bindParam(':version', $version);
+                    $stmt->bindParam(':kilometrage', $kilometrage);
+                    $stmt->bindParam(':prix', $prix);
+                    $stmt->bindParam(':annee', $year);
+                    $stmt->bindParam(':puissance', $puissance);
+                    $stmt->bindParam(':consommation', $consommation);
+                    $stmt->bindParam(':boite', $boite);
+                    $stmt->bindParam(':description', $descripcion);
+                    $stmt->bindParam(':photo1', $foto1);
+                    $stmt->bindParam(':photo2', $foto2);
+                    $stmt->bindParam(':photo3', $foto3);
+                    $stmt->bindParam(':Categorie', $class);
+                    $stmt->bindParam(':portes', $portes);
+                    $stmt->bindParam(':transmission', $transmission);
+                    $stmt->bindParam(':carburant', $carburant);
+                    $stmt->bindParam(':vitesse_max', $vitesse_max);
+                    $stmt->bindParam(':acceleration', $acceleration);
 
                     $stmt->execute();
 
                     echo "✅ Imagen subida correctamente";
-                header("Location: profil.php");
+                header("Location: Shop.html");
                 exit;
                 } catch(PDOException $e) {
                     echo "Error: " . $e->getMessage();
                 }
-
-            } else {
-                echo "❌ Error al subir imagen";
-            }
-
-        } else {
-            echo "Debes seleccionar una imagen";
-        }
-    }
 }
+
+
+
+    }
+
 ?>
 
 
       <!-- Notification -->
       <div id="notification" class="notification hidden"></div>
 
-      <form action="" method="POST" id="voitureForm" enctype="multipart/form-data" novalidate>
+      <form action="" method="POST" id="voitureForm" enctype="multipart/form-data">
 
         <!-- ─── SECTION 1 : Identité ─────────────── -->
         <section class="form-section" id="identite">
