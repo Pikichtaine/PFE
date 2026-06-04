@@ -61,7 +61,288 @@ $cards = $stlt->fetchAll(PDO::FETCH_ASSOC);
     echo "Erreur type: " . $e->getMessage();
 }
 
-foreach ($cards as $card) : ?>
+
+
+
+
+
+
+
+    <?php
+
+$id=$_SESSION['id'];
+
+require 'Database.php';
+
+try{
+$sql= 'SELECT * from voiture WHERE id_concessionnaire=:id
+ORDER BY date_de_pub desc;';
+$stlt= $pdo->prepare($sql);
+$stlt->execute([
+    ':id'=>$id
+]);
+$cards= $stlt->fetchAll(PDO::FETCH_ASSOC);
+
+}catch(PDOException $e){
+    echo "Erreur type: " . $e->getMessage();
+}
+
+
+?>
+
+
+
+
+
+
+
+        <div class="car-card">
+          <div class="car-card-img cg1">
+        <img src= "<?php echo $card['Photo1'] ?>" alt="<?php echo $card['marque'] ?>"/>
+
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand"><?php echo $card['marque'] ?></div>
+            <div class="car-name"><?php echo $card['modele'] . $card['Version'] ?></div>
+            <div class="car-specs">
+              <span class="car-spec"><?php echo $card['Annee'] ?></span>
+              <span class="car-spec"><?php echo $card['Kilometrage']?> km</span>
+              <span class="car-spec"><?php echo $card['Carburant'] ?></span>
+              <span class="car-spec"><?php echo $card['Boite'] ?></span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price"><?php echo $card['Prix'] ?> MAD</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+
+
+
+
+         <div class="car-card">
+          <div class="car-card-img cg1">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 55 C10 55 30 30 60 22 C80 17 120 17 140 22 C160 27 180 45 185 55 L190 60 L10 60 Z"/>
+              <ellipse cx="45" cy="62" rx="14" ry="14"/>
+              <ellipse cx="155" cy="62" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Mercedes-Benz</div>
+            <div class="car-name">Clase C 220d AMG Line</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">0 km</span>
+              <span class="car-spec">Diésel</span>
+              <span class="car-spec">Auto</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">48.900 €</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 2 -->
+        <div class="car-card">
+          <div class="car-card-img cg2">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 55 C8 55 20 25 55 18 C75 13 125 13 145 18 C170 25 188 50 192 55 L195 62 L5 62 Z"/>
+              <ellipse cx="42" cy="64" rx="15" ry="15"/>
+              <ellipse cx="158" cy="64" rx="15" ry="15"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Audi</div>
+            <div class="car-name">A4 45 TFSI quattro S line</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">18.200 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">44.500 €</div>
+              </div>
+              <span class="car-location">📍 Rabat</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 3 -->
+        <div class="car-card">
+          <div class="car-card-img cg3">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 58 C5 58 25 28 58 20 C78 15 122 15 142 20 C165 28 185 50 192 58 L195 64 L5 64 Z"/>
+              <ellipse cx="44" cy="66" rx="14" ry="14"/>
+              <ellipse cx="156" cy="66" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Tesla</div>
+            <div class="car-name">Model 3 Long Range AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">3.500 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">52.990 €</div>
+              </div>
+              <span class="car-location">📍 Casablanca</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 4 -->
+        <div class="car-card">
+          <div class="car-card-img cg4">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 56 C12 56 28 26 62 19 C82 14 118 14 138 19 C162 26 180 48 187 56 L190 62 L10 62 Z"/>
+              <ellipse cx="46" cy="64" rx="14" ry="14"/>
+              <ellipse cx="154" cy="64" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Volkswagen</div>
+            <div class="car-name">Golf GTI Clubsport</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">8.900 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">36.800 €</div>
+              </div>
+              <span class="car-location">📍 Fez</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 5 -->
+        <div class="car-card">
+          <div class="car-card-img cg5">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 56 C6 56 22 24 60 17 C80 12 120 12 140 17 C168 24 186 50 193 56 L196 63 L4 63 Z"/>
+              <ellipse cx="43" cy="65" rx="14" ry="14"/>
+              <ellipse cx="157" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Porsche</div>
+            <div class="car-name">Panamera 4 E-Hybrid</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">5.100 km</span>
+              <span class="car-spec">Híbrido</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">98.400 €</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 6 -->
+        <div class="car-card">
+          <div class="car-card-img cg6">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 55 C10 55 30 28 65 20 C85 15 115 15 135 20 C160 28 180 48 188 55 L192 62 L8 62 Z"/>
+              <ellipse cx="45" cy="64" rx="13" ry="13"/>
+              <ellipse cx="155" cy="64" rx="13" ry="13"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Toyota</div>
+            <div class="car-name">Land Cruiser 300 GR Sport</div>
+            <div class="car-specs">
+              <span class="car-spec">2023</span>
+              <span class="car-spec">22.600 km</span>
+              <span class="car-spec">Diésel</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">74.200 €</div>
+              </div>
+              <span class="car-location">📍 Marrakech</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 7 -->
+        <div class="car-card">
+          <div class="car-card-img cg7">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
+              <ellipse cx="44" cy="65" rx="14" ry="14"/>
+              <ellipse cx="156" cy="65" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Hyundai</div>
+            <div class="car-name">IONIQ 6 77.4 kWh AWD</div>
+            <div class="car-specs">
+              <span class="car-spec">2024</span>
+              <span class="car-spec">0 km</span>
+              <span class="car-spec">Eléctrico</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">46.100 €</div>
+              </div>
+              <span class="car-location">📍 Agadir</span>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Card 8 -->
+        <div class="car-card">
+          <div class="car-card-img cg8">
+            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 56 C9 56 26 27 60 19 C80 14 120 14 140 19 C163 27 182 49 188 56 L191 62 L9 62 Z"/>
+              <ellipse cx="44" cy="64" rx="14" ry="14"/>
+              <ellipse cx="154" cy="64" rx="14" ry="14"/>
+            </svg>
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand">Alfa Romeo</div>
+            <div class="car-name">Giulia Quadrifoglio</div>
+            <div class="car-specs">
+              <span class="car-spec">2022</span>
+              <span class="car-spec">31.800 km</span>
+              <span class="car-spec">Gasolina</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price">58.300 €</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+ 
+ 
+ 
+ foreach ($cards as $card) : ?>
 
         <div class="card">
       <div class="card-img">

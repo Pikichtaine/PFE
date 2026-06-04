@@ -361,23 +361,24 @@
  
     /* ─── CATEGORIES ─────────────────────────────────────── */
     .categories-wrap {
-      border-bottom: 1px solid var(--border);
+      border: 1px solid var(--border);
       background: var(--s1);
+    }
+    .categories-wrap.all-cars {
+      margin-bottom: 36px;
     }
     .categories-inner {
       max-width: 1260px;
       margin: 0 auto;
-      padding: 0 32px;
+      padding: 16px;
       display: flex;
       gap: 8px;
       overflow-x: auto;
       scrollbar-width: none;
-      padding-top: 16px;
-      padding-bottom: 16px;
       align-items: center;
     }
     .categories-inner::-webkit-scrollbar { display: none; }
- 
+
     .cat-label {
       font-family: var(--f-mono);
       font-size: 10px;
@@ -414,7 +415,7 @@
     }
  
     .section {
-      padding: 48px 0 0;
+      padding: 60px 0 0;
     }
  
     .section-header {
@@ -428,6 +429,10 @@
       font-size: 28px;
       letter-spacing: .5px;
       color: var(--txt);
+    }
+    .section-title.all-cars {
+      font-size: 36px;
+      margin-top: 22px;
     }
 
     .section-link {
@@ -470,6 +475,18 @@
       position: relative;
       overflow: hidden;
     }
+.car-card-img img {
+    width: 100%;           /* Ocupa todo el ancho del contenedor */
+    height: 150px;         /* Altura fija (ajusta según tu diseño) */
+    object-fit: cover;     /* Mantiene la proporción y recorta el sobrante */
+    border-radius: 8px;    /* Bordes redondeados */
+    display: block;        /* Elimina espacios en blanco inferiores */
+    transition: transform 0.3s ease; /* Efecto suave al pasar el ratón */
+    object-position: center;
+
+}
+
+
  
     /* Card gradient palettes */
     .cg1  { background: linear-gradient(145deg, #060614 0%, #0e1540 50%, #1a237e 100%); }

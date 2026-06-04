@@ -2,8 +2,9 @@
 require 'Database.php';
 
 try {
-  $stmt = $pdo->query("SELECT * FROM specs WHERE id = :id");
+  $stmt = $pdo->prepare("SELECT * FROM specs WHERE id = :id");
   $stmt->bindParam(':id', $_GET['id']);
+  $stmt->execute();
   $cards = $stmt->fetch(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
@@ -154,12 +155,7 @@ try {
     <div class="tags-group">
         <span class="price-tag">Tags</span>
       <div class="tags-collection">
-        <span class="car-brand-badge">Mercedes-Benz</span>
-        <span class="car-brand-badge">Mercedes-Benz</span>
-        <span class="car-brand-badge">Mercedes-Benz</span>
-        <span class="car-brand-badge">Mercedes-Benz</span>
-        <span class="car-brand-badge">Mercedes-Benz</span>
-        <span class="car-brand-badge">Mercedes-Benz</span>
+        <span class="car-brand-badge" id="<?php echo $cards['id'] ?>"><?php echo $cards['marque'] ?></span>
       </div>
 
         </div>
@@ -236,3 +232,11 @@ try {
 
 </body>
 </html>
+<script>
+  let cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      window.location.href = "Car.php?id=" + card.id;
+    });
+  });
+</script>
