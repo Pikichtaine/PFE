@@ -59,8 +59,9 @@ require 'Database.php';
  
       <div class="categories-wrap all-cars">
     <div class="categories-inner">
+      <button class="cat-pill">Mercedes-Benz</button>
       <button class="cat-pill">Sedán</button>
-      <button class="cat-pill">SUV / 4x4</button>
+      <button class="cat-pill">SUV</button>
       <button class="cat-pill">Deportivo</button>
       <button class="cat-pill">Eléctrico</button>
       <button class="cat-pill">Coupé</button>
@@ -78,16 +79,28 @@ require 'Database.php';
    /* =========================
     CONSULTA SQL
    ========================= */
-
+if($_GET['id'] == 'btn-coches'){
+try{
+$sql = "SELECT * FROM specs";
+$stmt = $pdo->query($sql);
+$cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
+echo '<pre>';
+print_r($cards);
+echo '</pre>';
+}catch(PDOException $e){
+    echo "Error: " . $e->getMessage();
+}
+}else{
 try{
 
-$sql = "SELECT * FROM specs";
-
-$stlt = $pdo->query($sql);
+$sql = "SELECT * FROM specs WHERE marque = :marque";
+$stlt = $pdo->prepare($sql);
+$stlt->execute(['marque' => $_GET['id']]);
 $cards = $stlt->fetchAll(PDO::FETCH_ASSOC);
 
 }catch(PDOException $e){
     echo "Erreur type: " . $e->getMessage();
+}
 }
 
 foreach ($cards as $card) : ?>

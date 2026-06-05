@@ -155,7 +155,7 @@ try {
     <div class="tags-group">
         <span class="price-tag">Tags</span>
       <div class="tags-collection">
-        <span class="car-brand-badge" id="<?php echo $cards['id'] ?>"><?php echo $cards['marque'] ?></span>
+        <span class="car-brand-badge" id="<?php echo $cards['marque'] ?>"><?php echo $cards['marque'] ?></span>
       </div>
 
         </div>
@@ -233,10 +233,10 @@ try {
 </body>
 </html>
 <script>
-  let cards = document.querySelectorAll('.card');
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      window.location.href = "Car.php?id=" + card.id;
+  let tags = document.querySelectorAll('.car-brand-badge');
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      window.location.href = "AllCars.php?id=" + tag.id;
     });
   });
 </script>

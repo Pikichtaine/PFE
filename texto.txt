@@ -360,3 +360,234 @@ $cards= $stlt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <?php endforeach; ?>
+
+
+
+
+
+
+
+    Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [marque] => Lamborghini
+            [modele] => Urus
+            [Version] => SE (Hybrid)
+            [Kilometrage] => 5300
+            [Prix] => 3000000.00
+            [Annee] => 2012
+            [Puissance] => 800
+            [Consommation] => 8.50
+            [Boite] => Automatique
+            [Description] => Premier Super SUV hybride rechargeable de Lamborghini · V8 4.0 L bi-turbo + moteur électrique · 800 ch combinés · 0–100 en 3,4 s · Vmax 312 km/h · covering blanc total (peinture anthracite d'origine, 100 % réversible) · intérieur Y-design alcantara & carbone · étriers Y-Brake jaunes.
+            [Photo1] => imagenes/6a1fc9304e862_front.jpg
+            [Photo2] => imagenes/6a1fc9304edac_Back.jpg
+            [Photo3] => imagenes/6a1fc9304f1b0_inside.jpg
+            [Categorie] => SUV Hybride
+            [Portes] => 4
+            [Transmission] => AWD
+            [Carburant] => Hybride
+            [VitesseMax] => 312
+            [Acceleration] => 3.40
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [marque] => Mercedes-Benz
+            [modele] => GLE
+            [Version] => 350de
+            [Kilometrage] => 0
+            [Prix] => 1055000.00
+            [Annee] => 2026
+            [Puissance] => 333
+            [Consommation] => 1.10
+            [Boite] => Automatique
+            [Description] => Imponente SUV Coupé híbrido enchufable que combina el lujo característico de la marca con gran eficiencia y un marcado diseño deportivo. Ideal para ciudad y viajes largos.
+            [Photo1] => imagenes\6a2015bf7f823_gle350de-03.jpg
+            [Photo2] => imagenes\6a2015bf7fe17_gle350de-02.jpg
+            [Photo3] => imagenes\6a2015bf800bf_gle350de-09.jpg
+            [Categorie] => SUV Coupe
+            [Portes] => 4
+            [Transmission] => 4MATIC (Integral)
+            [Carburant] => Hybride
+            [VitesseMax] => 210
+            [Acceleration] => 6.90
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [marque] => Audi
+            [modele] => Q3
+            [Version] => S line
+            [Kilometrage] => 0
+            [Prix] => 480000.00
+            [Annee] => 2026
+            [Puissance] => 150
+            [Consommation] => 5.40
+            [Boite] => Automatique
+            [Description] => Audi Q3 S line modelo 2026 en excelente estado con un diseño interior minimalista.
+            [Photo1] => imagenes/q3-12.jpg
+            [Photo2] => imagenes/q3-01.jpg
+            [Photo3] => imagenes/q3-11.jpg
+            [Categorie] => SUV
+            [Portes] => 5
+            [Transmission] => Traction
+            [Carburant] => Diesel
+            [VitesseMax] => 206
+            [Acceleration] => 9.30
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [marque] => Mercedes-Benz
+            [modele] => Classe E
+            [Version] => 300 de
+            [Kilometrage] => 18000
+            [Prix] => 650000.00
+            [Annee] => 2023
+            [Puissance] => 306
+            [Consommation] => 1.50
+            [Boite] => Automatique
+            [Description] => Mercedes Clase E 300 de híbrido enchufable. Confort y tecnología premium.
+            [Photo1] => imagenes/e300de-2.jpg
+            [Photo2] => imagenes/e300de-3.jpg
+            [Photo3] => imagenes/e300de-7.jpg
+            [Categorie] => Berline
+            [Portes] => 4
+            [Transmission] => Propulsion
+            [Carburant] => Hybride
+            [VitesseMax] => 235
+            [Acceleration] => 5.90
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [marque] => Xiaomi
+            [modele] => SU7
+            [Version] => Max
+            [Kilometrage] => 1500
+            [Prix] => 700000.00
+            [Annee] => 2024
+            [Puissance] => 673
+            [Consommation] => 15.00
+            [Boite] => Automatique
+            [Description] => Xiaomi SU7 Max 100% eléctrico. Interfaz muy limpia y moderna con gran autonomía.
+            [Photo1] => imagenes/yu7-max-cover.jpg
+            [Photo2] => imagenes/yu7-rear-quarter.jpg
+            [Photo3] => imagenes/yu7-seats.jpg
+            [Categorie] => Berline
+            [Portes] => 4
+            [Transmission] => AWD
+            [Carburant] => Électrique
+            [VitesseMax] => 265
+            [Acceleration] => 2.80
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [marque] => Porsche
+            [modele] => Cayenne Coupe
+            [Version] => E-Hybrid
+            [Kilometrage] => 0
+            [Prix] => 1200000.00
+            [Annee] => 2026
+            [Puissance] => 470
+            [Consommation] => 1.50
+            [Boite] => Automatique
+            [Description] => Porsche Cayenne Coupe E-Hybrid 2026. Rendimiento deportivo excepcional y eficiencia híbrida enchufable.
+            [Photo1] => imagenes/porsche-12.jpg
+            [Photo2] => imagenes/porsche-04.jpg
+            [Photo3] => imagenes/porsche-06.jpg
+            [Categorie] => SUV
+            [Portes] => 5
+            [Transmission] => AWD
+            [Carburant] => Hybride
+            [VitesseMax] => 254
+            [Acceleration] => 4.90
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [marque] => Bentley
+            [modele] => Bentayga
+            [Version] => Azure
+            [Kilometrage] => 5000
+            [Prix] => 2500000.00
+            [Annee] => 2023
+            [Puissance] => 550
+            [Consommation] => 13.00
+            [Boite] => Automatique
+            [Description] => Bentley Bentayga Azure negro con espectacular interior en cuero rojo.
+            [Photo1] => imagenes/bentley-azure-noir-01.jpg
+            [Photo2] => imagenes/bentley-azure-noir-04.jpg
+            [Photo3] => imagenes/bentley-azure-noir-08.jpg
+            [Categorie] => SUV
+            [Portes] => 5
+            [Transmission] => AWD
+            [Carburant] => Essence
+            [VitesseMax] => 290
+            [Acceleration] => 4.50
+        )
+
+)
+
+
+
+
+
+
+
+use AutoPost;
+INSERT INTO specs (
+    marque, modele, Version, Annee, Portes, Categorie, Transmission, Carburant, Boite, 
+    Prix, Kilometrage, VitesseMax, Acceleration, Puissance, Consommation, Description,
+    Photo1, Photo2, Photo3
+) VALUES 
+-- 1. Audi Q3
+(
+    'Audi', 'Q3', 'S line', 2026, 5, 'SUV', 'Traction', 'Diesel', 'Automatique', 
+    480000, 0, 206, 9.3, 150, 5.4, 
+    'Audi Q3 S line modelo 2026 en excelente estado con un diseño interior minimalista.', 
+    'imagenes/q3-12.jpg', 'imagenes/q3-01.jpg', 'imagenes/q3-11.jpg'
+),
+
+-- 2. Mercedes-Benz Clase E (300 de)
+(
+    'Mercedes-Benz', 'Classe E', '300 de', 2023, 4, 'Berline', 'Propulsion', 'Hybride', 'Automatique', 
+    650000, 18000, 235, 5.9, 306, 1.5, 
+    'Mercedes Clase E 300 de híbrido enchufable. Confort y tecnología premium.', 
+    'imagenes/e300de-2.jpg', 'imagenes/e300de-3.jpg', 'imagenes/e300de-7.jpg'
+),
+
+-- 3. Xiaomi SU7
+(
+    'Xiaomi', 'SU7', 'Max', 2024, 4, 'Berline', 'AWD', 'Électrique', 'Automatique', 
+    700000, 1500, 265, 2.8, 673, 15.0, 
+    'Xiaomi SU7 Max 100% eléctrico. Interfaz muy limpia y moderna con gran autonomía.', 
+    'imagenes/yu7-max-cover.jpg', 'imagenes/yu7-rear-quarter.jpg', 'imagenes/yu7-seats.jpg'
+),
+
+-- 4. Porsche Cayenne Coupe E-Hybrid
+(
+    'Porsche', 'Cayenne Coupe', 'E-Hybrid', 2026, 5, 'SUV', 'AWD', 'Hybride', 'Automatique', 
+    1200000, 0, 254, 4.9, 470, 1.5, 
+    'Porsche Cayenne Coupe E-Hybrid 2026. Rendimiento deportivo excepcional y eficiencia híbrida enchufable.', 
+    'imagenes/porsche-12.jpg', 'imagenes/porsche-04.jpg', 'imagenes/porsche-06.jpg'
+),
+
+-- 5. Bentley Bentayga
+(
+    'Bentley', 'Bentayga', 'Azure', 2023, 5, 'SUV', 'AWD', 'Essence', 'Automatique', 
+    2500000, 5000, 290, 4.5, 550, 13.0, 
+    'Bentley Bentayga Azure negro con espectacular interior en cuero rojo.', 
+    'imagenes/bentley-azure-noir-01.jpg', 'imagenes/bentley-azure-noir-04.jpg', 'imagenes/bentley-azure-noir-08.jpg'
+);
+select * from specs;
