@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="filtros">
+    <h4>Marcas</h4>
+    <label><input type="checkbox" class="filtro-checkbox" data-tipo="marque" value="Mercedes-Benz"> Mercedes-Benz</label>
+    <label><input type="checkbox" class="filtro-checkbox" data-tipo="marque" value="BMW"> BMW</label>
+    <label><input type="checkbox" class="filtro-checkbox" data-tipo="marque" value="Audi"> Audi</label>
+    <label><input type="checkbox" class="filtro-checkbox" data-tipo="marque" value="Porsche"> Porsche</label>
+
+    <h4>Categorías</h4>
+    <label><input type="checkbox" class="filtro-checkbox" data-tipo="categorie" value="SUV"> SUV</label>
+    <label><input type="checkbox" class="filtro-checkbox" data-tipo="categorie" value="Sport"> Sport</label>
+    <label><input type="checkbox" class="filtro-checkbox" data-tipo="categorie" value="Coupe"> Coupe</label>
+</div>
+
+<div id="contenedor-coches"></div>   
+</body>
+</html>
+
+
+<script>
+// Seleccionamos todos los checkboxes
+const checkboxes = document.querySelectorAll('.filtro-checkbox');
+
+// A cada checkbox le agregamos un evento: cuando cambie, ejecuta la función de filtrar
+checkboxes.forEach(box => {
+    box.addEventListener('change', aplicarFiltros);
+});
+
+function aplicarFiltros() {
+    // 1. Recolectar qué está seleccionado
+    let marcasSeleccionadas = [];
+    let categoriasSeleccionadas = [];
+
+    document.querySelectorAll('.filtro-checkbox:checked').forEach(box => {
+        if(box.dataset.tipo === 'marque') marcasSeleccionadas.push(box.value);
+        if(box.dataset.tipo === 'categorie') categoriasSeleccionadas.push(box.value);
+    });
+
+    // 2. Enviar los datos al servidor (PHP) usando Fetch (AJAX moderno)
+    let datos = new FormData();
+    datos.append('marcas', JSON.stringify(marcasSeleccionadas));
+    datos.append('categorias', JSON.stringify(categoriasSeleccionadas));
+
+    fetch('Brouillon.php', {
+        method: 'POST',
+        body: datos
+    })
+    .then(respuesta => respuesta.json()) // Recibimos la respuesta en formato JSON
+    .then(coches => {
+        // 3. Dibujar los coches en la pantalla
+        let html = '';
+        if(coches.length > 0) {
+            coches.forEach(coche => {
+                // Aquí construyes tu tarjeta de coche
+                html += `
+                    <div class="coche-card">
+                        <img src="${coche.Photo1}" alt="${coche.modele}">
+                        <h3>${coche.marque} ${coche.modele}</h3>
+                        <p>${coche.Categorie} | ${coche.Annee}</p>
+                        <p>Precio: ${coche.Prix} €</p>
+                    </div>
+                `;
+            });
+        } else {
+            html = '<p>No se encontraron vehículos con esos filtros.</p>';
+        }
+        document.getElementById('contenedor-coches').innerHTML = html;
+    });
+}
+
+// Llamar a la función al cargar la página para mostrar todos los coches inicialmente
+aplicarFiltros();
+</script>

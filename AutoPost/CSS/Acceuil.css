@@ -360,24 +360,26 @@
     }
  
     /* ─── CATEGORIES ─────────────────────────────────────── */
-    .categories-wrap {
+    .categories-wrap, .filtrados{
       border: 1px solid var(--border);
       background: var(--s1);
     }
     .categories-wrap.all-cars {
       margin-bottom: 36px;
     }
-    .categories-inner {
+    .categories-inner, .categories-inner-second, .lista {
       max-width: 1260px;
       margin: 0 auto;
       padding: 16px;
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      scrollbar-width: none;
       align-items: center;
     }
-    .categories-inner::-webkit-scrollbar { display: none; }
+
+.oculto{
+    display: none;
+}
 
     .cat-label {
       font-family: var(--f-mono);
@@ -771,3 +773,51 @@
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--border-hi); }
+
+    /* Separador visual entre marcas y combustible */
+.filter-sep {
+    width: 1px;
+    height: 22px;
+    background: var(--border-hi);
+    flex-shrink: 0;
+    margin: 0 8px;
+}
+
+/* Chips activos (en la barra de filtros activos) */
+.chip-activo {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--txt);
+}
+.chip-activo span {
+    margin-left: 5px;
+    opacity: 0.6;
+}
+.chip-activo:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Pills de combustible activos — color azul para diferenciarlos de marcas */
+.cat-pill[data-type="carburant"].active {
+    background: var(--mono);
+    border-color: var(--mono);
+    color: #fff;
+}
+
+/* Botón limpiar todo */
+.limpiar-btn {
+    color: var(--txt3);
+    border-style: dashed;
+    margin-right: 8px;
+}
+.limpiar-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Separación visual entre barra de filtros y chips activos */
+.filtrados {
+    border-top: none;
+    margin-top: -1px; /* se pega a la barra de arriba */
+}

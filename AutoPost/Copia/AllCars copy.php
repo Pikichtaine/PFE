@@ -1,22 +1,5 @@
 <?php
 require 'Database.php';
-
-// Sacar todas las marcas
-try{
-    $sql = "SELECT marque FROM specs group by marque ORDER BY marque";
-    $stmt = $pdo->query($sql);
-    $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}catch(PDOException $e){
-    echo "Error: " . $e->getMessage();
-}
-
-// Sacar todos los combustibles
-try {
-    $sqlCarb = "SELECT DISTINCT Carburant FROM specs WHERE Carburant IS NOT NULL ORDER BY Carburant";
-    $carburantes = $pdo->query($sqlCarb)->fetchAll(PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
-    $carburantes = [];
-}
 ?>
 
 <!DOCTYPE html>
@@ -76,35 +59,40 @@ try {
 
 
 
-<div class="categories-wrap all-cars">
-    <div class="categories-inner" id="filter-bar">
-
-        <span class="cat-label">MARCA</span>
-        <?php foreach ($tags as $tag) : ?>
-            <button class="cat-pill"
-                    data-type="marque"
-                    data-value="<?php echo htmlspecialchars($tag['marque']); ?>">
-                <?php echo htmlspecialchars($tag['marque']); ?>
-            </button>
-        <?php endforeach; ?>
-
-        <div class="filter-sep"></div>
-
-        <span class="cat-label">COMBUSTIBLE</span>
-        <?php foreach ($carburantes as $c) : ?>
-            <button class="cat-pill"
-                    data-type="carburant"
-                    data-value="<?php echo htmlspecialchars($c['Carburant']); ?>">
-                <?php echo htmlspecialchars($c['Carburant']); ?>
-            </button>
-        <?php endforeach; ?>
-
+      <div class="categories-wrap all-cars">
+    <div class="categories-inner" id="first">
+              <button class="cat-pill" id="marque">Marque</button>
+              <button class="cat-pill" id="categorie">Categorie</button>
+              <button class="cat-pill" id="portes">Portes</button> 
     </div>
-</div>
+        <div class="categories-inner-second oculto" id="second">
+              <button class="cat-pill active" id="marque">Marque</button>
+          
+      <?php
 
-<!-- Chips de filtros activos (oculto por defecto) -->
-<div class="filtrados" id="filtrados" style="display:none;">
-    <div class="lista" id="lista"></div>
+try{
+$sql = "SELECT marque FROM specs group by marque";
+$stmt = $pdo->query($sql);
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
+    echo "Error: " . $e->getMessage();
+} 
+foreach ($tags as $tag) : ?>
+  <?php foreach ($tag as $key => $value) : ?>
+    
+    <?php if ($key === 'marque') : ?>
+      <button class="cat-pill" id="<?php echo $key; ?>">
+        <?php echo $value; ?>
+      </button>
+    <?php endif; ?>
+
+  <?php endforeach; ?>
+<?php endforeach; ?>  
+    </div>
+  </div>
+  <div class="filtrados" id="filtrados">
+    <div class="lista" id="lista">
+    </div>
 </div>
       <div class="grid-4" id="grid">
  
@@ -219,79 +207,92 @@ foreach ($cards as $card) : ?>
 </body>
 </html>
 
-<script>
-// Activar/desactivar cada pill al hacer click
-document.querySelectorAll('#filter-bar .cat-pill').forEach(function(pill) {
-    pill.addEventListener('click', function() {
-        pill.classList.toggle('active');
-        actualizarChips();
+  <script>
+    let array = [];
+    const first = document.getElementById('first');
+    const second = document.getElementById('second');
+    const filtrados = document.getElementById('lista')
+    const contenedor = document.getElementById('grid')
+    let choix = document.getElementById('choix');
+    let tags = document.querySelectorAll('.categories-inner .cat-pill');
+      tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+    mostrar()
+    });
+  });
+      let choises = document.querySelectorAll('.categories-inner-second .cat-pill');
+  
+
+      choises.forEach(choice => {
+    choice.addEventListener('click', () => {
+      if(choice.textContent=="Marque"){
+        mostrar()
+      }else{
+        let texto= choice.innerText;
+        choice.classList.toggle("active")
+        spawn(texto)
         link();
+      }
+    
     });
-});
-
-// Reconstruye los chips de "filtros activos"
-function actualizarChips() {
-    var lista    = document.getElementById('lista');
-    var filtrados = document.getElementById('filtrados');
-    lista.innerHTML = '';
-
-    var activos = document.querySelectorAll('#filter-bar .cat-pill.active');
-
-    if (activos.length === 0) {
-        filtrados.style.display = 'none';
-        return;
-    }
-
-    filtrados.style.display = 'block';
-
-    // Botón "Limpiar todo"
-    var limpiar = document.createElement('button');
-    limpiar.classList.add('cat-pill', 'limpiar-btn');
-    limpiar.innerText = '✕ Limpiar todo';
-    limpiar.addEventListener('click', function() {
-        document.querySelectorAll('#filter-bar .cat-pill.active').forEach(function(p) {
-            p.classList.remove('active');
-        });
-        actualizarChips();
-        link();
+  });
+      let decision = document.querySelectorAll('.filtrados .lista .cat-pill');
+      decision.forEach(opcion => {
+    opcion.addEventListener('click', () => {
+    opcion.remove();
     });
-    lista.appendChild(limpiar);
+  });
 
-    // Un chip por cada filtro activo
-    activos.forEach(function(pill) {
-        var chip = document.createElement('button');
-        chip.classList.add('cat-pill', 'chip-activo');
-        chip.innerHTML = pill.dataset.value + ' <span>×</span>';
-        chip.addEventListener('click', function() {
-            pill.classList.remove('active');
-            actualizarChips();
-            link();
-        });
-        lista.appendChild(chip);
-    });
+  
+
+
+function mostrar(){
+    
+    first.classList.toggle("oculto");
+    second.classList.toggle("oculto");
 }
 
-// Manda los filtros al servidor y actualiza el grid
-function link() {
-    var marcas       = [];
-    var combustibles = [];
+  function spawn(p){
+let button = document.createElement("button")
+button.classList.add("cat-pill");
+button.id= 'choix'
+button.innerText= p
 
-    document.querySelectorAll('#filter-bar .cat-pill.active').forEach(function(pill) {
-        if (pill.dataset.type === 'marque')    marcas.push(pill.dataset.value);
-        if (pill.dataset.type === 'carburant') combustibles.push(pill.dataset.value);
+  filtrados.appendChild(button)
+}
+
+  function spanwCard(p){
+let button = document.createElement("button")
+button.classList.add("cat-pill");
+button.innerText= p
+
+  filtrados.appendChild(button)
+}
+
+  function link(){
+    let marcasSeleccionadas = [];
+
+    document.querySelectorAll('.categories-inner-second .cat-pill.active').forEach(box => {
+        if(box.innerHTML=='Marque'){
+          return;
+        }
+        else if(box.id === 'marque') marcasSeleccionadas.push(box.innerText);
     });
+       let datos = new FormData();
+    datos.append('marcas', JSON.stringify(marcasSeleccionadas));
 
-    var datos = new FormData();
-    datos.append('marcas',       JSON.stringify(marcas));
-    datos.append('combustibles', JSON.stringify(combustibles));
-
-    fetch('get_cars.php', { method: 'POST', body: datos })
-        .then(function(r) { return r.json(); })
-        .then(function(coches) {
-            var html = '';
-            if (coches.length > 0) {
-                coches.forEach(function(card) {
-                    html += `
+    fetch('get_cars.php', {
+        method: 'POST',
+        body: datos
+    })
+    .then(respuesta => respuesta.json()) // Recibimos la respuesta en formato JSON
+    .then(coches => {
+        // 3. Dibujar los coches en la pantalla
+        let html = '';
+        if(coches.length > 0) {
+            coches.forEach(card => {
+                // Aquí construyes tu tarjeta de coche
+                html += `
 <div class="car-card">
   <div class="car-card-img">
     <img src="${card.Photo1}" alt="${card.marque}"/>
@@ -306,19 +307,25 @@ function link() {
       <span class="car-spec">${card.Carburant}</span>
     </div>
     <div class="car-footer">
-      <div><div class="car-price">${card.Prix} MAD</div></div>
+      <div>
+        <div class="car-price">${card.Prix} MAD</div>
+      </div>
       <span class="car-location">📍 Tánger</span>
     </div>
   </div>
-</div>`;
-                });
-            } else {
-                html = '<p style="color:var(--txt3);padding:30px;text-align:center;grid-column:1/-1;">No se encontraron vehículos con estos filtros.</p>';
-            }
-            document.getElementById('grid').innerHTML = html;
-        });
+</div>
+`;
+            });
+        } else {
+            html = '<p>No se encontraron vehículos con esos filtros.</p>';
+        }
+        document.getElementById('grid').innerHTML = html;
+    });
 }
 
-// Cargar todos los coches al abrir la página
+// Llamar a la función al cargar la página para mostrar todos los coches inicialmente
 link();
 </script>
+
+
+    </script>

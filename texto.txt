@@ -591,3 +591,336 @@ INSERT INTO specs (
     'imagenes/bentley-azure-noir-01.jpg', 'imagenes/bentley-azure-noir-04.jpg', 'imagenes/bentley-azure-noir-08.jpg'
 );
 select * from specs;
+
+
+let carFiltres = cards.filter(p =>
+    (selectValue === "all" || p.category === selectValue))
+
+
+
+
+
+
+    cards.foreach(card =>
+    card.foreach(c=>
+    console.log(c) ))
+
+
+
+
+
+    <button class="cat-pill" id="<?php echo card['marque]">Mercedes-Benz</button>
+
+
+
+    <script>
+  let array = [];
+  let tags = document.querySelectorAll('.tags');
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      array.push(tag.id + '=' + tag.textcontent)
+      link();
+     });
+  });
+  function link(){
+        let texto = array.join("&");
+        window.location.href = "AllCars.php?" + texto;
+}
+</script>
+
+
+
+
+
+    <div class="categories-inner">
+    foreach ($cards as $card) : ?>
+      <button class="cat-pill" id="marque">Mercedes-Benz</button>
+    <?php endforeach; ?>
+
+    </div>
+
+
+foreach ($cards as $card) : 
+  foreach ($card as $key => $value) :
+    if ($key === 'marque') {
+      <button class="cat-pill" id="<?php echo $key ?>"><?php echo $key ?></button>
+    }
+}
+}
+
+<?php foreach ($tags as $tag) : ?>
+  <?php foreach ($tag as $key => $value) : ?>
+    
+    <?php if ($key === 'marque') : ?>
+      <button class="cat-pill" id="<?php echo $key; ?>">
+        <?php echo $value; ?>
+      </button>
+    <?php endif; ?>
+
+  <?php endforeach; ?>
+<?php endforeach; ?>
+
+
+foreach ($tags as $tag) : ?>
+            <button class="cat-pill" id="<?php echo $tag['marque']; ?>"><?php echo $tag['marque']?></button>
+    <?php endforeach; ?>  
+
+
+
+foreach ($cards as $card) { 
+  foreach ($card as $key => $value) { 
+    if ($key === 'Categorie') {
+      <button class="cat-pill" id="<?php echo $key ?>"><?php echo $key ?></button>
+    }
+}
+}
+
+
+
+
+      <div class="categories-wrap all-cars">
+    <div class="categories-inner">
+              <button class="cat-pill" id="marque">Marque</button>
+              <button class="cat-pill" id="categorie">Categorie</button>
+              <button class="cat-pill" id="portes">Portes</button>      
+    </div>
+  </div>
+
+
+
+              <button class="cat-pill" id="marque">Marque</button>
+              <button class="cat-pill" id="categorie">Categorie</button>
+              <button class="cat-pill" id="portes">Portes</button>
+              <button class="cat-pill" id="marque">Puissance</button>
+              <button class="cat-pill" id="marque">Prix</button>
+              
+              <button class="cat-pill" id="marque">Boite</button>
+              <button class="cat-pill" id="marque">Kilometrage</button>
+              <button class="cat-pill" id="marque">carburant</button>
+              <button class="cat-pill" id="marque">Transmission</button>
+              <button class="cat-pill" id="marque">Annee</button>
+
+
+
+
+              <script>
+  let array = [];
+  let tags = document.querySelectorAll('.categories-inner');
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      array.push(tag.id + '=' + tag.textcontent)
+      link();
+    });
+  });
+  function link(){
+    let url = "AllCars.php?";
+    array.forEach(item => {
+      url += item + '&';
+    });
+loadData(url);
+  }
+  async function loadData(a) {
+  const res = await fetch("get-data.php?" + a);
+  const data = await res.text();
+  document.querySelector("#resultado").innerHTML = data;
+}
+</script>
+
+
+
+
+
+
+
+
+  <script>
+    const first = document.getElementById('first');
+    const second = document.getElementById('second');
+    let tags = document.querySelectorAll('.categories-inner');
+      tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+    mostrar()
+    });
+  });
+
+
+
+function mostrar(){
+    
+    first.classList.toggle("oculto");
+    second.classList.toggle("oculto");
+}
+    </script>
+
+
+        fetch(a)
+      .then(response => response.text())
+      .then(data => {
+        scroll.innerHTML = data;
+      })
+      .catch(error => {
+        console.error('Error fetching comments:', error);
+        scroll.innerHTML = "<p>Error loading comments</p>";
+      });
+
+
+
+
+
+
+<?php
+$marca = $_GET['marca'] ?? '';
+$precio = $_GET['precio'] ?? '';
+
+// Ejemplo conexión
+$conn = new PDO("mysql:host=localhost;dbname=coches", "root", "");
+
+// Base query
+$sql = "SELECT * FROM cars WHERE 1=1";
+
+if ($marca != "") {
+    $sql .= " AND marca = :marca";
+}
+
+if ($precio != "") {
+    $sql .= " AND precio <= :precio";
+}
+
+$stmt = $conn->prepare($sql);
+
+if ($marca != "") {
+    $stmt->bindValue(':marca', $marca);
+}
+
+if ($precio != "") {
+    $stmt->bindValue(':precio', $precio);
+}
+
+$stmt->execute();
+$coches = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// devolver HTML
+foreach ($coches as $car) {
+    echo "<div class='car'>";
+    echo "<h3>{$car['marca']} {$car['modelo']}</h3>";
+    echo "<p>{$car['precio']} €</p>";
+    echo "</div>";
+}
+?>
+
+
+
+ <div class="car-card">
+          <div class="car-card-img">
+        <img src= "<?php echo $card['Photo1'] ?>" alt="<?php echo $card['marque'] ?>"/>
+
+          </div>
+          <span class="car-fav">♡</span>
+          <div class="car-card-body">
+            <div class="car-brand"><?php echo $card['marque'] ?></div>
+            <div class="car-name"><?php echo $card['modele'] . " " . $card['Version'] ?></div>
+            <div class="car-specs">
+              <span class="car-spec"><?php echo $card['Annee'] ?></span>
+              <span class="car-spec"><?php echo $card['Kilometrage']?> km</span>
+              <span class="car-spec"><?php echo $card['Carburant'] ?></span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <div class="car-price"><?php echo $card['Prix'] ?> MAD</div>
+              </div>
+              <span class="car-location">📍 Tánger</span>
+            </div>
+          </div>
+        </div>
+
+
+
+             
+     
+    <div class="categories-wrap all-cars">
+    <div class="categories-inner">
+      <?php
+
+try{
+$sql = "SELECT marque FROM specs group by marque";
+$stmt = $pdo->query($sql);
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
+    echo "Error: " . $e->getMessage();
+}     
+
+ foreach ($tags as $tag): ?>
+    <?php foreach ($tag as $key => $value): ?>
+        <?php if ($key === 'marque'): ?>
+            <button class="cat-pill" id="<?php echo $key; ?>">
+                <?php echo $value; ?>
+            </button>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endforeach; ?>
+
+<?php 
+try{
+$sql = "SELECT Categorie FROM specs group by Categorie";
+$stmt = $pdo->query($sql);
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
+    echo "Error: " . $e->getMessage();
+} 
+foreach ($tags as $tag): ?>
+    <?php foreach ($tag as $key => $value): ?>
+        <?php if ($key === 'Categorie'): ?>
+            <button class="cat-pill" id="<?php echo $key; ?>">
+                <?php echo $value; ?>
+            </button>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endforeach; ?>
+
+    </div>
+  </div>
+
+
+
+        <div class="categories-wrap all-cars">
+    <div class="categories-inner oculto" id="second">
+              <button class="cat-pill active" id="marque">Marque</button>
+
+      <?php
+
+try{
+$sql = "SELECT marque FROM specs group by marque";
+$stmt = $pdo->query($sql);
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}catch(PDOException $e){
+    echo "Error: " . $e->getMessage();
+} 
+foreach ($cards as $card) : ?>
+            <button class="cat-pill" id="<?php echo $card; ?>"><?php echo $card; ?></button>
+    <?php endforeach; ?>    
+    </div>
+  </div>
+
+  <div class="filtrados" id="filtrados">
+    <ul class="lista" id="lista">
+        
+    </ul>
+</div>
+
+<li>Action</li>
+        <li>Aventure</li>
+
+
+
+<script>
+  function spanwCard(p){
+let button = document.createElement("button")
+button.classList.add("cat-pill");
+button.innerText= p
+
+  filtrados.appendChild(button)
+}
+
+
+
+</script>
