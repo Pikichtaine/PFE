@@ -77,7 +77,7 @@ if ($loginOK) {
 
     <p class="signup-link">
     Vous n'avez pas de compte ?
-    <a href="signup.php">S'inscrire</a>
+    <a href="Register.php">S'inscrire</a>
     </p>
 
 </form>

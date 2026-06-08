@@ -1,0 +1,33 @@
+CREATE TABLE utilisateur (
+    id INT AUTO_INCREMENT PRIMARY KEY,                  -- Identificador único del usuario
+    nom VARCHAR(100) NOT NULL,                          -- Apellido(s)
+    prenom VARCHAR(100) NOT NULL,                       -- Nombre(s)
+    email VARCHAR(255) NOT NULL UNIQUE,                 -- Correo electrónico (Único para iniciar sesión)
+    mot_de_passe VARCHAR(255) NOT NULL,                 -- Contraseña (guardada siempre como Hash encriptado)
+    telephone VARCHAR(20) NULL,                         -- Teléfono del usuario
+    role VARCHAR(50) DEFAULT 'client',                  -- Rol: 'client', 'concessionnaire', 'admin'
+    
+    -- Control de estado y auditoría
+
+    cree_le TIMESTAMP DEFAULT CURRENT_TIMESTAMP       -- Fecha de registro
+
+);
+CREATE TABLE concessionnaire (
+    -- Elementos principales (Solicitados por ti)
+    id INT AUTO_INCREMENT PRIMARY KEY,                  -- Identificador único de la tabla
+    id_utilisateur INT NOT NULL,                        -- ID del dueño (Clave foránea)
+    nom VARCHAR(255) NOT NULL,                          -- Nombre del concesionario
+    icone_logo VARCHAR(255) NULL,                       -- URL del logo
+    photo_banniere VARCHAR(255) NULL,                   -- URL del banner de portada
+    description TEXT NULL,                              -- Descripción del negocio
+    localisation VARCHAR(255) NOT NULL,                 -- Dirección física completa
+
+    -- Elementos recomendados (Contacto y Geolocalización)
+    telephone VARCHAR(20) NULL,                         -- Teléfono de contacto
+    email_contact VARCHAR(255) NULL,                    -- Email público
+    site_web VARCHAR(255) NULL,       -- Sitio web externo si tienen
+
+    CONSTRAINT fk_concessionnaire_utilisateur FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id) ON DELETE CASCADE
+);
+select * from utilisateur ;
+select * from concessionnaire ;
