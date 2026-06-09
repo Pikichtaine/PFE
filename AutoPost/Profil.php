@@ -69,8 +69,16 @@ if(!isset($_SESSION['utilisateur'])){
 
             <nav class="sidebar-menu">
                 <a id="perfil" class="active">👤 Profil</a>
-                <a id="articulos">🖼️ Mes Voitures</a>
-                <a>🔒 Concessionaire</a>
+                <?php 
+                if($_SESSION['role'] == 'client'):?>
+                <a>💼 Devenir Dealer</a>
+                <?php elseif($_SESSION['role'] == 'dealer'):?>
+                <a id="articulos">🚗 Mes Voitures</a>
+                <a>🏣 Concessionaire</a>
+                <?php endif; ?>
+
+                
+
                 <a>💳 Pagos</a>
                 <a>⚙️ Ajustes</a>
                 <a class='deconexion' href='Logout.php'>Se déconnecter</a>

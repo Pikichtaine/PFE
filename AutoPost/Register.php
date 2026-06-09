@@ -21,18 +21,8 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
     if(isset($_POST['username'] , $_POST['password'] , $_POST['email'])) {
         $nom=trim($_POST['username']);
         $email=trim($_POST['email']);
-        
 
-require 'Database.php';
-
-try{
-$sql= 'SELECT * FROM utilisateur';
-$strt= $pdo->query($sql);
-$utilisateur= $strt->fetchAll(PDO::FETCH_ASSOC);
-
-}catch(PDOException $e){
-    echo "Erreur type: " . $e->getMessage();
-}
+        require 'QweryAll.php';
 
         foreach($utilisateur as $user){
         if($email == $user['email']) {
@@ -54,6 +44,20 @@ if($signUp){
 
     $_SESSION['utilisateur'] = $nom;
     $_SESSION['email'] = $email;
+
+try{
+$sql= 'SELECT * FROM utilisateur WHERE email = :email';
+$strt= $pdo->prepare($sql);
+$strt->execute([':email' => $email]);
+
+$utilisateur= $strt->fetch(PDO::FETCH_ASSOC);
+
+}catch(PDOException $e){
+    echo "Erreur type: " . $e->getMessage();
+}
+    $_SESSION['id'] = $utilisateur['id'];
+    $_SESSION['role'] = $utilisateur['role'];
+ 
 
      header('Location: Profil.php');
 

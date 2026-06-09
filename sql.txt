@@ -1,7 +1,6 @@
 CREATE TABLE utilisateur (
     id INT AUTO_INCREMENT PRIMARY KEY,                  -- Identificador único del usuario
     nom VARCHAR(100) NOT NULL,                          -- Apellido(s)
-    prenom VARCHAR(100) NOT NULL,                       -- Nombre(s)
     email VARCHAR(255) NOT NULL UNIQUE,                 -- Correo electrónico (Único para iniciar sesión)
     mot_de_passe VARCHAR(255) NOT NULL,                 -- Contraseña (guardada siempre como Hash encriptado)
     telephone VARCHAR(20) NULL,                         -- Teléfono del usuario

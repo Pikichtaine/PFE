@@ -41,6 +41,8 @@ if (trim($_POST['username']) == $user['nom'] && trim($_POST['password']) == $use
     $_SESSION['utilisateur'] = $user['nom'];
     $_SESSION['email'] = $user['email'];
     $_SESSION['id'] = $user['id'];
+    $_SESSION['role'] = $user['role'];
+
 
 
         $loginOK = true;
