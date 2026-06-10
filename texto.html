@@ -979,3 +979,18 @@ button.innerText= p
 </div>
 
 
+
+
+$_SESSION['status'] = $_SESSION['status'] ?? '';
+        try {
+            $user_id = $_SESSION['id'];
+            // Verificar si ya existe solicitud
+            $sqlCheck = "SELECT id FROM requests WHERE id_utilisateur = ? AND status IN ('pending', 'approved')";
+            $stmtCheck = $pdo->prepare($sqlCheck);
+            $stmtCheck->execute([$user_id]);
+            if (!$stmtCheck->fetch()) {
+                $_SESSION['status']="";
+            }
+        } catch (PDOException $e) {
+            $mensaje = "Error al procesar: " . $e->getMessage();
+        }

@@ -13,8 +13,6 @@ if(!isset($_SESSION['utilisateur'])){
     exit;
 }
 
-$mensaje = ''; // Variable para mostrar alertas al usuario
-
 // Verificamos si el formulario fue enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
@@ -35,15 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmtInsert = $pdo->prepare($sql);
                 $stmtInsert->execute([$user_id, $nom_concessionnaire, $ville, $telephone]);
                 
-                $mensaje = "¡Solicitud enviada con éxito!";
+                echo "¡Solicitud enviada con éxito!";
             } else {
-                $mensaje = "Ya tienes una solicitud en proceso.";
+                echo "Ya tienes una solicitud en proceso.";
             }
         } catch (PDOException $e) {
-            $mensaje = "Error al procesar: " . $e->getMessage();
+            echo "Error al procesar: " . $e->getMessage();
         }
     } else {
-        $mensaje = "Por favor, completa todos los campos.";
+        echo "Por favor, completa todos los campos.";
     }
 }
 ?>
@@ -115,8 +113,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <nav class="sidebar-menu">
                 <a id="perfil" class="active">👤 Profil</a>
                 <?php 
-                if($_SESSION['role'] == 'client'):?>
+                if($_SESSION['role'] == 'client' && $_SESSION['status'] != 'pending'):?>
                 <a id="dealerBtn">💼 Devenir Dealer</a>
+                <?php elseif($_SESSION['status'] == 'pending'):?>
+                <a id="dealerBtn">
+                    <span class="btn-text">💼 Devenir Dealer</span>
+                    <img src="medias/loading.png" alt="Loading" class="loader">
+                </a>
                 <?php elseif($_SESSION['role'] == 'dealer'):?>
                 <a id="articulos">🚗 Mes Voitures</a>
                 <a id="concessionaireBtn">🏣 Concessionaire</a>
@@ -422,7 +425,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="dealer-illus">📋</div>
       <h2 class="dealer-title">Vos informations</h2>
       <p class="dealer-desc">Notre équipe vous contactera sous 24h pour finaliser votre compte dealer.</p>
-      <form method="post" action="" class="dealer-form">
+      <form method="post" action="Profil.php" class="dealer-form">
         <input type="text" name="dealer_name" placeholder="Nom du concessionnaire" required>
         <input type="text" name="city"         placeholder="Ville" required>
         <input type="tel"  name="phone"        placeholder="Numéro de téléphone" required>
