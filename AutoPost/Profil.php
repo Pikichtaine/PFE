@@ -12,6 +12,40 @@ if(!isset($_SESSION['utilisateur'])){
     header('Location: Login.php');
     exit;
 }
+
+$mensaje = ''; // Variable para mostrar alertas al usuario
+
+// Verificamos si el formulario fue enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $nom_concessionnaire = trim($_POST['dealer_name']);
+    $ville = trim($_POST['city']);
+    $telephone = trim($_POST['phone']);
+    $user_id = $_SESSION['id'];
+
+    if (!empty($nom_concessionnaire) && !empty($ville) && !empty($telephone)) {
+        try {
+            // Verificar si ya existe solicitud
+            $sqlCheck = "SELECT id FROM requests WHERE id_utilisateur = ? AND status IN ('pending', 'approved')";
+            $stmtCheck = $pdo->prepare($sqlCheck);
+            $stmtCheck->execute([$user_id]);
+            
+            if (!$stmtCheck->fetch()) {
+                $sql = "INSERT INTO requests (id_utilisateur, nom_concessionnaire, ville, telephone, status) VALUES (?, ?, ?, ?, 'pending')";
+                $stmtInsert = $pdo->prepare($sql);
+                $stmtInsert->execute([$user_id, $nom_concessionnaire, $ville, $telephone]);
+                
+                $mensaje = "¡Solicitud enviada con éxito!";
+            } else {
+                $mensaje = "Ya tienes una solicitud en proceso.";
+            }
+        } catch (PDOException $e) {
+            $mensaje = "Error al procesar: " . $e->getMessage();
+        }
+    } else {
+        $mensaje = "Por favor, completa todos los campos.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -388,7 +422,7 @@ if(!isset($_SESSION['utilisateur'])){
       <div class="dealer-illus">📋</div>
       <h2 class="dealer-title">Vos informations</h2>
       <p class="dealer-desc">Notre équipe vous contactera sous 24h pour finaliser votre compte dealer.</p>
-      <form method="post" action="becomeDealer.php" class="dealer-form">
+      <form method="post" action="" class="dealer-form">
         <input type="text" name="dealer_name" placeholder="Nom du concessionnaire" required>
         <input type="text" name="city"         placeholder="Ville" required>
         <input type="tel"  name="phone"        placeholder="Numéro de téléphone" required>

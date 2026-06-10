@@ -30,3 +30,19 @@ CREATE TABLE concessionnaire (
 );
 select * from utilisateur ;
 select * from concessionnaire ;
+
+
+
+
+
+
+CREATE TABLE requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_utilisateur INT NOT NULL, -- El ID del usuario que hace la solicitud
+    nom_concessionnaire VARCHAR(255) NOT NULL,
+    ville VARCHAR(100) NOT NULL,
+    telephone VARCHAR(20) NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id) ON DELETE CASCADE
+);
