@@ -7,6 +7,7 @@
 
 session_start();
 require 'Database.php';
+
 if(!isset($_SESSION['utilisateur'])){
     header('Location: Login.php');
     exit;
@@ -50,6 +51,16 @@ if($role == 'dealer'){
 </head>
 
     <body>
+        <?php if (isset($_GET['updated'])): ?>
+<div class="toast-success" id="toastSuccess">✅ Annonce mise à jour avec succès</div>
+<script>
+    setTimeout(() => {
+        const t = document.getElementById('toastSuccess');
+        t.style.opacity = '0';
+        setTimeout(() => t.remove(), 400);
+    }, 3000);
+</script>
+<?php endif; ?>
 
 
 

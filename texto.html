@@ -924,3 +924,73 @@ button.innerText= p
 
 
 </script>
+
+
+
+
+
+
+
+<!-- ==============================
+         DEALER PANEL
+============================== -->
+<div class="dealer-overlay hidden" id="dealerOverlay">
+  <div class="dealer-panel">
+
+    <!-- Indicateur d'étape -->
+    <div class="dealer-dots">
+      <div class="dot active" id="dot1"></div>
+      <div class="dot" id="dot2"></div>
+    </div>
+
+    <!-- ÉTAPE 1 : Présentation -->
+    <div class="dealer-step" id="dealerStep1">
+      <button class="dealer-close" id="closeDealer">✕</button>
+      <div class="dealer-illus">🏎️</div>
+      <h2 class="dealer-title">Devenez Dealer</h2>
+      <p class="dealer-desc">
+        Rejoignez le réseau <strong>Legendary Motorsport</strong> et vendez vos véhicules à des milliers de passionnés.
+      </p>
+      <div class="dealer-perks">
+        <div class="perk">✅ &nbsp;Annonces illimitées</div>
+        <div class="perk">✅ &nbsp;Page concessionnaire officielle</div>
+        <div class="perk">✅ &nbsp;Statistiques & visibilité boostée</div>
+      </div>
+      <button class="dealer-btn-primary" id="dealerStart">Commencer →</button>
+      <button class="dealer-btn-ghost" id="dealerNo">Non, merci</button>
+    </div>
+
+    <!-- ÉTAPE 2 : Formulaire -->
+    <div class="dealer-step hidden" id="dealerStep2">
+      <button class="dealer-close" id="closeDealer2">✕</button>
+      <div class="dealer-illus">📋</div>
+      <h2 class="dealer-title">Vos informations</h2>
+      <p class="dealer-desc">Notre équipe vous contactera sous 24h pour finaliser votre compte dealer.</p>
+      <form method="post" action="becomeDealer.php" class="dealer-form">
+        <input type="text" name="dealer_name" placeholder="Nom du concessionnaire" required>
+        <input type="text" name="city"         placeholder="Ville" required>
+        <input type="tel"  name="phone"        placeholder="Numéro de téléphone" required>
+        <button type="submit" class="dealer-btn-primary">Envoyer la demande ✓</button>
+      </form>
+      <button class="dealer-btn-ghost" id="dealerBack">← Retour</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+$_SESSION['status'] = $_SESSION['status'] ?? '';
+        try {
+            $user_id = $_SESSION['id'];
+            // Verificar si ya existe solicitud
+            $sqlCheck = "SELECT id FROM requests WHERE id_utilisateur = ? AND status IN ('pending', 'approved')";
+            $stmtCheck = $pdo->prepare($sqlCheck);
+            $stmtCheck->execute([$user_id]);
+            if (!$stmtCheck->fetch()) {
+                $_SESSION['status']="";
+            }
+        } catch (PDOException $e) {
+            $mensaje = "Error al procesar: " . $e->getMessage();
+        }

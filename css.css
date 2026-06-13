@@ -1,0 +1,176 @@
+/* ==============================
+         DEALER PANEL
+============================== */
+.dealer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 60px;
+}
+.dealer-overlay.hidden { display: none; }
+
+.dealer-panel {
+  width: 360px;
+  background: linear-gradient(150deg, rgba(8, 18, 52, 0.97), rgba(14, 5, 28, 0.97));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 30px 28px 24px;
+  position: relative;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(102,126,234,0.12);
+  overflow: hidden;
+  animation: dealerPanelIn 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* Lueur déco en haut à droite */
+.dealer-panel::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(102,126,234,0.18), transparent 70%);
+  pointer-events: none;
+}
+
+@keyframes dealerPanelIn {
+  from { transform: translateX(40px) scale(0.95); opacity: 0; }
+  to   { transform: translateX(0) scale(1);       opacity: 1; }
+}
+
+@keyframes dealerStepIn {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Dots */
+.dealer-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  transition: all 0.35s ease;
+}
+.dot.active {
+  width: 20px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+/* Bouton fermer */
+.dealer-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.08);
+  border: none; border-radius: 50%;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.dealer-close:hover { background: rgba(255,255,255,0.16); color: white; }
+
+/* Illustration emoji */
+.dealer-illus {
+  font-size: 48px;
+  text-align: center;
+  width: 82px; height: 82px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, rgba(102,126,234,0.18), rgba(118,75,162,0.18));
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Texte */
+.dealer-title {
+  font-size: 19px; font-weight: 700;
+  text-align: center; color: white;
+  margin-bottom: 9px;
+}
+.dealer-desc {
+  font-size: 13px; color: rgba(255,255,255,0.62);
+  text-align: center; line-height: 1.65;
+  margin-bottom: 18px;
+}
+.dealer-desc strong { color: rgba(255,255,255,0.9); }
+
+/* Perks */
+.dealer-perks {
+  display: flex; flex-direction: column; gap: 7px;
+  margin-bottom: 20px;
+}
+.perk {
+  font-size: 13px; color: rgba(255,255,255,0.8);
+  padding: 8px 13px;
+  background: rgba(102,126,234,0.1);
+  border: 1px solid rgba(102,126,234,0.18);
+  border-radius: 9px;
+}
+
+/* Boutons */
+.dealer-btn-primary {
+  width: 100%; padding: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white; border: none; border-radius: 11px;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; margin-bottom: 9px;
+  transition: all 0.3s;
+  letter-spacing: 0.3px;
+}
+.dealer-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+}
+
+.dealer-btn-ghost {
+  width: 100%; padding: 10px;
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 11px; font-size: 13px;
+  cursor: pointer; transition: all 0.2s;
+}
+.dealer-btn-ghost:hover {
+  color: white;
+  border-color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.05);
+}
+
+/* Formulaire */
+.dealer-form {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 10px;
+}
+.dealer-form input {
+  padding: 11px 14px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 10px; color: white; font-size: 13.5px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.dealer-form input::placeholder { color: rgba(255,255,255,0.32); }
+.dealer-form input:focus {
+  outline: none;
+  border-color: #667eea;
+  background: rgba(102,126,234,0.08);
+}
+
+/* Step visible/hidden */
+.dealer-step.hidden { display: none; }
+
+/* Mobile : centrer le panel */
+@media (max-width: 600px) {
+  .dealer-overlay { justify-content: center; padding-right: 0; padding: 20px; }
+  .dealer-panel { width: 100%; }
+}
