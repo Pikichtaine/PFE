@@ -68,97 +68,89 @@ try {
 
  
   <!-- ═══════════════════ BEST OF THIS WEEK ════════════ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title all-cars">All Cars</h2>
-      </div>
-
-
-
-<div class="categories-wrap all-cars">
-    <div class="categories-inner" id="filter-bar">
-
-        <span class="cat-label">MARCA</span>
-        <?php foreach ($tags as $tag) : ?>
-            <button class="cat-pill"
-                    data-type="marque"
-                    data-value="<?php echo htmlspecialchars($tag['marque']); ?>">
-                <?php echo htmlspecialchars($tag['marque']); ?>
-            </button>
-        <?php endforeach; ?>
-
-        <div class="filter-sep"></div>
-
-        <span class="cat-label">COMBUSTIBLE</span>
-        <?php foreach ($carburantes as $c) : ?>
-            <button class="cat-pill"
-                    data-type="carburant"
-                    data-value="<?php echo htmlspecialchars($c['Carburant']); ?>">
-                <?php echo htmlspecialchars($c['Carburant']); ?>
-            </button>
-        <?php endforeach; ?>
-
+<!-- ═══════════════════ ALL CARS Y FILTROS ════════════ -->
+<section class="section">
+  <div class="container">
+    
+    <div class="section-header">
+      <h2 class="section-title all-cars">All Cars</h2>
     </div>
-</div>
-
-<!-- Chips de filtros activos (oculto por defecto) -->
-<div class="filtrados" id="filtrados" style="display:none;">
-    <div class="lista" id="lista"></div>
-</div>
-      <div class="grid-4" id="grid">
- 
-        <!-- Card 1 -->
-
-
-        
-
-   <?php
-   /* =========================
-    CONSULTA SQL
-   ========================= */
-
-try{
-$sql = "SELECT * FROM specs";
-$stmt = $pdo->query($sql);
-$cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}catch(PDOException $e){
-    echo "Error: " . $e->getMessage();
-}
-
-foreach ($cards as $card) : ?>
-
-        <div class="car-card">
-          <div class="car-card-img">
-        <img src= "<?php echo $card['Photo1'] ?>" alt="<?php echo $card['marque'] ?>"/>
-
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand"><?php echo $card['marque'] ?></div>
-            <div class="car-name"><?php echo $card['modele'] . " " . $card['Version'] ?></div>
-            <div class="car-specs">
-              <span class="car-spec"><?php echo $card['Annee'] ?></span>
-              <span class="car-spec"><?php echo $card['Kilometrage']?> km</span>
-              <span class="car-spec"><?php echo $card['Carburant'] ?></span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price"><?php echo $card['Prix'] ?> MAD</div>
+    <!-- Barra de filtros -->
+    <div class="categories-wrap all-cars">
+      <div class="categories-inner" id="filter-bar">
+          <span class="cat-label">MARCA</span>
+          <?php foreach ($tags as $tag) : ?>
+              <button class="cat-pill"
+                      data-type="marque"
+                      data-value="<?php echo htmlspecialchars($tag['marque']); ?>">
+                  <?php echo htmlspecialchars($tag['marque']); ?>
+              </button>
+          <?php endforeach; ?>
+          
+          <div class="filter-sep"></div>
+          
+          <span class="cat-label">COMBUSTIBLE</span>
+          <?php foreach ($carburantes as $c) : ?>
+              <button class="cat-pill"
+                      data-type="carburant"
+                      data-value="<?php echo htmlspecialchars($c['Carburant']); ?>">
+                  <?php echo htmlspecialchars($c['Carburant']); ?>
+              </button>
+          <?php endforeach; ?>
+      </div>
+    </div>
+    
+    <!-- Chips de filtros activos (oculto por defecto) -->
+    <div class="filtrados" id="filtrados" style="display:none;">
+        <div class="lista" id="lista"></div>
+    </div>
+    <div class="grid-4" id="grid">
+      <?php
+      /* =========================
+         CARGA INICIAL CON PHP
+      ========================= */
+      try {
+          $sql = "SELECT * FROM specs";
+          $stmt = $pdo->query($sql);
+          $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      } catch(PDOException $e) {
+          echo "Error: " . $e->getMessage();
+          $cards = [];
+      }
+      if (!empty($cards)):
+          foreach ($cards as $card) : ?>
+              <div class="car-card" id="<?php echo htmlspecialchars($card['id']); ?>">
+                <div class="car-card-img">
+                  <!-- Añadimos htmlspecialchars por seguridad -->
+                  <img src="<?php echo htmlspecialchars($card['Photo1']); ?>" alt="<?php echo htmlspecialchars($card['marque']); ?>"/>
+                </div>
+                <span class="car-fav">♡</span>
+                <div class="car-card-body">
+                  <div class="car-brand"><?php echo htmlspecialchars($card['marque']); ?></div>
+                  <div class="car-name"><?php echo htmlspecialchars($card['modele'] . " " . $card['Version']); ?></div>
+                  <div class="car-specs">
+                    <span class="car-spec"><?php echo htmlspecialchars($card['Annee']); ?></span>
+                    <!-- Formato de miles para Kilometraje -->
+                    <span class="car-spec"><?php echo number_format($card['Kilometrage'], 0, ',', '.'); ?> km</span>
+                    <span class="car-spec"><?php echo htmlspecialchars($card['Carburant']); ?></span>
+                  </div>
+                  <div class="car-footer">
+                    <div>
+                      <!-- Formato de miles para el Precio -->
+                      <div class="car-price"><?php echo number_format($card['Prix'], 0, ',', '.'); ?> MAD</div>
+                    </div>
+                    <span class="car-location">📍 Tánger</span>
+                  </div>
+                </div>
               </div>
-              <span class="car-location">📍 Tánger</span>
-            </div>
-          </div>
-        </div>
-
-    <?php endforeach; ?>
-
- 
-      </div>
+          <?php endforeach; 
+      else: ?>
+          <p style="grid-column: 1/-1; text-align: center; color: var(--txt3);">No hay vehículos registrados aún.</p>
+      <?php endif; ?>
     </div>
-  </section>
- 
-  <div class="section-divider"></div>
+  </div>
+</section>
+<div class="section-divider"></div>
  
    
   <!-- ═══════════════════ FOOTER ════════════════════════ -->
@@ -220,9 +212,18 @@ foreach ($cards as $card) : ?>
 </html>
 
 <script>
+  let cards = document.querySelectorAll('.car-card');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      window.location.href = "Car.php?id=" + card.id;
+    });
+  });
+// Usamos const en lugar de var para mejores prácticas en JS moderno
+const pills = document.querySelectorAll('#filter-bar .cat-pill');
+
 // Activar/desactivar cada pill al hacer click
-document.querySelectorAll('#filter-bar .cat-pill').forEach(function(pill) {
-    pill.addEventListener('click', function() {
+pills.forEach(pill => {
+    pill.addEventListener('click', () => {
         pill.classList.toggle('active');
         actualizarChips();
         link();
@@ -231,11 +232,11 @@ document.querySelectorAll('#filter-bar .cat-pill').forEach(function(pill) {
 
 // Reconstruye los chips de "filtros activos"
 function actualizarChips() {
-    var lista    = document.getElementById('lista');
-    var filtrados = document.getElementById('filtrados');
+    const lista = document.getElementById('lista');
+    const filtrados = document.getElementById('filtrados');
     lista.innerHTML = '';
 
-    var activos = document.querySelectorAll('#filter-bar .cat-pill.active');
+    const activos = document.querySelectorAll('#filter-bar .cat-pill.active');
 
     if (activos.length === 0) {
         filtrados.style.display = 'none';
@@ -245,24 +246,22 @@ function actualizarChips() {
     filtrados.style.display = 'block';
 
     // Botón "Limpiar todo"
-    var limpiar = document.createElement('button');
+    const limpiar = document.createElement('button');
     limpiar.classList.add('cat-pill', 'limpiar-btn');
     limpiar.innerText = '✕ Limpiar todo';
-    limpiar.addEventListener('click', function() {
-        document.querySelectorAll('#filter-bar .cat-pill.active').forEach(function(p) {
-            p.classList.remove('active');
-        });
+    limpiar.addEventListener('click', () => {
+        document.querySelectorAll('#filter-bar .cat-pill.active').forEach(p => p.classList.remove('active'));
         actualizarChips();
         link();
     });
     lista.appendChild(limpiar);
 
     // Un chip por cada filtro activo
-    activos.forEach(function(pill) {
-        var chip = document.createElement('button');
+    activos.forEach(pill => {
+        const chip = document.createElement('button');
         chip.classList.add('cat-pill', 'chip-activo');
-        chip.innerHTML = pill.dataset.value + ' <span>×</span>';
-        chip.addEventListener('click', function() {
+        chip.innerHTML = `${pill.dataset.value} <span>×</span>`;
+        chip.addEventListener('click', () => {
             pill.classList.remove('active');
             actualizarChips();
             link();
@@ -273,24 +272,31 @@ function actualizarChips() {
 
 // Manda los filtros al servidor y actualiza el grid
 function link() {
-    var marcas       = [];
-    var combustibles = [];
+    const marcas = [];
+    const combustibles = [];
 
-    document.querySelectorAll('#filter-bar .cat-pill.active').forEach(function(pill) {
-        if (pill.dataset.type === 'marque')    marcas.push(pill.dataset.value);
+    document.querySelectorAll('#filter-bar .cat-pill.active').forEach(pill => {
+        if (pill.dataset.type === 'marque') marcas.push(pill.dataset.value);
         if (pill.dataset.type === 'carburant') combustibles.push(pill.dataset.value);
     });
 
-    var datos = new FormData();
-    datos.append('marcas',       JSON.stringify(marcas));
+    const datos = new FormData();
+    datos.append('marcas', JSON.stringify(marcas));
     datos.append('combustibles', JSON.stringify(combustibles));
 
+    // Formateador de números de JavaScript para poner los puntos en precios y kilómetros
+    const formatter = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0 });
+
     fetch('get_cars.php', { method: 'POST', body: datos })
-        .then(function(r) { return r.json(); })
-        .then(function(coches) {
-            var html = '';
+        .then(r => r.json())
+        .then(coches => {
+            let html = '';
             if (coches.length > 0) {
-                coches.forEach(function(card) {
+                coches.forEach(card => {
+                    // Aquí usamos el formateador para replicar el `number_format` de PHP
+                    const precioFormateado = formatter.format(card.Prix);
+                    const kmFormateado = formatter.format(card.Kilometrage);
+
                     html += `
 <div class="car-card">
   <div class="car-card-img">
@@ -302,11 +308,11 @@ function link() {
     <div class="car-name">${card.modele} ${card.Version}</div>
     <div class="car-specs">
       <span class="car-spec">${card.Annee}</span>
-      <span class="car-spec">${card.Kilometrage} km</span>
+      <span class="car-spec">${kmFormateado} km</span>
       <span class="car-spec">${card.Carburant}</span>
     </div>
     <div class="car-footer">
-      <div><div class="car-price">${card.Prix} MAD</div></div>
+      <div><div class="car-price">${precioFormateado} MAD</div></div>
       <span class="car-location">📍 Tánger</span>
     </div>
   </div>
@@ -316,9 +322,9 @@ function link() {
                 html = '<p style="color:var(--txt3);padding:30px;text-align:center;grid-column:1/-1;">No se encontraron vehículos con estos filtros.</p>';
             }
             document.getElementById('grid').innerHTML = html;
-        });
+        })
+        .catch(error => console.error('Error al filtrar los coches:', error));
 }
 
-// Cargar todos los coches al abrir la página
-link();
+
 </script>

@@ -299,3 +299,59 @@ versionInput.addEventListener("input", function() {
 });
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const fileInputs = document.querySelectorAll(".file-input");
+
+  fileInputs.forEach((input) => {
+    input.addEventListener("change", function () {
+      const file = this.files[0];
+      // Mapeamos el id 'photo_1' para encontrar 'preview_1'
+      const previewId = this.id.replace("photo_", "preview_");
+      const previewContainer = document.getElementById(previewId);
+
+      if (!previewContainer) return;
+
+      // Buscamos si ya existe una etiqueta <img>, si no, la creamos
+      let img = previewContainer.querySelector("img");
+      if (!img) {
+        img = document.createElement("img");
+        previewContainer.appendChild(img);
+      }
+
+      if (file && file.type.startsWith("image/")) {
+        // Generamos la URL temporal de la imagen
+        img.src = URL.createObjectURL(file);
+        // Añadimos una clase al contenedor para controlar los estilos con CSS
+        previewContainer.classList.add("has-image");
+      }
+    });
+  });
+
+  // Controlar el botón de reinicio (Reset) del formulario
+  const resetBtn = document.querySelector('.btn-secondary[type="reset"]');
+  if (resetBtn) {
+    const form = resetBtn.closest("form");
+    if (form) {
+      form.addEventListener("submit", () => {
+         // Limpieza preventiva de URLs de objetos al enviar para liberar memoria
+         fileInputs.forEach(input => {
+           const previewId = input.id.replace("photo_", "preview_");
+           const img = document.getElementById(previewId)?.querySelector("img");
+           if(img && img.src.startsWith('blob:')) URL.revokeObjectURL(img.src);
+         });
+      });
+      
+      form.addEventListener("reset", () => {
+        document.querySelectorAll(".photo-inner").forEach((container) => {
+          container.classList.remove("has-image");
+          const img = container.querySelector("img");
+          if (img) {
+            URL.revokeObjectURL(img.src); // Liberar memoria
+            img.remove(); // Eliminamos la imagen para volver al estado inicial
+          }
+        });
+      });
+    }
+  }
+});

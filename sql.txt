@@ -30,3 +30,15 @@ CREATE TABLE concessionnaire (
 );
 select * from utilisateur ;
 select * from concessionnaire ;
+
+
+
+
+
+
+ALTER TABLE dealer_requests 
+ADD COLUMN id_utilisateur INT NOT NULL AFTER id,
+ADD CONSTRAINT fk_dealer_utilisateur 
+    FOREIGN KEY (id_utilisateur) 
+    REFERENCES utilisateur(id) 
+    ON DELETE CASCADE;

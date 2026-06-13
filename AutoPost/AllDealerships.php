@@ -1,3 +1,8 @@
+<?php
+
+require 'Database.php';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -44,194 +49,69 @@
   </nav>
   
   <!-- ═══════════════════ POPULAR DEALERS ══════════════ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title all-cars">Concesionarios populares</h2>
-        <a href="#" class="section-link">Ver todos →</a>
-      </div>
- 
-      <div class="grid-3">
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img">
-          <img src="medias/AutoHaus.png" alt="AutoHaus"/>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">AutoHaus Tánger</div>
-            <div class="dealer-meta">
-              <span>📍 Boulevard Mohammed VI, Tánger</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">142</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.9</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">12</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img dg2">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 56 C6 56 22 26 58 18 C78 13 122 13 142 18 C166 26 184 50 191 56 L194 63 L6 63 Z"/>
-              <ellipse cx="43" cy="65" rx="14" ry="14"/>
-              <ellipse cx="157" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">PremiumMotors Casablanca</div>
-            <div class="dealer-meta">
-              <span>📍 Quartier des Affaires, Casablanca</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">89</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.7</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">7</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img dg3">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
-              <ellipse cx="44" cy="65" rx="14" ry="14"/>
-              <ellipse cx="156" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">Marrakech Ride</div>
-            <div class="dealer-meta">
-              <span>📍 Avenue Mohammed V, Marrakech</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">211</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.8</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">18</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-                <div class="dealer-card">
-          <div class="dealer-hero-img dg1">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 58 C5 58 25 28 60 20 C80 15 120 15 140 20 C165 28 185 50 192 58 L195 64 L5 64 Z"/>
-              <ellipse cx="44" cy="66" rx="14" ry="14"/>
-              <ellipse cx="156" cy="66" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">AutoHaus Tánger</div>
-            <div class="dealer-meta">
-              <span>📍 Boulevard Mohammed VI, Tánger</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">142</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.9</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">12</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img dg2">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 56 C6 56 22 26 58 18 C78 13 122 13 142 18 C166 26 184 50 191 56 L194 63 L6 63 Z"/>
-              <ellipse cx="43" cy="65" rx="14" ry="14"/>
-              <ellipse cx="157" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">PremiumMotors Casablanca</div>
-            <div class="dealer-meta">
-              <span>📍 Quartier des Affaires, Casablanca</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">89</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.7</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">7</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img dg3">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
-              <ellipse cx="44" cy="65" rx="14" ry="14"/>
-              <ellipse cx="156" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">Marrakech Ride</div>
-            <div class="dealer-meta">
-              <span>📍 Avenue Mohammed V, Marrakech</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">211</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.8</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">18</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-      </div>
+ <?php 
+require 'QweryAllDealerships.php'
+?>
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title all-cars">All Dealerships</h2>
     </div>
-  </section>
+
+    <div class="grid-3">
+
+      <?php if (!empty($concesionarios)): ?>
+        <?php foreach ($concesionarios as $dealer): ?>
+          
+          <div class="dealer-card">
+            <div class="dealer-hero-img">
+              <!-- Si hay logo en la BD, lo usamos. Si es NULL, usamos una foto por defecto -->
+              <?php 
+                $fotoDealer = !empty($dealer['logo']) ? $dealer['logo'] : 'imagenes/dealer-default.jpg'; 
+                // Corregimos por si vienen con barra invertida \
+                $fotoDealer = str_replace('\\', '/', $fotoDealer);
+              ?>
+              <img src="<?= htmlspecialchars($dealer['logo']) ?>" alt="<?= htmlspecialchars($dealer['titre']) ?>">
+            </div>
+            
+            <div class="dealer-body" style="padding-top:34px;">
+              <div class="dealer-name"><?= htmlspecialchars($dealer['titre']) ?></div>
+              
+              <div class="dealer-meta">
+                <span>📍 <?= htmlspecialchars($dealer['adresse'] . ", " . $dealer['ville']) ?></span>
+              </div>
+              
+              <div class="dealer-stats">
+                <div class="dealer-stat">
+                  <!-- Imprimimos el conteo total de coches obtenidos por la subconsulta -->
+                  <div class="dealer-stat-val"><?= $dealer['total_coches'] ?></div>
+                  <div class="dealer-stat-label">Coches</div>
+                </div>
+                
+                <div class="dealer-stat">
+                  <!-- Formateamos el rating para que siempre tenga 1 decimal (ej: 4.0 o 4.5) -->
+                  <div class="dealer-stat-val"><?= number_format($dealer['rating'], 1) ?></div>
+                  <div class="dealer-stat-label">Valoración</div>
+                </div>
+                
+                <div class="dealer-stat">
+                  <!-- Imprimimos el total de marcas únicas obtenidas por la subconsulta -->
+                  <div class="dealer-stat-val"><?= $dealer['total_marcas'] ?></div>
+                  <div class="dealer-stat-label">Marcas</div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p>No hay concesionarios disponibles.</p>
+      <?php endif; ?>
+
+    </div>
+  </div>
+</section>
  
   <div class="section-divider"></div>
  

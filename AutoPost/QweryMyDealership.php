@@ -2,11 +2,11 @@
 require 'Database.php';
 
 try{
-$sql= 'SELECT * FROM utilisateur WHERE id = :id';
+$sql= 'SELECT * FROM concessionnaire WHERE id_utilisateur = :id';
 $strt= $pdo->prepare($sql);
 $strt->execute([':id' => $_SESSION['id']]);
 
-$utilisateur= $strt->fetch(PDO::FETCH_ASSOC);
+$concess= $strt->fetch(PDO::FETCH_ASSOC);
 
 }catch(PDOException $e){
     echo "Erreur type: " . $e->getMessage();

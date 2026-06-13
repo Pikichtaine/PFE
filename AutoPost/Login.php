@@ -57,7 +57,7 @@ if (trim($_POST['username']) == $user['nom'] && trim($_POST['password']) == $use
    ========================= */
 
 if ($loginOK) {
-    header('Location: Profil.php');
+    header('Location: Acceuil.php');
     
     exit;
 } else {

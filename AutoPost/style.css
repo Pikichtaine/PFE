@@ -417,7 +417,17 @@ textarea { resize: vertical; min-height: 130px; line-height: 1.65; }
   padding: 3px 9px;
   border-radius: var(--radius-sm);
 }
+/* ─── ESTADOS DE PREVISUALIZACIÓN ──────────────── */
 
+/* Cuando hay una foto, ocultamos el icono y los textos */
+.photo-inner.has-image .photo-empty {
+  display: none;
+}
+
+/* Mostramos la imagen sobreescribiendo el display: none original */
+.photo-inner.has-image img {
+  display: block;
+}
 /* ─── DIVIDER ────────────────────────────── */
 .divider {
   height: 1px;

@@ -146,6 +146,14 @@
     }
     .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
 
+    .btn-primary, .btn-luminous {
+  /* Añade esto para que los enlaces se comporten como botones */
+  text-decoration: none; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
 .header-left {
       display: flex;
       align-items: center;
@@ -219,6 +227,7 @@
       object-position: center;
       mask-image: radial-gradient(circle at 123% 50%, black 60%, transparent 80%);
       z-index: 1;
+      will-change: opacity, transform;
     }
  
     /* Grid overlay */
@@ -343,6 +352,10 @@
       padding-left: 10px;
 
     }
+    /* Necesario para que la transición de la imagen funcione sin parpadeo */
+.hero-car-img {
+  will-change: opacity, transform;
+}
  
     /* Thumb gradient palettes */
     .tg1 { background: linear-gradient(135deg, #0A0A1A 0%, #1a1060 40%, #3a2090 100%); }
@@ -360,22 +373,46 @@
     }
  
     /* ─── CATEGORIES ─────────────────────────────────────── */
-    .categories-wrap, .filtrados{
+
+    .categories-wrap, .filtrados {
       border: 1px solid var(--border);
       background: var(--s1);
+      /* ✨ MEJORA: Bordes redondeados para que parezca una barra de herramientas moderna */
+      border-radius: 16px; 
+      /* ✨ MEJORA: Una sombra muy suave para separarlo ligeramente del fondo */
+      box-shadow: 0 4px 20px rgba(0,0,0, 0.15);
     }
     .categories-wrap.all-cars {
+      /* ✨ MEJORA: Menos margen superior para que esté más pegado a "ALL CARS" */
+      margin-top: 10px;
       margin-bottom: 36px;
     }
     .categories-inner, .categories-inner-second, .lista {
-      max-width: 1260px;
-      margin: 0 auto;
-      padding: 16px;
+      /* Quitamos max-width y margin: 0 auto porque el div superior ya lo centra */
+      padding: 12px 16px;
       display: flex;
-      gap: 8px;
+      gap: 12px; /* Un pelín más de espacio entre los botones */
       overflow-x: auto;
       align-items: center;
+      
+      /* ✨ MEJORA: Ocultar la barra de scroll horizontal para un look más limpio */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
     }
+    
+    .categories-inner::-webkit-scrollbar, 
+    .lista::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+    .filter-sep {
+      /* ✨ MEJORA: Una pequeña línea divisoria sutil entre Marca y Combustible */
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+      margin: 0 6px;
+      flex-shrink: 0;
+    }
+
 
 .oculto{
     display: none;
@@ -464,6 +501,10 @@
       cursor: pointer;
       position: relative;
       transition: transform .22s cubic-bezier(.2,.8,.3,1), border-color .2s, box-shadow .22s;
+      display: flex;
+      flex-direction: column;
+      height: 100%; 
+    
     }
     .car-card:hover {
       transform: translateY(-4px);
@@ -476,6 +517,8 @@
       height: 150px;
       position: relative;
       overflow: hidden;
+      flex-shrink: 0; 
+
     }
 .car-card-img img{
     width: 100%;           /* Ocupa todo el ancho del contenedor */
@@ -544,6 +587,9 @@
  
     .car-card-body {
       padding: 14px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; 
     }
  
     .car-brand {
@@ -585,6 +631,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: auto; 
+
     }
  
     .car-price {

@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+
+// Simulamos la variable para comprobar si está logueado
+$is_logged_in = isset($_SESSION['id']); 
+
+/* =========================
+   VERIFICAR SESSION
+   ========================= */
+
+require 'Database.php';
+require 'QweryAcceuil.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,19 +42,34 @@
       </div>
     </div>
  
-    <div class="header-right">
-      <div class="nav-search">
-        <span class="nav-search-icon">⌕</span>
-        <input type="text" placeholder="Buscar marca, modelo, ciudad…" />
-      </div>
+   <div class="header-right">
+  <div class="nav-search">
+    <span class="nav-search-icon">⌕</span>
+    <input type="text" placeholder="Buscar marca, modelo, ciudad…" />
+  </div>
 
-      <button class="nav-location">
-        <span class="nav-location-dot"></span>
-        Tánger, MA
-      </button>
-      
-      <button class="btn-primary" id="btn-connexion">Connexion</button>
-    </div>
+  <button class="nav-location">
+    <span class="nav-location-dot"></span>
+    Tánger, MA
+  </button>
+  
+  <!-- Lógica de Sesiones con tu diseño -->
+  <?php if ($is_logged_in): ?>
+    
+    <!-- Enlaces con tu efecto "btn-luminous" (Neon) -->
+    <a href="favoritos.php" class="btn-luminous">Favoritos</a>
+    <a href="carrito.php" class="btn-luminous">Carrito</a>
+    
+    <!-- El botón principal ahora es el perfil -->
+    <a href="Profil.php" class="btn-primary">Mi Perfil</a>
+
+  <?php else: ?>
+    
+    <!-- Botón de Login si NO está logueado -->
+    <a href="Login.php" class="btn-primary" id="btn-connexion">Connexion</a>
+    
+  <?php endif; ?>
+</div>
   </nav>
  
   <!-- ═══════════════════ HERO ═══════════════════════════ -->
@@ -96,236 +125,59 @@
     </div>
   </div>
  
-  <!-- ═══════════════════ BEST OF THIS WEEK ════════════ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Lo mejor de esta semana</h2>
-        <a href="#" class="section-link">Ver todos →</a>
-      </div>
- 
-      <div class="grid-4">
- 
-        <!-- Card 1 -->
-        <div class="car-card">
-          <div class="car-card-img cg1">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 55 C10 55 30 30 60 22 C80 17 120 17 140 22 C160 27 180 45 185 55 L190 60 L10 60 Z"/>
-              <ellipse cx="45" cy="62" rx="14" ry="14"/>
-              <ellipse cx="155" cy="62" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Mercedes-Benz</div>
-            <div class="car-name">Clase C 220d AMG Line</div>
-            <div class="car-specs">
-              <span class="car-spec">2024</span>
-              <span class="car-spec">0 km</span>
-              <span class="car-spec">Diésel</span>
-              <span class="car-spec">Auto</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">48.900 €</div>
-              </div>
-              <span class="car-location">📍 Tánger</span>
-            </div>
-          </div>
-        </div>
- 
-        <!-- Card 2 -->
-        <div class="car-card">
-          <div class="car-card-img cg2">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 55 C8 55 20 25 55 18 C75 13 125 13 145 18 C170 25 188 50 192 55 L195 62 L5 62 Z"/>
-              <ellipse cx="42" cy="64" rx="15" ry="15"/>
-              <ellipse cx="158" cy="64" rx="15" ry="15"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Audi</div>
-            <div class="car-name">A4 45 TFSI quattro S line</div>
-            <div class="car-specs">
-              <span class="car-spec">2023</span>
-              <span class="car-spec">18.200 km</span>
-              <span class="car-spec">Gasolina</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">44.500 €</div>
-              </div>
-              <span class="car-location">📍 Rabat</span>
-            </div>
-          </div>
-        </div>
- 
-        <!-- Card 3 -->
-        <div class="car-card">
-          <div class="car-card-img cg3">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 58 C5 58 25 28 58 20 C78 15 122 15 142 20 C165 28 185 50 192 58 L195 64 L5 64 Z"/>
-              <ellipse cx="44" cy="66" rx="14" ry="14"/>
-              <ellipse cx="156" cy="66" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Tesla</div>
-            <div class="car-name">Model 3 Long Range AWD</div>
-            <div class="car-specs">
-              <span class="car-spec">2024</span>
-              <span class="car-spec">3.500 km</span>
-              <span class="car-spec">Eléctrico</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">52.990 €</div>
-              </div>
-              <span class="car-location">📍 Casablanca</span>
-            </div>
-          </div>
-        </div>
- 
-        <!-- Card 4 -->
-        <div class="car-card">
-          <div class="car-card-img cg4">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 56 C12 56 28 26 62 19 C82 14 118 14 138 19 C162 26 180 48 187 56 L190 62 L10 62 Z"/>
-              <ellipse cx="46" cy="64" rx="14" ry="14"/>
-              <ellipse cx="154" cy="64" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Volkswagen</div>
-            <div class="car-name">Golf GTI Clubsport</div>
-            <div class="car-specs">
-              <span class="car-spec">2023</span>
-              <span class="car-spec">8.900 km</span>
-              <span class="car-spec">Gasolina</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">36.800 €</div>
-              </div>
-              <span class="car-location">📍 Fez</span>
-            </div>
-          </div>
-        </div>
- 
-        <!-- Card 5 -->
-        <div class="car-card">
-          <div class="car-card-img cg5">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 56 C6 56 22 24 60 17 C80 12 120 12 140 17 C168 24 186 50 193 56 L196 63 L4 63 Z"/>
-              <ellipse cx="43" cy="65" rx="14" ry="14"/>
-              <ellipse cx="157" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Porsche</div>
-            <div class="car-name">Panamera 4 E-Hybrid</div>
-            <div class="car-specs">
-              <span class="car-spec">2024</span>
-              <span class="car-spec">5.100 km</span>
-              <span class="car-spec">Híbrido</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">98.400 €</div>
-              </div>
-              <span class="car-location">📍 Tánger</span>
-            </div>
-          </div>
-        </div>
- 
-        <!-- Card 6 -->
-        <div class="car-card">
-          <div class="car-card-img cg6">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 55 C10 55 30 28 65 20 C85 15 115 15 135 20 C160 28 180 48 188 55 L192 62 L8 62 Z"/>
-              <ellipse cx="45" cy="64" rx="13" ry="13"/>
-              <ellipse cx="155" cy="64" rx="13" ry="13"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Toyota</div>
-            <div class="car-name">Land Cruiser 300 GR Sport</div>
-            <div class="car-specs">
-              <span class="car-spec">2023</span>
-              <span class="car-spec">22.600 km</span>
-              <span class="car-spec">Diésel</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">74.200 €</div>
-              </div>
-              <span class="car-location">📍 Marrakech</span>
-            </div>
-          </div>
-        </div>
- 
-        <!-- Card 7 -->
-        <div class="car-card">
-          <div class="car-card-img cg7">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
-              <ellipse cx="44" cy="65" rx="14" ry="14"/>
-              <ellipse cx="156" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Hyundai</div>
-            <div class="car-name">IONIQ 6 77.4 kWh AWD</div>
-            <div class="car-specs">
-              <span class="car-spec">2024</span>
-              <span class="car-spec">0 km</span>
-              <span class="car-spec">Eléctrico</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">46.100 €</div>
-              </div>
-              <span class="car-location">📍 Agadir</span>
-            </div>
-          </div>
-        </div>
- 
-        <!-- Card 8 -->
-        <div class="car-card">
-          <div class="car-card-img cg8">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 56 C9 56 26 27 60 19 C80 14 120 14 140 19 C163 27 182 49 188 56 L191 62 L9 62 Z"/>
-              <ellipse cx="44" cy="64" rx="14" ry="14"/>
-              <ellipse cx="154" cy="64" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Alfa Romeo</div>
-            <div class="car-name">Giulia Quadrifoglio</div>
-            <div class="car-specs">
-              <span class="car-spec">2022</span>
-              <span class="car-spec">31.800 km</span>
-              <span class="car-spec">Gasolina</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="car-price">58.300 €</div>
-              </div>
-              <span class="car-location">📍 Tánger</span>
-            </div>
-          </div>
-        </div>
- 
-      </div>
+<!-- ═══════════════════ BEST OF THIS WEEK ════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Lo mejor de esta semana</h2>
+      <a href="#" class="section-link">Ver todos →</a>
     </div>
-  </section>
+
+    <div class="grid-4">
+
+      <?php if (!empty($coches)): ?>
+        <?php foreach ($coches as $coche): ?>
+          
+          <!-- Card de PHP Dinámico -->
+          <div class="car-card" id="<?= $coche['id'] ?>">
+            <div class="car-card-img">
+              <!-- Reemplazamos el SVG por la imagen de la columna Photo1 -->
+              <!-- Reemplazamos posibles barras invertidas por barras normales por si vienes de entorno Windows -->
+              <?php $fotoPath = str_replace('\\', '/', $coche['Photo1']); ?>
+              <img src="<?= htmlspecialchars($fotoPath) ?>" alt="<?= htmlspecialchars($coche['marque'] . ' ' . $coche['modele']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <span class="car-fav">♡</span>
+            <div class="car-card-body">
+              <div class="car-brand"><?= htmlspecialchars($coche['marque']) ?></div>
+              
+              <!-- Concatenamos el modelo y la versión -->
+              <div class="car-name"><?= htmlspecialchars($coche['modele'] . ' ' . $coche['Version']) ?></div>
+              
+              <div class="car-specs">
+                <span class="car-spec"><?= htmlspecialchars($coche['Annee']) ?></span>
+                <span class="car-spec"><?= number_format($coche['Kilometrage'], 0, ',', '.') ?> km</span>
+                <span class="car-spec"><?= htmlspecialchars($coche['Carburant']) ?></span>
+                <span class="car-spec"><?= htmlspecialchars($coche['Boite']) ?></span>
+              </div>
+              <div class="car-footer">
+                <div>
+                  <!-- Formateamos el precio para que se vea como 48.900 € -->
+                  <div class="car-price"><?= number_format($coche['Prix'], 0, ',', '.') ?> €</div>
+                </div>
+                <!-- La localización se deja estática como solicitaste, aunque podrías sacarla también si existiera la columna -->
+                <span class="car-location">📍 Tánger</span>
+              </div>
+            </div>
+          </div>
+          
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p>No hay coches disponibles en este momento.</p>
+      <?php endif; ?>
+
+    </div>
+  </div>
+</section>
  
   <div class="section-divider"></div>
  
@@ -553,349 +405,73 @@
   <div class="section-divider"></div>
  
   <!-- ═══════════════════ POPULAR DEALERS ══════════════ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Concesionarios populares</h2>
-        <a href="#" class="section-link">Ver todos →</a>
-      </div>
- 
-      <div class="grid-3">
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img dg1">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 58 C5 58 25 28 60 20 C80 15 120 15 140 20 C165 28 185 50 192 58 L195 64 L5 64 Z"/>
-              <ellipse cx="44" cy="66" rx="14" ry="14"/>
-              <ellipse cx="156" cy="66" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">AutoHaus Tánger</div>
-            <div class="dealer-meta">
-              <span>📍 Boulevard Mohammed VI, Tánger</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">142</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.9</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">12</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img dg2">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 56 C6 56 22 26 58 18 C78 13 122 13 142 18 C166 26 184 50 191 56 L194 63 L6 63 Z"/>
-              <ellipse cx="43" cy="65" rx="14" ry="14"/>
-              <ellipse cx="157" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">PremiumMotors Casablanca</div>
-            <div class="dealer-meta">
-              <span>📍 Quartier des Affaires, Casablanca</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">89</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.7</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">7</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-        <div class="dealer-card">
-          <div class="dealer-hero-img dg3">
-            <svg style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:75%;height:65%;opacity:.18;" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
-              <ellipse cx="44" cy="65" rx="14" ry="14"/>
-              <ellipse cx="156" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <div class="dealer-body" style="padding-top:34px;">
-            <div class="dealer-name">Marrakech Ride</div>
-            <div class="dealer-meta">
-              <span>📍 Avenue Mohammed V, Marrakech</span>
-            </div>
-            <div class="dealer-stats">
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">211</div>
-                <div class="dealer-stat-label">Coches</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">4.8</div>
-                <div class="dealer-stat-label">Valoración</div>
-              </div>
-              <div class="dealer-stat">
-                <div class="dealer-stat-val">18</div>
-                <div class="dealer-stat-label">Marcas</div>
-              </div>
-            </div>
-          </div>
-        </div>
- 
-      </div>
+<?php 
+require 'QweryDealerships.php'
+?>
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Concesionarios populares</h2>
+      <a href="#" class="section-link">Ver todos →</a>
     </div>
-  </section>
+
+    <div class="grid-3">
+
+      <?php if (!empty($concesionarios)): ?>
+        <?php foreach ($concesionarios as $dealer): ?>
+          
+          <div class="dealer-card">
+            <div class="dealer-hero-img">
+              <!-- Si hay logo en la BD, lo usamos. Si es NULL, usamos una foto por defecto -->
+              <?php 
+                $fotoDealer = !empty($dealer['logo']) ? $dealer['logo'] : 'imagenes/dealer-default.jpg'; 
+                // Corregimos por si vienen con barra invertida \
+                $fotoDealer = str_replace('\\', '/', $fotoDealer);
+              ?>
+              <img src="<?= htmlspecialchars($dealer['logo']) ?>" alt="<?= htmlspecialchars($dealer['titre']) ?>">
+            </div>
+            
+            <div class="dealer-body" style="padding-top:34px;">
+              <div class="dealer-name"><?= htmlspecialchars($dealer['titre']) ?></div>
+              
+              <div class="dealer-meta">
+                <span>📍 <?= htmlspecialchars($dealer['adresse'] . ", " . $dealer['ville']) ?></span>
+              </div>
+              
+              <div class="dealer-stats">
+                <div class="dealer-stat">
+                  <!-- Imprimimos el conteo total de coches obtenidos por la subconsulta -->
+                  <div class="dealer-stat-val"><?= $dealer['total_coches'] ?></div>
+                  <div class="dealer-stat-label">Coches</div>
+                </div>
+                
+                <div class="dealer-stat">
+                  <!-- Formateamos el rating para que siempre tenga 1 decimal (ej: 4.0 o 4.5) -->
+                  <div class="dealer-stat-val"><?= number_format($dealer['rating'], 1) ?></div>
+                  <div class="dealer-stat-label">Valoración</div>
+                </div>
+                
+                <div class="dealer-stat">
+                  <!-- Imprimimos el total de marcas únicas obtenidas por la subconsulta -->
+                  <div class="dealer-stat-val"><?= $dealer['total_marcas'] ?></div>
+                  <div class="dealer-stat-label">Marcas</div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+        <?php endforeach; ?>
+      <?php else: ?>
+        <p>No hay concesionarios disponibles.</p>
+      <?php endif; ?>
+
+    </div>
+  </div>
+</section>
  
   <div class="section-divider"></div>
- 
-  <!-- ═══════════════════ SALES ═════════════════════════ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Ofertas y rebajas</h2>
-        <a href="#" class="section-link">Ver todos →</a>
-      </div>
- 
-      <div class="grid-4">
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg2">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 55 C10 55 30 28 65 20 C85 15 115 15 135 20 C160 28 180 48 188 55 L192 62 L8 62 Z"/>
-              <ellipse cx="45" cy="64" rx="13" ry="13"/>
-              <ellipse cx="155" cy="64" rx="13" ry="13"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−15%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Seat</div>
-            <div class="car-name">León FR 150 CV DSG</div>
-            <div class="car-specs">
-              <span class="car-spec">2022</span>
-              <span class="car-spec">26.000 km</span>
-              <span class="car-spec">Gasolina</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">28.400 €</div>
-                <div class="car-price">24.100 €</div>
-              </div>
-              <span class="car-location">📍 Tánger</span>
-            </div>
-          </div>
-        </div>
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg5">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 56 C6 56 22 26 58 18 C78 13 122 13 142 18 C166 26 184 50 191 56 L194 63 L6 63 Z"/>
-              <ellipse cx="43" cy="65" rx="14" ry="14"/>
-              <ellipse cx="157" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−22%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Skoda</div>
-            <div class="car-name">Octavia RS iV Híbrido</div>
-            <div class="car-specs">
-              <span class="car-spec">2021</span>
-              <span class="car-spec">38.700 km</span>
-              <span class="car-spec">Híbrido</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">34.900 €</div>
-                <div class="car-price">27.200 €</div>
-              </div>
-              <span class="car-location">📍 Rabat</span>
-            </div>
-          </div>
-        </div>
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg7">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 56 C10 56 28 27 62 19 C82 14 118 14 138 19 C162 27 181 50 187 56 L191 62 L9 62 Z"/>
-              <ellipse cx="45" cy="64" rx="13" ry="13"/>
-              <ellipse cx="155" cy="64" rx="13" ry="13"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−18%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Citroën</div>
-            <div class="car-name">C5 X Plug-In Hybrid</div>
-            <div class="car-specs">
-              <span class="car-spec">2022</span>
-              <span class="car-spec">21.300 km</span>
-              <span class="car-spec">Híbrido</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">39.800 €</div>
-                <div class="car-price">32.600 €</div>
-              </div>
-              <span class="car-location">📍 Fez</span>
-            </div>
-          </div>
-        </div>
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg4">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 57 C8 57 24 27 58 19 C78 14 122 14 142 19 C166 27 183 50 190 57 L194 63 L6 63 Z"/>
-              <ellipse cx="44" cy="65" rx="14" ry="14"/>
-              <ellipse cx="156" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−12%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Opel</div>
-            <div class="car-name">Mokka-e 100 kW Ultimate</div>
-            <div class="car-specs">
-              <span class="car-spec">2022</span>
-              <span class="car-spec">17.900 km</span>
-              <span class="car-spec">Eléctrico</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">33.500 €</div>
-                <div class="car-price">29.500 €</div>
-              </div>
-              <span class="car-location">📍 Casablanca</span>
-            </div>
-          </div>
-        </div>
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg8">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 55 C9 55 25 26 60 18 C80 13 120 13 140 18 C164 26 183 49 189 55 L192 62 L8 62 Z"/>
-              <ellipse cx="44" cy="64" rx="13" ry="13"/>
-              <ellipse cx="155" cy="64" rx="13" ry="13"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−30%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Honda</div>
-            <div class="car-name">Civic e:HEV 2.0 Sport</div>
-            <div class="car-specs">
-              <span class="car-spec">2021</span>
-              <span class="car-spec">44.200 km</span>
-              <span class="car-spec">Híbrido</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">26.300 €</div>
-                <div class="car-price">18.400 €</div>
-              </div>
-              <span class="car-location">📍 Agadir</span>
-            </div>
-          </div>
-        </div>
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg1">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 56 C10 56 30 28 62 20 C82 15 118 15 138 20 C162 28 182 50 188 56 L192 62 L8 62 Z"/>
-              <ellipse cx="44" cy="64" rx="13" ry="13"/>
-              <ellipse cx="156" cy="64" rx="13" ry="13"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−9%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Nissan</div>
-            <div class="car-name">Leaf 40 kWh N-Connecta</div>
-            <div class="car-specs">
-              <span class="car-spec">2021</span>
-              <span class="car-spec">33.000 km</span>
-              <span class="car-spec">Eléctrico</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">22.800 €</div>
-                <div class="car-price">20.750 €</div>
-              </div>
-              <span class="car-location">📍 Tánger</span>
-            </div>
-          </div>
-        </div>
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg3">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 57 C8 57 25 27 60 19 C80 14 120 14 140 19 C164 27 182 50 189 57 L192 63 L8 63 Z"/>
-              <ellipse cx="44" cy="65" rx="14" ry="14"/>
-              <ellipse cx="156" cy="65" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−25%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Mazda</div>
-            <div class="car-name">MX-30 e-Skyactiv R-EV</div>
-            <div class="car-specs">
-              <span class="car-spec">2022</span>
-              <span class="car-spec">20.600 km</span>
-              <span class="car-spec">Eléctrico</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">36.000 €</div>
-                <div class="car-price">27.000 €</div>
-              </div>
-              <span class="car-location">📍 Rabat</span>
-            </div>
-          </div>
-        </div>
- 
-        <div class="car-card sale-card">
-          <div class="car-card-img cg6">
-            <svg class="car-silhouette" viewBox="0 0 200 80" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 56 C9 56 26 27 60 19 C80 14 120 14 140 19 C163 27 182 49 188 56 L191 62 L9 62 Z"/>
-              <ellipse cx="44" cy="64" rx="14" ry="14"/>
-              <ellipse cx="154" cy="64" rx="14" ry="14"/>
-            </svg>
-          </div>
-          <span class="sale-ribbon">−11%</span>
-          <span class="car-fav">♡</span>
-          <div class="car-card-body">
-            <div class="car-brand">Subaru</div>
-            <div class="car-name">Forester e-Boxer AWD</div>
-            <div class="car-specs">
-              <span class="car-spec">2022</span>
-              <span class="car-spec">29.100 km</span>
-              <span class="car-spec">Híbrido</span>
-            </div>
-            <div class="car-footer">
-              <div>
-                <div class="sale-old-price">38.200 €</div>
-                <div class="car-price">34.000 €</div>
-              </div>
-              <span class="car-location">📍 Marrakech</span>
-            </div>
-          </div>
-        </div>
- 
-      </div>
-    </div>
-  </section>
- 
+  
   <!-- ═══════════════════ FOOTER ════════════════════════ -->
   <footer>
     <div class="footer-inner">
@@ -956,6 +532,159 @@
 <script>
   let coches = document.getElementById("btn-coches");
   coches.addEventListener('click', () => {
-    window.location.href = "AllCars.php?id=" + coches.id;;
+    window.location.href = "AllCars.php"
   });
+    let concesionarios = document.getElementById("btn-concesionarios");
+  concesionarios.addEventListener('click', () => {
+    window.location.href = "AllDealerships.php"
+  });
+let cards = document.querySelectorAll('.car-card');
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    // '_blank' fuerza la apertura en una nueva ventana/pestaña
+      window.location.href = "Car.php?id=" + card.id;
+  });
+});
+/* ═══════════════════════════════════════════
+   HERO SLIDER — AutoPost
+   ═══════════════════════════════════════════ */
+
+// ── DATOS DE CADA SLIDE ──────────────────────
+// Edita esto con tus datos reales
+const slides = [
+  {
+    car:   'medias/Urus.png',
+    logo:  'medias/AutoHaus.png',
+    title: 'Lamborghini Urus',
+    desc:  'Premier Super SUV hybride rechargeable · V8 4.0 L bi-turbo + moteur électrique · 800 ch · 0–100 en 3,4 s · Vmax 312 km/h.',
+    link:  '#'
+  },
+  {
+    car:   'medias/T-ROC.png',
+    logo:  'medias/Tingis.png',
+    title: 'Volkswagen T-Roc',
+    desc:  'SUV compacto con diseño dinámico · Motor TSI 150 CV · DSG 7 velocidades · Conectividad total · Acabado Sport.',
+    link:  '#'
+  },
+  {
+    car:   'medias/Audi RS q8.png',
+    logo:  'medias/GT speed.png',
+    title: 'Audi RS Q8',
+    desc:  'El SUV coupé más potente de Audi · V8 biturbo 600 CV · Quattro AWD · 0–100 en 3,8 s · RS Sport Exhaust.',
+    link:  '#'
+  },
+  {
+    car:   'medias/Dacia.png',
+    logo:  'medias/Dercaoui.png',
+    title: 'Dacia Duster',
+    desc:  'El SUV más accesible del mercado · Motor TCe 130 · 4x4 disponible · Equipamiento completo · Mejor relación calidad-precio.',
+    link:  '#'
+  },
+  {
+    car:   'medias/Promocion.png',
+    logo:  null,                     // este thumb no tiene logo
+    title: 'Ofertas especiales',
+    desc:  'Descubre nuestras promociones exclusivas de temporada · Financiación sin intereses · Hasta –30% en modelos seleccionados.',
+    link:  '#'
+  },
+];
+
+// ── REFERENCIAS AL DOM ────────────────────────
+const heroImg   = document.querySelector('.hero-car-img');
+const heroLogo  = document.querySelector('.hero-inner .logo');
+const heroTitle = document.querySelector('.hero-title');
+const heroDesc  = document.querySelector('.hero-desc');
+const heroBtn   = document.querySelector('.btn-hero-primary');
+const thumbs    = document.querySelectorAll('.hero-thumb');
+
+// ── ESTADO ────────────────────────────────────
+let current     = 4;          // índice activo al cargar (el último = Promoción)
+let autoTimer   = null;
+const AUTO_DELAY = 5000;       // ms entre slides automáticos — CAMBIA AQUÍ el tiempo
+
+// ── ANIMACIÓN DE ENTRADA ──────────────────────
+function animateIn() {
+  // Selecciona los elementos que animas
+  const targets = [heroImg, heroTitle, heroDesc, heroBtn];
+  if (heroLogo) targets.unshift(heroLogo);
+
+  targets.forEach((el, i) => {
+    if (!el) return;
+    el.style.transition = 'none';
+    el.style.opacity    = '0';
+    el.style.transform  = i === 0
+      ? 'translateX(40px)'    // la imagen entra desde la derecha
+      : 'translateY(16px)';   // el texto sube desde abajo
+
+    // Forzar reflow para que el navegador "vea" el estado inicial
+    el.getBoundingClientRect();
+
+    el.style.transition = `opacity .45s ease ${i * 80}ms, transform .45s ease ${i * 80}ms`;
+    el.style.opacity    = '1';
+    el.style.transform  = 'none';
+  });
+}
+
+// ── CAMBIAR SLIDE ─────────────────────────────
+function goTo(index) {
+  if (index === current) return;
+  current = index;
+
+  const s = slides[index];
+
+  // Actualizar clases de thumbs
+  thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
+
+  // Actualizar contenido del hero
+  heroImg.src   = s.car;
+  heroTitle.textContent = s.title;
+  heroDesc.textContent  = s.desc;
+  heroBtn.href          = s.link || '#';
+
+  if (heroLogo) {
+    if (s.logo) {
+      heroLogo.src = s.logo;
+      heroLogo.style.display = 'block';
+    } else {
+      heroLogo.style.display = 'none';
+    }
+  }
+
+  // Lanzar animación
+  animateIn();
+}
+
+// ── CLICKS EN THUMBNAILS ──────────────────────
+thumbs.forEach((thumb, i) => {
+  thumb.addEventListener('click', () => {
+    resetAuto();   // reiniciar el timer automático al hacer click manual
+    goTo(i);
+  });
+});
+
+// ══════════════════════════════════════════════
+//  DESFILE AUTOMÁTICO — para pausarlo, comenta
+//  las tres líneas marcadas con /* AUTO */
+// ══════════════════════════════════════════════
+function startAuto() {                             /* AUTO */
+  autoTimer = setInterval(() => {                  /* AUTO */
+    goTo((current + 1) % slides.length);           /* AUTO */
+  }, AUTO_DELAY);                                  /* AUTO */
+}                                                  /* AUTO */
+
+function resetAuto() {                             /* AUTO */
+  clearInterval(autoTimer);                        /* AUTO */
+  startAuto();                                     /* AUTO */
+}                                                  /* AUTO */
+
+// Pausar al pasar el ratón por encima del hero
+document.querySelector('.hero').addEventListener('mouseenter', () => clearInterval(autoTimer));   /* AUTO */
+document.querySelector('.hero').addEventListener('mouseleave', startAuto);                        /* AUTO */
+document.querySelector('.hero-thumbs').addEventListener('mouseenter', () => clearInterval(autoTimer)); /* AUTO */
+document.querySelector('.hero-thumbs').addEventListener('mouseleave', startAuto);                 /* AUTO */
+
+// ── INIT ──────────────────────────────────────
+animateIn();   // animación inicial de la slide activa
+startAuto();   /* AUTO — comenta esta línea para desactivar el desfile */
+
 </script>
